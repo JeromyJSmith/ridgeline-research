@@ -207,11 +207,11 @@ for (const [from, to] of DOCS) {
 
 // ── 5. Landing page ─────────────────────────────────────────────────────────
 const card = (href, kicker, title, body, meta) => `
-    <a class="card" href="${href}">
-      <div class="kicker">${kicker}</div>
+    <a class="lp-card" href="${href}">
+      <div class="lp-kicker">${kicker}</div>
       <h3>${title}</h3>
       <p>${body}</p>
-      <div class="meta">${meta}</div>
+      <div class="lp-meta">${meta}</div>
     </a>`
 
 const index = `<!doctype html>
@@ -227,51 +227,51 @@ const index = `<!doctype html>
 <link rel="stylesheet" href="./tokens.css" />
 <style>
   body{background:var(--n-25)}
-  .wrap{max-width:1060px;margin:0 auto;padding:var(--s-6) var(--s-5) var(--s-9)}
-  .brand{font-weight:700;font-size:var(--fs-20);margin-bottom:var(--s-6)}
-  .brand small{display:block;font-weight:500;font-size:var(--fs-12);color:var(--n-500);margin-top:2px}
-  .hero{background:var(--navy-700);color:#fff;border-radius:14px;padding:var(--s-6);margin-bottom:var(--s-6)}
-  .hero .kicker{font-family:var(--mono,monospace);font-size:var(--fs-11);letter-spacing:.14em;text-transform:uppercase;color:var(--gold-200)}
-  .hero h1{font-size:clamp(26px,4vw,40px);line-height:1.1;margin:var(--s-3) 0;max-width:24ch;color:#fff}
-  .hero p{color:#cfd8e6;max-width:74ch;font-size:var(--fs-15)}
-  .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:var(--s-4);margin-top:var(--s-5)}
-  .kpi{border-left:2px solid var(--gold-400);padding-left:var(--s-3)}
-  .kpi .n{font-family:var(--mono,monospace);font-size:var(--fs-28);font-weight:700;line-height:1}
-  .kpi .l{font-size:var(--fs-11);color:#aebbcd;text-transform:uppercase;letter-spacing:.05em;margin-top:6px}
-  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:var(--s-4)}
-  .card{display:block;background:#fff;border:1px solid var(--n-100);border-radius:12px;padding:var(--s-5);text-decoration:none;color:inherit;transition:border-color .15s,transform .15s}
-  .card:hover{border-color:var(--navy-500);transform:translateY(-2px)}
-  .card .kicker{font-family:var(--mono,monospace);font-size:var(--fs-10);letter-spacing:.12em;text-transform:uppercase;color:var(--gold-600)}
-  .card h3{margin:var(--s-2) 0;font-size:var(--fs-18)}
-  .card p{font-size:var(--fs-13);color:var(--n-500);margin:0}
-  .card .meta{font-family:var(--mono,monospace);font-size:var(--fs-11);color:var(--n-300);margin-top:var(--s-3)}
-  .note{border-left:2px solid var(--navy-500);padding:6px 0 6px 14px;font-size:var(--fs-13);color:var(--n-500);max-width:80ch;margin:var(--s-5) 0}
-  .note b{color:var(--n-700)}
-  footer{margin-top:var(--s-7);font-size:var(--fs-12);color:var(--n-300)}
+  .lp-wrap{max-width:1060px;margin:0 auto;padding:var(--s-6) var(--s-5) var(--s-9)}
+  .lp-brand{font-weight:700;font-size:var(--fs-20);margin-bottom:var(--s-6)}
+  .lp-brand small{display:block;font-weight:500;font-size:var(--fs-12);color:var(--n-500);margin-top:2px}
+  .lp-hero{background:var(--navy-700);color:#fff;border-radius:14px;padding:var(--s-6);margin-bottom:var(--s-6)}
+  .lp-hero .lp-kicker{font-family:var(--mono,monospace);font-size:var(--fs-11);letter-spacing:.14em;text-transform:uppercase;color:var(--gold-200)}
+  .lp-hero h1{font-size:clamp(26px,4vw,40px);line-height:1.1;margin:var(--s-3) 0;max-width:24ch;color:#fff}
+  .lp-hero p{color:#cfd8e6;max-width:74ch;font-size:var(--fs-15)}
+  .lp-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:var(--s-4);margin-top:var(--s-5)}
+  .lp-kpi{border-left:2px solid var(--gold-400);padding-left:var(--s-3)}
+  .lp-kpi .n{font-family:var(--mono,monospace);font-size:var(--fs-28);font-weight:700;line-height:1}
+  .lp-kpi .l{font-size:var(--fs-11);color:#aebbcd;text-transform:uppercase;letter-spacing:.05em;margin-top:6px}
+  .lp-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:var(--s-4)}
+  .lp-card{display:block;background:#fff;border:1px solid var(--n-100);border-radius:12px;padding:var(--s-5);text-decoration:none;color:inherit;transition:border-color .15s,transform .15s}
+  .lp-card:hover{border-color:var(--navy-500);transform:translateY(-2px)}
+  .lp-card .lp-kicker{font-family:var(--mono,monospace);font-size:var(--fs-10);letter-spacing:.12em;text-transform:uppercase;color:var(--gold-600)}
+  .lp-card h3{margin:var(--s-2) 0;font-size:var(--fs-18)}
+  .lp-card p{font-size:var(--fs-13);color:var(--n-500);margin:0}
+  .lp-card .lp-meta{font-family:var(--mono,monospace);font-size:var(--fs-11);color:var(--n-300);margin-top:var(--s-3)}
+  .lp-note{border-left:2px solid var(--navy-500);padding:6px 0 6px 14px;font-size:var(--fs-13);color:var(--n-500);max-width:80ch;margin:var(--s-5) 0}
+  .lp-note b{color:var(--n-700)}
+  .lp-footer{margin-top:var(--s-7);font-size:var(--fs-12);color:var(--n-300)}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <div class="brand">Ridgeline <span style="color:var(--gold-600)">OpenBIM</span>
+<div class="lp-wrap">
+  <div class="lp-brand">Ridgeline <span style="color:var(--gold-600)">OpenBIM</span>
     <small>a DoubleAught(00) product · research &amp; evidence</small></div>
 
-  <div class="hero">
-    <div class="kicker">Hotel life-safety ITM · seven research lanes · United States</div>
+  <div class="lp-hero">
+    <div class="lp-kicker">Hotel life-safety ITM · seven research lanes · United States</div>
     <h1>The code already permits far more automation than anyone has built.</h1>
     <p>A 150-key hotel carries roughly <b style="color:#fff">1,600 code-inspectable items</b> producing
       2,500–3,000 inspect-or-test actions a year across 4–6 trades. About
       <b style="color:#fff">30% of those hours are deletable today</b> under provisions already in
       force. What follows is the evidence for that claim, with every citation attached.</p>
-    <div class="kpis">
-      <div class="kpi"><div class="n">${rules.length}</div><div class="l">Rules encoded</div></div>
-      <div class="kpi"><div class="n">${rulesSummary.permitted_today}</div><div class="l">Automatable today</div></div>
-      <div class="kpi"><div class="n">${rulesSummary.needs_signature}</div><div class="l">Need a signature</div></div>
-      <div class="kpi"><div class="n">${discounts.best}×</div><div class="l">Best supervision discount</div></div>
-      <div class="kpi"><div class="n">${candidates.length}</div><div class="l">Feasibility verdicts</div></div>
+    <div class="lp-kpis">
+      <div class="lp-kpi"><div class="n">${rules.length}</div><div class="l">Rules encoded</div></div>
+      <div class="lp-kpi"><div class="n">${rulesSummary.permitted_today}</div><div class="l">Automatable today</div></div>
+      <div class="lp-kpi"><div class="n">${rulesSummary.needs_signature}</div><div class="l">Need a signature</div></div>
+      <div class="lp-kpi"><div class="n">${discounts.best}×</div><div class="l">Best supervision discount</div></div>
+      <div class="lp-kpi"><div class="n">${candidates.length}</div><div class="l">Feasibility verdicts</div></div>
     </div>
   </div>
 
-  <div class="cards">
+  <div class="lp-cards">
 ${card('./research.html', 'Interactive', 'The inspection, taken apart',
   'Filterable rule library with the citation and automation verdict for every obligation, the cumulative impairment clock computed live, the feasibility ledger, and the method.',
   `${rules.length} rules · ${impairments.length} worked impairments · ${candidates.length} verdicts`)}
@@ -283,20 +283,20 @@ ${copied.includes('seed-deck-revd.html') ? card('./seed-deck-revd.html', 'Docume
   '32 sheets') : ''}
   </div>
 
-  <div class="note"><b>How to read this.</b> Every rule carries a citation status:
+  <div class="lp-note"><b>How to read this.</b> Every rule carries a citation status:
     <b>P</b> means the section was read verbatim from primary text, <b>S</b> means a secondary
     source, and <b>U</b> means it could not be verified — those are leads, not citations, and are
     badged as such throughout. Six claims encountered during the research were withdrawn as
     unsourced; they are listed in the Method tab rather than quietly dropped.</div>
 
-  <div class="note"><b>A caveat that matters commercially.</b> Every permission cited here is
+  <div class="lp-note"><b>A caveat that matters commercially.</b> Every permission cited here is
     edition-dependent, so the addressable market is literally a code-adoption map. And connected
     monitoring has not historically deleted mandated inspections — eight years of connected elevator
     monitoring removed no required ASME inspection. Both facts are kept visible rather than argued
     around.</div>
 
-  <footer>Static build — the research data is read-only and baked into the page.
-    Generated from the same migrations and seeds that run the live Compliance OS.</footer>
+  <div class="lp-footer">Static build — the research data is read-only and baked into the page.
+    Generated from the same migrations and seeds that run the live Compliance OS.</div>
 </div>
 </body>
 </html>`
