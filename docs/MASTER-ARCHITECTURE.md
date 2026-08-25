@@ -5,12 +5,16 @@ status: canonical
 priority: critical
 owner: Jeromy J. Smith
 created: 2026-08-25
+updated: 2026-08-25
+revision: 2
 sources:
   - Ridgeline-Seed-RevD.artifact.html (Rev D deck, sheets 05–08)
   - DEck-IoT.html (IoT-angle seed deck)
   - Ridgeline-Hotel-ITM-Research.html (code-authority proof, hotel vertical)
   - webapp/public/static/numbers.js (canonical financial/round data, already live)
-  - user strategy statements (5 drafts, this session) on property compliance OS
+  - user strategy statements (5 drafts, session 2) on property compliance OS
+  - user keyword taxonomy (Property Management / Vendor Workflow / Digital
+    Tracking clusters, session 3) — resolved in §5b and §7b
 supersedes: RIDGELINE-002, RIDGELINE-003 (file triage + thesis synthesis — both folded in here)
 ---
 
@@ -209,6 +213,69 @@ requiring its own data model.
 
 ---
 
+## 5b. Schema extension — device-originated checks and reminder cadence
+
+Session 3's keyword taxonomy (Property Management / Vendor Workflow / Digital
+Tracking) named two mechanisms that §5's original schema left implicit rather
+than modeled: **(a)** a check can originate from a device or QR scan, not only
+from a scheduled `ComplianceRule`, and **(b)** a `WorkOrder` needs an explicit
+reminder/escalation cadence, not just a status field. Both are named pillar
+terms in the taxonomy ("iot", "device", "reminder" — Vendor Workflow cluster),
+so they get modeled here rather than left as a UI feature bolted on later.
+
+```
+TypedElement                (extended — §5's definition, plus:)
+ ├─ qr_code                 (physical QR/NFC tag id — the asset's real-world handle)
+ ├─ twin_ref                (pointer into the IFC/BIM digital-twin geometry —
+ │                            same global_id as Surface A's authored element)
+ └─ has many → DeviceBinding
+
+DeviceBinding                (an IoT/telemetry source attached to a TypedElement)
+ ├─ device_type              (BACnet point | LoRaWAN sensor | QR-scan event | NFC tap)
+ ├─ telemetry_only           (always true — enforces the §6 non-control boundary
+ │                            at the schema level, not just in copy)
+ └─ emits → DeviceEvent
+
+DeviceEvent                  (a signal arriving from a DeviceBinding)
+ ├─ event_type                (fault | scan | reading | heartbeat)
+ ├─ payload                   (raw telemetry — e.g. battery-low, offline, out-of-range)
+ └─ may generate → CheckInstance
+                               (a DeviceEvent creates an *ad hoc* CheckInstance,
+                               same table as §5's scheduled ones — a fault reported
+                               by a sensor and a fault found on a scheduled walk
+                               are the same row type, just a different origin)
+
+CheckInstance                (extended — §5's definition, plus:)
+ └─ origin                   (scheduled_rule | device_event | qr_scan | manual_report)
+
+WorkOrder                    (extended — §5's definition, plus:)
+ ├─ vendor_id                (FK → Vendor — a first-class entity, not a free-text field)
+ └─ has many → ReminderEvent
+
+Vendor                       (external party — distinct from internal Executor)
+ ├─ trade                    (fire/life-safety | backflow | elevator | HVAC | ...)
+ ├─ contact_channel           (email | SMS | portal)
+ └─ services → many Property (many-to-many: a vendor serves multiple properties
+                               in a portfolio, a property may use multiple vendors)
+
+ReminderEvent                 (the escalation cadence a WorkOrder actually runs on)
+ ├─ scheduled_for             (T+0 assignment notice, T+N reminder, T+overdue escalation)
+ ├─ channel                   (email | SMS | portal notification)
+ ├─ escalation_level           (vendor → property manager → portfolio owner, on repeated miss)
+ └─ closes when                (WorkOrder status = closed, i.e. evidence attached — see §5)
+```
+
+This closes the exact loop stated in the session's framing —
+**asset/device/event → work order → vendor action → reminder/escalation →
+deficiency tracking → compliance record** — as literal foreign-key edges, not
+narrative steps. `DeviceEvent` and the scheduled path in §5 write into the
+*same* `CheckInstance` table (distinguished only by `origin`), which is what
+makes "IoT signals, inspections, vendor dispatch, and corrective action all
+feeding one property-level dashboard" a single query instead of a
+reconciliation job between two systems.
+
+---
+
 ## 6. Explicit boundary (already in Rev D — do not relitigate this)
 
 > *"Ridgeline is evidence and decision support. It does not control life-safety
@@ -244,6 +311,50 @@ both.
 
 ---
 
+## 7b. Keyword crosswalk — session 3's taxonomy, mapped to schema
+
+Session 3 supplied three explicit keyword clusters and asked for the bridge
+between them. Rather than answer in prose again, every term is mapped to its
+exact table/field below. If a term has no row, the schema has a gap — there
+are none outstanding as of this revision.
+
+| Cluster | Keyword | Schema location |
+|---|---|---|
+| **Property Management** | property | `Property` table (§5) |
+| | compliance | `ComplianceRule`, `EvidencePacket` (§5) |
+| | management | `Portfolio` → `Property` rollup, §3 stage ⑦ |
+| | month | `ComplianceRule.frequency`, `CheckInstance` due-date generation (§5) |
+| | recurring | `ComplianceRule.frequency` + §3's loop re-entering at ① |
+| | platform | the schema itself — one graph, two surfaces (§1) |
+| | manager | `Portfolio` owner role; consumer of §3 stage ⑦ roll-up |
+| | system | the full graph, §5 + §5b combined |
+| **Vendor Workflow** | work (order) | `WorkOrder` table (§5) |
+| | order | `WorkOrder` table (§5) |
+| | device | `DeviceBinding`, `DeviceEvent` (§5b) |
+| | vendor | `Vendor` table, first-class entity (§5b) |
+| | iot | `DeviceBinding.device_type`, `telemetry_only` boundary flag (§5b, §6) |
+| | create | `CheckInstance.origin = device_event` → auto-creates `WorkOrder` on fail (§5, §5b) |
+| | workflow | §3's seven-stage loop, now with device-originated entry point (§5b) |
+| | reminder | `ReminderEvent` table — cadence + escalation levels (§5b) |
+| **Digital Tracking** | qr | `TypedElement.qr_code`, `CheckInstance.origin = qr_scan` (§5b) |
+| | asset | `TypedElement` — the atomic unit (§5) |
+| | digital | `TypedElement.twin_ref`, `geometry_ref` (§5, §5b) |
+| | ifc | `TypedElement.ifc_class`, IFC 4.3/COBie export (§5) |
+| | twin | `TypedElement.twin_ref` (§5b) |
+| | bim | Surface A tables — `IDSValidationResult`, `BCFIssue`, `QuantityTakeoffLine` (§5) |
+| | tracking | `CheckInstance.origin` + `WorkOrder` status history (§5, §5b) |
+| | deficiency | `CheckInstance.status = failed` → `WorkOrder` (§5) |
+
+**The one-line proof this crosswalk exists to produce:** a fault reported by
+an IoT sensor (`DeviceEvent`), a deficiency found on a scheduled walk
+(`ComplianceRule` → `CheckInstance`), and an issue logged from a QR scan
+(`origin = qr_scan`) all terminate in the identical `WorkOrder` →
+`ReminderEvent` → `EvidencePacket` path. Three input vocabularies (management,
+vendor, digital) converge on one execution path — which is the literal
+schema-level version of "compliance nervous system for buildings."
+
+---
+
 ## 8. What this resolves from this session
 
 - **File triage (RIDGELINE-002):** resolved. All 4 uploaded files are altitude
@@ -253,6 +364,10 @@ both.
 - **"We want everything, don't make us choose":** resolved architecturally —
   nothing is cut, sequencing in §7 is dependency-driven so every module still
   ships, just not simultaneously.
+- **Keyword taxonomy (Property Management / Vendor Workflow / Digital
+  Tracking, session 3):** resolved. §7b crosswalks all 24 terms to exact
+  schema locations; §5b closes the two gaps the taxonomy exposed
+  (device-originated checks, reminder/escalation cadence).
 
 ## 9. Still open (unchanged, not forgotten)
 
@@ -261,8 +376,12 @@ both.
 2. GitHub push — offered, not actioned.
 3. The 4 images from an earlier turn never arrived on this side (no
    path/URL) — re-attach if they carry information not already covered here.
-4. **New, from this doc:** which Phase-1 deliverable do you want built first —
-   a working Property/Asset/CheckInstance/WorkOrder demo (Cloudflare D1 +
-   Hono, same stack as the investor site), or is the investor site itself the
-   only code artifact needed right now and this doc is purely for internal/
-   pitch alignment?
+4. **Which artifact gets built next** — pick one, several, or say "all,
+   sequenced" and I'll follow §7's phase order without asking again:
+   - **(a)** Working Phase-1 demo: real Cloudflare D1 + Hono app implementing
+     `Property → TypedElement → CheckInstance → WorkOrder → ReminderEvent`
+     (the schema in §5+§5b, not a mockup) — the emergency-light wedge, live.
+   - **(b)** Investor site updated to surface this unified lifecycle table
+     (§2) and the crosswalk (§7b) explicitly, instead of implying it.
+   - **(c)** This doc treated as internal/pitch reference only, no new code
+     yet — proceed straight to deploying what's already built.
