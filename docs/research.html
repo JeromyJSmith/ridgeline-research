@@ -1,0 +1,541 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ridgeline — The Inspection, Taken Apart</title>
+  <meta name="description" content="What a hotel life-safety inspection actually entails, and exactly how much of it US codes already permit a machine to perform. Backed by a live compliance database, not prose." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Inter+Tight:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="./tokens.css" />
+  <style>
+    /* static build: no write endpoints */
+    [data-notif] { display:none !important; }
+    body { background: var(--n-25); }
+    .rs-shell { max-width: 1180px; margin: 0 auto; padding: var(--s-6) var(--s-5) var(--s-9); }
+    .rs-topbar { display:flex; align-items:center; justify-content:space-between; margin-bottom:var(--s-6); flex-wrap:wrap; gap:var(--s-3); }
+    .rs-brand { font-weight:700; font-size:var(--fs-20); }
+    .rs-brand a { color:inherit; text-decoration:none; }
+    .rs-brand small { display:block; font-weight:500; font-size:var(--fs-12); color:var(--n-500); margin-top:2px; }
+    .rs-tabs { display:flex; gap:var(--s-2); flex-wrap:wrap; }
+    .rs-tab { padding:8px 16px; border-radius:999px; border:1px solid var(--n-150); background:#fff; font-size:var(--fs-13); font-weight:600; cursor:pointer; color:var(--n-700); }
+    .rs-tab.active { background:var(--navy-700); color:#fff; border-color:var(--navy-700); }
+
+    .rs-hero { background:var(--navy-700); color:#fff; border-radius:14px; padding:var(--s-6); margin-bottom:var(--s-6); }
+    .rs-hero .kicker { font-family:var(--mono,monospace); font-size:var(--fs-11); letter-spacing:.14em; text-transform:uppercase; color:var(--gold-200); }
+    /* tokens.css sets a dark heading ink; the hero is navy, so state it explicitly */
+    .rs-hero h1 { font-size:clamp(26px,4vw,40px); line-height:1.1; margin:var(--s-3) 0; max-width:22ch; color:#fff; }
+    .rs-hero p { color:#cfd8e6; max-width:70ch; font-size:var(--fs-15); }
+    .rs-kpis { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:var(--s-4); margin-top:var(--s-5); }
+    .rs-kpi { border-left:2px solid var(--gold-400); padding-left:var(--s-3); }
+    .rs-kpi .n { font-family:var(--mono,monospace); font-size:var(--fs-28); font-weight:700; line-height:1; }
+    .rs-kpi .l { font-size:var(--fs-11); color:#aebbcd; text-transform:uppercase; letter-spacing:.05em; margin-top:6px; }
+
+    .rs-view { display:none; } .rs-view.active { display:block; }
+    .rs-sec-title { font-size:var(--fs-22); font-weight:700; margin:var(--s-6) 0 var(--s-2); }
+    .rs-sec-sub { color:var(--n-500); font-size:var(--fs-14); max-width:78ch; margin-bottom:var(--s-4); }
+
+    .rs-filters { display:flex; gap:var(--s-2); flex-wrap:wrap; margin-bottom:var(--s-3); align-items:center; }
+    .rs-chip { font-size:var(--fs-12); font-weight:600; padding:5px 12px; border-radius:999px; border:1px solid var(--n-150); background:#fff; cursor:pointer; color:var(--n-700); }
+    .rs-chip.active { background:var(--navy-700); color:#fff; border-color:var(--navy-700); }
+    .rs-search { padding:7px 12px; border-radius:8px; border:1px solid var(--n-150); font-family:inherit; font-size:var(--fs-13); min-width:220px; }
+
+    table.rs-table { width:100%; border-collapse:collapse; background:#fff; border:1px solid var(--n-100); border-radius:12px; overflow:hidden; }
+    table.rs-table th { text-align:left; font-size:var(--fs-11); text-transform:uppercase; letter-spacing:.04em; color:var(--n-500); background:var(--n-50); padding:10px 14px; border-bottom:1px solid var(--n-100); white-space:nowrap; }
+    table.rs-table td { padding:12px 14px; border-bottom:1px solid #f1efe9; font-size:var(--fs-13); vertical-align:top; }
+    table.rs-table tr.rule-row { cursor:pointer; }
+    table.rs-table tr.rule-row:hover { background:var(--n-25); }
+    table.rs-table tr.detail td { background:var(--n-25); font-size:var(--fs-13); }
+    .rs-scroll { overflow-x:auto; }
+
+    .tag { display:inline-block; font-family:var(--mono,monospace); font-size:var(--fs-10); font-weight:600; padding:2px 7px; border-radius:4px; white-space:nowrap; letter-spacing:.03em; }
+    .tag.today  { background:#e6f4ea; color:#1a6b3f; }
+    .tag.gated  { background:#eaf0fb; color:var(--navy-700); }
+    .tag.ahj    { background:#f0ecfa; color:#5b46a3; }
+    .tag.norel  { background:#fdf3e2; color:var(--gold-700,#6d4e0e); }
+    .tag.never  { background:#fbe9e7; color:#a3352a; }
+    .tag.sig    { background:#fbe9e7; color:#a3352a; }
+    .tag.P { background:#e6f4ea; color:#1a6b3f; }
+    .tag.S { background:#fdf3e2; color:var(--gold-700,#6d4e0e); }
+    .tag.U { background:#fbe9e7; color:#a3352a; }
+    .tag.who { background:var(--n-50); color:var(--n-500); }
+
+    .rs-note { border-left:2px solid var(--navy-500); padding:6px 0 6px 14px; font-size:var(--fs-13); color:var(--n-500); max-width:78ch; margin:var(--s-3) 0; }
+    .rs-note.warn { border-left-color:var(--gold-500); }
+    .rs-note.bad  { border-left-color:#a3352a; }
+    .rs-note.good { border-left-color:#1a6b3f; }
+    .rs-note b, .rs-note strong { color:var(--n-700); }
+
+    .rs-card { background:#fff; border:1px solid var(--n-100); border-radius:12px; padding:var(--s-4); margin-bottom:var(--s-3); }
+    .rs-card.breach { border-color:#e0b4ae; box-shadow:0 0 0 3px #fbe9e7; }
+    .rs-card h4 { margin:0 0 4px; font-size:var(--fs-16); }
+    .rs-card .addr { font-size:var(--fs-12); color:var(--n-500); }
+
+    /* cumulative clock bar */
+    .clock { margin-top:var(--s-4); }
+    .clock-track { position:relative; height:34px; background:var(--n-50); border-radius:6px; overflow:hidden; display:flex; }
+    .clock-seg { height:100%; border-right:2px solid #fff; display:flex; align-items:center; justify-content:center; font-family:var(--mono,monospace); font-size:var(--fs-11); font-weight:600; color:#fff; min-width:2px; }
+    .clock-seg.s1 { background:#4a6591; } .clock-seg.s2 { background:#2c4570; } .clock-seg.s3 { background:#1B2A44; }
+    .clock-seg.over { background:#a3352a; }
+    .clock-line { position:absolute; top:-6px; bottom:-6px; width:2px; background:#a3352a; }
+    .clock-line span { position:absolute; top:-18px; left:50%; transform:translateX(-50%); font-family:var(--mono,monospace); font-size:var(--fs-10); color:#a3352a; white-space:nowrap; font-weight:700; }
+    .clock-legend { display:flex; gap:var(--s-4); flex-wrap:wrap; margin-top:var(--s-3); font-size:var(--fs-12); color:var(--n-500); }
+
+    .notif-row { display:flex; gap:var(--s-3); align-items:flex-start; padding:10px 0; border-bottom:1px solid #f1efe9; font-size:var(--fs-13); }
+    .notif-row:last-child { border-bottom:none; }
+    .notif-dot { width:9px; height:9px; border-radius:50%; margin-top:6px; flex:none; }
+    .notif-dot.sent { background:#1a6b3f; } .notif-dot.unsent { background:#a3352a; }
+    .notif-party { font-weight:700; min-width:150px; }
+    .notif-basis { font-size:var(--fs-12); color:var(--n-500); }
+    .rs-btn { font-size:var(--fs-12); font-weight:600; padding:5px 12px; border-radius:6px; border:1px solid var(--navy-700); background:var(--navy-700); color:#fff; cursor:pointer; }
+    .rs-btn.ghost { background:#fff; color:var(--navy-700); }
+
+    .grid2 { display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:var(--s-4); }
+    .rs-empty { color:var(--n-500); font-size:var(--fs-13); padding:var(--s-5); text-align:center; }
+    code { font-family:var(--mono,monospace); font-size:.92em; background:var(--n-50); padding:1px 5px; border-radius:4px; }
+  </style>
+
+<script>
+/* Static build: the research data is read-only, so it is baked in here and a
+   fetch() shim answers the page's own /api/* calls from it. The UI code below
+   is byte-identical to the server-rendered version — there is no static fork. */
+window.__ITM_DATA__ = {"/api/itm-summary":{"rules":{"total":19,"permitted_today":7,"needs_signature":5,"unverified":1},"discounts":{"n":3,"best":52},"impairments":{"total":3,"open":1},"notifications":{"total":9,"outstanding":2},"inventory":{"itemsPerHotel":1600,"actionsPerYear":"2,500–3,000","sprinklerHeads":800,"ratedDoors":220,"tradesInvolved":"4–6","deletableHoursPct":30}},"/api/rules":{"rules":[{"id":2,"standard":"NFPA 10 §7.2.1.2","lane":"Lane 01 Fire & life safety","applies_to_ifc_class":"IfcFireSuppressionTerminal","frequency":"monthly","description":"Portable extinguisher inspection — seven-item check: in place, visible, accessible, gauge in operable range, full by heft, hose/nozzle condition, tamper seal intact","citation":"NFPA 10 §7.2.1.2; content per §7.2.2 (seven items)","citation_status":"P","who_may_perform":"O","automation_status":"permitted_today","automation_citation":"NFPA 10 §7.2.1.2; IFC §906.2 Exception 2","automation_note":"Permitted by electronic monitoring since the 2007 edition. IFC §906.2 Exc. 2 goes further and is the richest credit in the code: thirty-day inspections not required AND maintenance allowed once every 3 years — dry-chemical/halogenated only, indoors, on a listed and approved device. TRAP: §7.2.1.4 — monitoring for LOCATION ONLY (a bracket removal switch) does NOT excuse the manual inspection. Monitoring must sense pressure, presence and obstruction.","residual_human_step":"NFPA 10 §7.6.1.2 — 100% of monitoring units verified annually (tightened from a 20%/year rotation), plus §7.6.2 semiannual NFPA 72 visual inspection of the monitoring devices themselves. Automation creates new human work.","requires_licensed_signature":0,"record_retention":"Electronic event log at the control panel — NFPA 10 §7.2.4.6","unsupervised_frequency":null,"supervised_frequency":null,"supervision_multiplier":null},{"id":1,"standard":"NFPA 101 §7.9.3.1.1(1)","lane":"Lane 01 Fire & life safety","applies_to_ifc_class":"IfcLightFixture","frequency":"monthly","description":"Emergency lighting — functional test, minimum 30 seconds (min 3, max 5 weeks between tests)","citation":"NFPA 101 §7.9.3.1.1(1); IFC §1032.10.1","citation_status":"P","who_may_perform":"O","automation_status":"permitted_today","automation_citation":"NFPA 101 §7.9.3.1.3","automation_note":"Computer-based self-testing automates BOTH the 30-day 30-second test and the annual 90-minute test. Critically, §7.9.3.1.3 contains NO 30-day human visual inspection — unlike §7.9.3.1.2, which does. The difference between those two subsections is worth real money.","residual_human_step":"None. This is the only obligation found where the code fully deletes both the periodic and the annual manual test.","requires_licensed_signature":0,"record_retention":"Written records kept by the owner — NFPA 101 §7.9.3.1.1(5)","unsupervised_frequency":null,"supervised_frequency":null,"supervision_multiplier":null},{"id":4,"standard":"NFPA 101 §7.9.3.1.1(3)","lane":"Lane 01 Fire & life safety","applies_to_ifc_class":"IfcLightFixture","frequency":"annual","description":"Emergency lighting — functional test, minimum 1.5 hours (90 minutes) at full load","citation":"NFPA 101 §7.9.3.1.1(3); IFC §1032.10.2","citation_status":"P","who_may_perform":"O","automation_status":"permitted_today","automation_citation":"NFPA 101 §7.9.3.1.3","automation_note":"Computer-based self-testing performs the annual 90-minute test automatically and must report full test/failure history on demand (§7.9.3.1.3(5)). UL 924 self-test hardware ships today.","residual_human_step":"None for the test itself. Note the limit: a fixture aimed at a wall passes its own 90-minute self-test perfectly — illumination LEVEL along the egress path (1 fc avg / 0.1 fc min / 40:1) is a photometric survey of a space, not a self-test of a fixture.","requires_licensed_signature":0,"record_retention":"Written records kept by the owner","unsupervised_frequency":null,"supervised_frequency":null,"supervision_multiplier":null},{"id":6,"standard":"NFPA 25 §13.3.2.1","lane":"Lane 01 Fire & life safety","applies_to_ifc_class":"IfcValve","frequency":"weekly","description":"Sprinkler control valve inspection — normal position, sealed/locked/supervised, accessible, correct wrenches, free from external leaks, identification","citation":"NFPA 25 §13.3.2.1 → §13.3.2.1.1 → §13.3.2.1.2","citation_status":"P","who_may_perform":"O","automation_status":"permitted_today","automation_citation":"NFPA 25 §13.3.2.1.1, §13.3.2.1.2","automation_note":"SUPERVISION DISCOUNT. Sealed valves: weekly. Locked OR supervised per the applicable NFPA standard: monthly (4x). Electrically supervised: quarterly. No AHJ approval, no performance-based programme, no listing of automated ITM equipment — just supervision plus a monitored receiving point. Two gating conditions: NFPA 72-grade supervision (integrity-supervised circuit, supervisory signal, trouble on fault), and connection to a CONSTANTLY ATTENDED LOCATION. A hotel front desk is staffed 24/7 — the hard condition is satisfied for free.","residual_human_step":"The inspection CONTENT of §13.3.2.2 still applies at the reduced frequency. Annual full-range valve operation under §13.3.3.1 is untouched.","requires_licensed_signature":0,"record_retention":"One year past next ITM of that type","unsupervised_frequency":"weekly","supervised_frequency":"quarterly","supervision_multiplier":4},{"id":9,"standard":"NFPA 25 §8.3.2.7","lane":"Lane 01 Fire & life safety","applies_to_ifc_class":"IfcPump","frequency":"weekly","description":"Fire pump no-flow (churn) test — start by pressure drop, run, record suction/discharge pressure, RPM, volts, amps, packing gland drip","citation":"NFPA 25 §8.3.2.7 → §8.3.2.10","citation_status":"P","who_may_perform":"Q","automation_status":"permitted_today","automation_citation":"NFPA 25 §8.3.2.10","automation_note":"One of the strongest rows in the permission map. Verbatim: \"Qualified personnel shall be in attendance whenever the pump is in operation UNLESS automated inspection and testing is performed in accordance with 8.3.2.10.\" Weekly for diesel, monthly for electric.","residual_human_step":"§8.3.2.10.2 — all checklist observations still performed and abnormalities recorded. §8.3.2.10.2.2 — if packing gland adjustment is indicated, qualified personnel must make it. §8.3.2.10.3 — diesel controller must have automatic engine shutdown.","requires_licensed_signature":0,"record_retention":"One year past next ITM of that type","unsupervised_frequency":null,"supervised_frequency":null,"supervision_multiplier":null},{"id":7,"standard":"NFPA 25 §9.2.3.1","lane":"Lane 01 Fire & life safety","applies_to_ifc_class":"IfcTank","frequency":"daily","description":"Water storage tank heating system — inspection during the heating season","citation":"NFPA 25 §9.2.3.1 / §9.2.3.2","citation_status":"P","who_may_perform":"O","automation_status":"permitted_today","automation_citation":"NFPA 25 §9.2.3.1","automation_note":"THE LARGEST SINGLE DISCOUNT IN NFPA 25. Daily during the heating season becomes weekly where the tank has a supervised low water temperature alarm connected to a constantly attended location — approximately 7x.","residual_human_step":"The supervised alarm itself becomes an inspected device.","requires_licensed_signature":0,"record_retention":"One year past next ITM of that type","unsupervised_frequency":"daily","supervised_frequency":"weekly","supervision_multiplier":7},{"id":12,"standard":"NFPA 72 Table 14.3.1 Item 2","lane":"Lane 01 Fire & life safety","applies_to_ifc_class":"IfcAlarm","frequency":"annual","description":"Fire alarm control unit inspection — fuses, interfaced equipment, lamps and LEDs, primary power","citation":"NFPA 72 Table 14.3.1 Item 2(1) vs 2(2)","citation_status":"P","who_may_perform":"Q","automation_status":"permitted_today","automation_citation":"NFPA 72 Table 14.3.1 Item 2(1)","automation_note":"A 52x credit already built into the inspection table and widely unnoticed: a MONITORED system inspects control equipment annually; an UNMONITORED system inspects the same items WEEKLY. Monitoring is not merely good practice — the code prices it.","residual_human_step":"Annual test regardless.","requires_licensed_signature":0,"record_retention":"Until next test + 1 year","unsupervised_frequency":"weekly","supervised_frequency":"annual","supervision_multiplier":52},{"id":11,"standard":"NFPA 72 §14.4.4.2","lane":"Lane 01 Fire & life safety","applies_to_ifc_class":"IfcAlarm","frequency":"annual","description":"Fire alarm manual test frequency — extended to annually where automatic weekly testing is performed by a remotely monitored, listed control unit","citation":"NFPA 72 §14.4.4.2 (2022 & 2025 eds.)","citation_status":"P","who_may_perform":"Q","automation_status":"gated_listing","automation_citation":"NFPA 72 §14.4.4.2","automation_note":"THE BINDING CONSTRAINT IS THE UL LISTING, NOT THE CODE. Three gating conditions: testing must be automatic and at least weekly; performed BY the fire alarm control unit, not a bolt-on IoT overlay; and the FACU must be \"specifically listed for the application.\" That phrase means the credit accrues to the PANEL MANUFACTURER, not an aftermarket sensor vendor. The provision has stood since ~2007 and nobody has commoditised it. NOTE: NFPA 72 contains NO self-testing clause — zero hits across the 2022/2025/2028 committee corpus. Vendor claims describe UL 268 listings.","residual_human_step":"Table 14.3.1 visual inspection frequencies are untouched by this credit.","requires_licensed_signature":0,"record_retention":"Until the next test and 1 year thereafter — NFPA 72 §14.6.2.1","unsupervised_frequency":null,"supervised_frequency":null,"supervision_multiplier":null},{"id":8,"standard":"NFPA 25 §13.2.2","lane":"Lane 01 Fire & life safety","applies_to_ifc_class":"IfcFlowInstrument","frequency":"annual","description":"Main drain test — record static pressure, open the 2-inch drain fully, record residual, close, confirm return to static","citation":"NFPA 25 §13.2.2 (2023 ed. — was §13.2.5)","citation_status":"P","who_may_perform":"Q","automation_status":"no_relief","automation_citation":"NFPA 25 §4.6.6.3","automation_note":"Mechanically the most automatable procedure in NFPA 25: two transducers and a motorised valve. The test is literally \"record two numbers and compare to baseline,\" and the 10% criterion is arithmetic. Detects a closed or obstructed supply valve upstream — the deadliest failure in the building.","residual_human_step":"Frequency unchanged (§4.6.6.12). Discharge visually observed at least once every 3 years (§4.6.6.4.2).","requires_licensed_signature":0,"record_retention":"One year past next ITM of that type","unsupervised_frequency":null,"supervised_frequency":null,"supervision_multiplier":null},{"id":5,"standard":"NFPA 25 §13.2.3.2.2","lane":"Lane 01 Fire & life safety","applies_to_ifc_class":"IfcFlowInstrument","frequency":"semiannual","description":"Waterflow alarm test — vane, paddle and pressure-switch type. Must signal within 90 seconds","citation":"NFPA 25 §13.2.3.2.2 (2023 ed. — was §13.2.6.2)","citation_status":"P","who_may_perform":"Q","automation_status":"no_relief","automation_citation":"NFPA 25 §4.6.6.2, §4.6.6.3","automation_note":"Automated equipment MAY perform the test (§4.6.6.3 — it must produce the same action the standard requires). But §4.6.6.12 is explicit: frequencies are maintained REGARDLESS of the functionality of automated testing equipment. On the water side, automation buys labour substitution and evidence quality — not fewer events.","residual_human_step":"NFPA 25 §4.6.1.1 — automated testing shall be observed at a minimum frequency of once every 3 years. §4.6.6.14 — results analysed by qualified personnel.","requires_licensed_signature":0,"record_retention":"One year past the next ITM of that type — NFPA 25 §4.3.5","unsupervised_frequency":null,"supervised_frequency":null,"supervision_multiplier":null},{"id":19,"standard":"ASME A17.1 §8.6.11.1","lane":"Lane 06 Vertical transport","applies_to_ifc_class":"IfcTransportElement","frequency":"monthly","description":"Firefighter Emergency Operation (FEO) — Phase I recall and Phase II in-car operation test","citation":"ASME A17.1 §8.6.11.1","citation_status":"U","who_may_perform":"E","automation_status":"not_permitted","automation_citation":null,"automation_note":"SECTION NUMBER UNVERIFIED — ASME A17.1 is paywalled and absent from the Public.Resource corpus. The monthly frequency is near-universally reported by elevator contractors and AHJs; treat the frequency as reliable and the section number as a lead. Phase I recall automates. PHASE II DOES NOT: the entire test is \"does the car obey a firefighter continuously-pressed thumb\" — constant-pressure door close, release at halfway to force reversal, constant-pressure open, CALL CANCEL. There is no way to test constant-pressure behaviour without a constant pressure. A relay that simulates the button proves the relay works, not the safety.","residual_human_step":"Phase II in its entirety. Elevator inspection is state-licensed almost everywhere — the one item a hotel can essentially never self-perform.","requires_licensed_signature":1,"record_retention":"Certificate posted in the car, renewed annually","unsupervised_frequency":null,"supervised_frequency":null,"supervision_multiplier":null},{"id":14,"standard":"IFC §701.6","lane":"Lane 01 Fire & life safety","applies_to_ifc_class":"IfcWall","frequency":"annual","description":"Fire-resistance-rated construction — owner visually inspects, and maintains an inventory of rated construction","citation":"IFC §701.6","citation_status":"P","who_may_perform":"O","automation_status":"not_permitted","automation_citation":null,"automation_note":"Underrated and widely skipped. An explicit ANNUAL, OWNER-PERFORMED duty covering all rated construction, plus a requirement to maintain an inventory of it. Most hotels do not do this — and an asset graph is exactly an inventory of rated construction.","residual_human_step":"Concealed firestopping is a person with a flashlight above a ceiling tile, forever. Cameras plus change detection do catch path obstruction well.","requires_licensed_signature":0,"record_retention":"3 years on premises — IFC §901.6.3","unsupervised_frequency":null,"supervised_frequency":null,"supervision_multiplier":null},{"id":15,"standard":"IFC §904.5.1","lane":"Lane 01 Fire & life safety","applies_to_ifc_class":"IfcFireSuppressionTerminal","frequency":"semiannual","description":"Commercial kitchen hood wet-chemical suppression — inspect and test for proper operation; service within 6 months and after any activation","citation":"IFC §904.5.1, §904.13.5.2 → NFPA 17A","citation_status":"P","who_may_perform":"C","automation_status":"not_permitted","automation_citation":null,"automation_note":"NFPA 17A does not yet permit remote ITM at all — there is no technology answer here. The procedure is a chain of mechanical states: cable tension through pulley elbows, nozzle aim, blow-off cap age, cartridge weight, detection-line integrity, fusible links. Instrument the OUTCOME states and accept a two-hour hands-on semiannual. The 3-dollar tension-lever switch that catches \"left it UP\" after service is worth more than the rest combined.","residual_human_step":"The entire semiannual service. Certificate of inspection to the fire code official.","requires_licensed_signature":1,"record_retention":"Certificate to the fire code official","unsupervised_frequency":null,"supervised_frequency":null,"supervision_multiplier":null},{"id":3,"standard":"NFPA 10 §7.3.1.1.1","lane":"Lane 01 Fire & life safety","applies_to_ifc_class":"IfcFireSuppressionTerminal","frequency":"annual","description":"Extinguisher maintenance — thorough physical examination, internal/external exam, hose and nozzle, recharge if needed","citation":"NFPA 10 §7.3.1.1.1; §7.1.2.1","citation_status":"P","who_may_perform":"C","automation_status":"not_permitted","automation_citation":null,"automation_note":"Maintenance is a hands-on teardown by a certified person who applies a tag. Automation can displace INSPECTION (§7.2); it cannot displace MAINTENANCE (§7.3). The only relief is IFC §906.2 Exc. 2, which stretches this to 3-yearly under five conditions.","residual_human_step":"Full annual external exam by a certified person; 6-year internal; 5/12-year hydrostatic. Tag hand-punched with the technician name and company.","requires_licensed_signature":1,"record_retention":"Tag remains on the extinguisher; records until next annual + 1 year","unsupervised_frequency":null,"supervised_frequency":null,"supervision_multiplier":null},{"id":18,"standard":"NFPA 101 §29.7.1.2","lane":"Lane 01 Fire & life safety","applies_to_ifc_class":"IfcBuilding","frequency":"quarterly","description":"Drills of the hotel emergency organisation","citation":"NFPA 101 §29.7.1.2","citation_status":"P","who_may_perform":"O","automation_status":"not_permitted","automation_citation":null,"automation_note":"A hard recurring calendar obligation that is NOT a device test — a staff event with a record. Frequently missed, and it belongs in any hotel compliance calendar.","residual_human_step":"The drill itself.","requires_licensed_signature":0,"record_retention":"Hilton brand standard: current calendar year + previous 6 years","unsupervised_frequency":null,"supervised_frequency":null,"supervision_multiplier":null},{"id":16,"standard":"NFPA 110 §8.4.1","lane":"Lane 01 Fire & life safety","applies_to_ifc_class":"IfcElectricGenerator","frequency":"weekly","description":"Emergency power supply system — weekly inspection of the generator and appurtenant components","citation":"NFPA 110 §8.4.1","citation_status":"S","who_may_perform":"O","automation_status":"not_permitted","automation_citation":null,"automation_note":"RELIEF WAS REFUSED IN WRITING. Public Inputs 18 and 21 in the 2022 cycle asked for relief at unmanned sites; Resolution FR-15 granted it only to Level 2 systems on reduced criticality. Generators already telemeter heavily — Table 5.6.5.4 has a remote-audible column — and still require the walk-up. A modern controller senses nearly every weekly checklist item, which makes this a pure regulatory blocker rather than a technical one.","residual_human_step":"The weekly physical walk-up. Monthly 30-minute load run at 30% nameplate or the manufacturer exhaust gas temperature.","requires_licensed_signature":0,"record_retention":"Records: date, technician, conditions noted, corrective action — IFC §1203.4.3","unsupervised_frequency":null,"supervised_frequency":null,"supervision_multiplier":null},{"id":17,"standard":"NFPA 25 §13.7.2.1","lane":"Lane 02 Water & mechanical","applies_to_ifc_class":"IfcValve","frequency":"annual","description":"Backflow prevention assembly — forward flow test at system demand","citation":"NFPA 25 §13.7.2.1 (2023 ed. — was §13.6.2.1)","citation_status":"P","who_may_perform":"E","automation_status":"not_permitted","automation_citation":null,"automation_note":"The physics is easy — permanent transducers on the test cocks plus a motorised needle valve would run the whole RPZ sequence. The obstacle is the LICENSING REGIME: in most jurisdictions only a certified backflow tester with an annually calibrated gauge may sign the test, and the WATER PURVEYOR, not the fire AHJ, owns the requirement. Non-filing can terminate water service. Continuous relief-port discharge detection is worth deploying today regardless — it catches a fouled check the day it fouls rather than eleven months later.","residual_human_step":"The signed annual test, by a certified tester, filed with the water purveyor.","requires_licensed_signature":1,"record_retention":"Filed with the water purveyor annually","unsupervised_frequency":null,"supervised_frequency":null,"supervision_multiplier":null},{"id":10,"standard":"NFPA 25 §8.3.3","lane":"Lane 01 Fire & life safety","applies_to_ifc_class":"IfcPump","frequency":"annual","description":"Fire pump annual flow test — churn, 100% and 150% of rated capacity","citation":"NFPA 25 §8.3.3; §8.3.3.9(1)","citation_status":"P","who_may_perform":"C","automation_status":"not_permitted","automation_citation":null,"automation_note":"No automated path absent permanent test loops. The hose-stream or flowmeter-to-drain arrangement is required at least every third year.","residual_human_step":"Entire test remains manual.","requires_licensed_signature":0,"record_retention":"One year past next ITM of that type","unsupervised_frequency":null,"supervised_frequency":null,"supervision_multiplier":null},{"id":13,"standard":"NFPA 80 §5.2.1","lane":"Lane 01 Fire & life safety","applies_to_ifc_class":"IfcDoor","frequency":"annual","description":"Fire door assembly inspection — eleven checkpoints including label legibility, no field modifications, clearance, closer, latch, coordinator, glazing, gasketing, hardware","citation":"IFC §705.2 → NFPA 80 §5.2.1; record per §5.2.2.4(6)","citation_status":"P","who_may_perform":"Q","automation_status":"not_permitted","automation_citation":null,"automation_note":"Two of the eleven checkpoints automate cleanly — self-close and latch verification, via a position encoder plus a strike-plate latch-engagement sensor. They happen to be the two that fail constantly and the two that actually stop smoke. The other nine are irreducibly tactile at ~220 leaves in a 150-key hotel: a technician runs a HAND over the leaf and finds the filled-and-sanded hole a camera reads as paint. CAUTION: networked door closers and strike-plate latch sensors are already patented — freedom-to-operate review required.","residual_human_step":"Nine of eleven checkpoints, per leaf, annually. Record signed by the inspector of record.","requires_licensed_signature":1,"record_retention":"Acceptance for the life of the assembly; otherwise at least 3 years","unsupervised_frequency":null,"supervised_frequency":null,"supervision_multiplier":null}],"summary":{"total":19,"permitted_today":7,"needs_signature":5,"unverified":1}},"/api/impairments":{"impairments":[{"id":1,"property_id":1,"system":"water_based","kind":"emergency","started_at":"2026-08-23 06:00:00","ended_at":null,"cause":"Riser 1 control valve closed for sprinkler head replacement on Levels 2-4, reopened between phases","coordinator_name":"Dana Whitfield","tag_posted":1,"compensating_measure":null,"threshold_hours":10,"threshold_citation":"NFPA 25 §15.5.2(4) — compensating measures required past 10 hours out of service in any 24-hour period","check_instance_id":null,"created_at":"2026-08-25 05:03:55","property_name":"Summit Lodge — Boulder","property_address":"2100 Canyon Blvd, Boulder, CO","cumulative_24h":10.75,"window_count":3,"longest_single_window":4,"breached":1,"notifications_total":4,"notifications_sent":3},{"id":3,"property_id":3,"system":"water_based","kind":"hidden","started_at":"2026-08-20 00:00:00","ended_at":"2026-08-24 11:15:00","cause":"Floor control valve found 60% closed during routine inspection — closure date unknown","coordinator_name":"Dana Whitfield","tag_posted":0,"compensating_measure":null,"threshold_hours":10,"threshold_citation":"NFPA 25 §15.5.2(4). Zurich classifies this as a HIDDEN impairment — an outage existing without the knowledge of those responsible. Continuous valve-position monitoring collapses this category to zero.","check_instance_id":null,"created_at":"2026-08-25 05:03:55","property_name":"Foothills Suites — Golden","property_address":"890 Table Mesa Dr, Golden, CO","cumulative_24h":107.25,"window_count":1,"longest_single_window":107.25,"breached":1,"notifications_total":2,"notifications_sent":2},{"id":2,"property_id":2,"system":"fire_alarm","kind":"preplanned","started_at":"2026-08-24 22:00:00","ended_at":"2026-08-25 01:30:00","cause":"FACU firmware update — planned, coordinated with monitoring station","coordinator_name":"Dana Whitfield","tag_posted":1,"compensating_measure":"fire_watch","threshold_hours":4,"threshold_citation":"NFPA 101 §9.6.1.8 — notify the AHJ and evacuate or provide an approved fire watch past 4 hours in 24","check_instance_id":null,"created_at":"2026-08-25 05:03:55","property_name":"Riverfront Inn — Denver","property_address":"455 S Platte River Dr, Denver, CO","cumulative_24h":3.5,"window_count":1,"longest_single_window":3.5,"breached":0,"notifications_total":3,"notifications_sent":2}]},"/api/automation-candidates":{"candidates":[{"id":16,"rank":1,"bucket":"hardest","item":"Sprinkler head condition","mechanism":"Imaging sweep with change detection against the last sweep","code_path":"NFPA 25 §5.2.1","blocker":"judgement","confidence":"low","labour_note":"~800 units","verdict":"THE central hard problem. Categories are subtle — factory white vs a fresh coat of the same white. Best play deletes the SWEEP, not the JUDGEMENT. Anyone claiming full automation here is selling something."},{"id":17,"rank":2,"bucket":"hardest","item":"The other nine NFPA 80 checkpoints","mechanism":"Tactile inspection","code_path":"NFPA 80 §5.2.1","blocker":"judgement","confidence":"low","labour_note":"~220 leaves","verdict":"A technician runs a hand over the leaf and finds what a camera reads as paint. Clearance measurement is a genuine unbuilt sensor opportunity."},{"id":18,"rank":3,"bucket":"hardest","item":"Elevator Phase II","mechanism":"None viable","code_path":"ASME A17.1","blocker":"physics","confidence":"low","labour_note":null,"verdict":"You cannot test constant-pressure behaviour without a constant pressure. Accept it."},{"id":19,"rank":4,"bucket":"hardest","item":"Egress path illumination level","mechanism":"Photometric commissioning plus tamper monitoring","code_path":"NFPA 101 §7.9","blocker":"judgement","confidence":"low","labour_note":null,"verdict":"A fixture aimed at a wall passes its own self-test perfectly. Monitor for regression, do not claim to measure compliance."},{"id":20,"rank":5,"bucket":"hardest","item":"Fire and smoke dampers","mechanism":"Electric actuators with position feedback","code_path":"NFPA 80 §19.4","blocker":"access","confidence":"medium","labour_note":"40-80 units, 15-45 min each","verdict":"Sensing is solved outright. ACCESS is not — many are drywalled or painted shut. Capture at renovation, one floor at a time."},{"id":21,"rank":6,"bucket":"hardest","item":"Kitchen hood mechanical readiness","mechanism":"Instrument the outcome states","code_path":"NFPA 17A","blocker":"physics","confidence":"low","labour_note":null,"verdict":"The 3-dollar tension-lever switch is worth more than the rest combined."},{"id":22,"rank":7,"bucket":"hardest","item":"dBA at the pillow, door closed","mechanism":"Microphone on the guest-room module","code_path":"NFPA 72 §18","blocker":"judgement","confidence":"medium","labour_note":null,"verdict":"Ambient moves with the PTAC, the ice machine, the cart, the guest TV. And the walkthrough is where technicians find water-stained tiles."},{"id":23,"rank":8,"bucket":"hardest","item":"Backflow annual certified test","mechanism":"Transducers on the test cocks plus a motorised needle valve","code_path":"NFPA 25 §13.7.2.1","blocker":"licensing","confidence":"medium","labour_note":null,"verdict":"Blocked by the licensing regime, not physics. Deploy relief-port discharge detection today regardless."},{"id":24,"rank":9,"bucket":"hardest","item":"Standpipe hydrostatic and PRV full-flow","mechanism":"None viable","code_path":"NFPA 25 §6.3","blocker":"physics","confidence":"low","labour_note":null,"verdict":"You cannot prove a hose valve opens under fire conditions without opening it. Irreducible."},{"id":25,"rank":10,"bucket":"hardest","item":"Firestopping and \"has a human broken something\"","mechanism":"Cameras plus change detection for path obstruction","code_path":"IFC §701.6","blocker":"judgement","confidence":"low","labour_note":null,"verdict":"The state space of ways to break a building is unbounded. Concealed firestopping is a person with a flashlight above a ceiling tile, forever."},{"id":1,"rank":1,"bucket":"easiest","item":"Valve stem position","mechanism":"Absolute stem-position encoder replacing the binary tamper switch","code_path":"NFPA 25 §13.3.2.1.2","blocker":null,"confidence":"high","labour_note":"~2 hr/yr — but it is not about the hours","verdict":"Upgrades \"someone turned it\" to \"it is 78% open and has been since March.\" The highest-consequence failure in the building becomes continuously visible. A safety argument, not a labour one."},{"id":2,"rank":2,"bucket":"easiest","item":"Emergency lighting monthly + annual 90-min","mechanism":"UL 924 self-test hardware with a reporting layer","code_path":"NFPA 101 §7.9.3.1.3","blocker":null,"confidence":"high","labour_note":"~9-12 hr/yr of button-pressing plus a weekend of 90-minute breaker work","verdict":"The code fully deletes both tests. Batteries are the #1 failure and a runtime self-test catches them precisely."},{"id":3,"rank":3,"bucket":"easiest","item":"Exit sign battery test","mechanism":"Same hardware, same code path","code_path":"NFPA 101 §7.10.9.1","blocker":null,"confidence":"high","labour_note":"~5 hr/yr","verdict":"Ride it in on the same network."},{"id":4,"rank":4,"bucket":"easiest","item":"FACP standby battery capacity","mechanism":"Shunt plus internal-resistance trending","code_path":"NFPA 72 T14.4.3.2 fn d","blocker":null,"confidence":"high","labour_note":"~1 hr","verdict":"Converts a coin-flip into a measurement. Voltage-only checks produce false passes."},{"id":5,"rank":5,"bucket":"easiest","item":"Smoke detector sensitivity drift","mechanism":"Read the value the panel already computes, nightly","code_path":"NFPA 72 T14.4.3.2 Item 17(8)(3),(4)","blocker":null,"confidence":"high","labour_note":"~4-6 hr every other year","verdict":"Nothing to invent. The addressable panel already computes it."},{"id":6,"rank":6,"bucket":"easiest","item":"Guest-room leak and abnormal flow","mechanism":"Point sensors plus flow monitoring","code_path":null,"blocker":null,"confidence":"high","labour_note":"0 code hours","verdict":"NOT A CODE ITEM AT ALL — no AHJ, no listing, no standard. The shortest path from sensor to dollars, and it funds the code lanes."},{"id":7,"rank":7,"bucket":"easiest","item":"Waterflow switch 90-second test","mechanism":"Motorised test-and-drain plus transducer","code_path":"NFPA 25 §4.6.6.3","blocker":"listing","confidence":"high","labour_note":"~6-10 hr/yr","verdict":"Produces better evidence than a technician with a stopwatch and a radio — exact seconds to signal, exact gpm."},{"id":8,"rank":8,"bucket":"easiest","item":"Main drain test","mechanism":"Two transducers and a motorised valve","code_path":"NFPA 25 §4.6.6.3","blocker":null,"confidence":"high","labour_note":"~2-4 hr/yr","verdict":"The most mechanically trivial procedure in NFPA 25."},{"id":9,"rank":9,"bucket":"easiest","item":"Gauge readings","mechanism":"Transducers in place of or parallel to analog gauges","code_path":"NFPA 25 §4.6.6.2","blocker":null,"confidence":"high","labour_note":"~4 hr/yr","verdict":"Kills the \"gauge stuck at zero for three years\" failure."},{"id":10,"rank":10,"bucket":"easiest","item":"Extinguisher monthly","mechanism":"Optical gauge read, weighted hook, tamper and obstruction sensing","code_path":"NFPA 10 §7.2.1.2; IFC §906.2 Exc. 2","blocker":null,"confidence":"high","labour_note":"~5-7 hr/yr of pure walking","verdict":"The code did the hard part."},{"id":11,"rank":11,"bucket":"easiest","item":"Generator weekly and monthly run data","mechanism":"Controller telemetry plus battery conductance","code_path":"NFPA 110 §8.4.1","blocker":"licensing","confidence":"medium","labour_note":"~20-25 hr/yr","verdict":"Technically solved; the weekly walk-up was refused relief in writing."},{"id":12,"rank":12,"bucket":"easiest","item":"Fire pump churn — electrical/hydraulic half","mechanism":"Solenoid, transducers, tachometer, optical drip counter","code_path":"NFPA 25 §8.3.2.10","blocker":null,"confidence":"high","labour_note":"~20-35 hr/yr","verdict":"Every number on the clipboard is instrumentable."},{"id":13,"rank":13,"bucket":"easiest","item":"Fire door close and latch","mechanism":"Position encoder plus strike-plate latch sensor","code_path":"NFPA 80 §5.2.1","blocker":"patent","confidence":"medium","labour_note":"Does not delete the annual","verdict":"Two of eleven checkpoints — the two that fail constantly. PATENTED: freedom-to-operate review required."},{"id":14,"rank":14,"bucket":"easiest","item":"Door propped or held open","mechanism":"Commodity access-control sensing","code_path":null,"blocker":"patent","confidence":"high","labour_note":"Continuous instead of never","verdict":"Solved everywhere except on rated doors in hotels."},{"id":15,"rank":15,"bucket":"easiest","item":"Off-premises signal verification","mechanism":"Reconcile panel log against central-station log","code_path":"NFPA 72 Ch. 26","blocker":null,"confidence":"high","labour_note":"~2 hr/yr","verdict":"Both sides are already digital. Today it is a phone call and a hope."}]},"/api/attestations":{"attestations":[{"id":2,"check_instance_id":3,"signer_name":"M. Ortega","licence_type":null,"licence_number":null,"attestation_text":"Monthly extinguisher inspection per NFPA 10 §7.2.2. No certification required — §7.1.2.3 places the duty on the owner.","machine_prefilled_fields":7,"total_fields":8,"signed_at":"2026-08-05 09:30:00","asset_label":"Extinguisher — Kitchen","property_name":"Summit Lodge — Boulder","standard":"NFPA 10 §7.2.1.2","requires_licensed_signature":0},{"id":1,"check_instance_id":1,"signer_name":"M. Ortega","licence_type":null,"licence_number":null,"attestation_text":"Monthly emergency lighting inspection recorded by the owner. NFPA 101 §7.9.3.1.1(5) requires written records; no licensed signature is required for this record.","machine_prefilled_fields":11,"total_fields":12,"signed_at":"2026-08-05 09:12:00","asset_label":"Exit Light — Lobby","property_name":"Summit Lodge — Boulder","standard":"NFPA 101 §7.9.3.1.1(1)","requires_licensed_signature":0}],"machinePrefilledPct":90},"/api/impairments/1":{"impairment":{"id":1,"property_id":1,"system":"water_based","kind":"emergency","started_at":"2026-08-23 06:00:00","ended_at":null,"cause":"Riser 1 control valve closed for sprinkler head replacement on Levels 2-4, reopened between phases","coordinator_name":"Dana Whitfield","tag_posted":1,"compensating_measure":null,"threshold_hours":10,"threshold_citation":"NFPA 25 §15.5.2(4) — compensating measures required past 10 hours out of service in any 24-hour period","check_instance_id":null,"created_at":"2026-08-25 05:03:55","property_name":"Summit Lodge — Boulder","property_address":"2100 Canyon Blvd, Boulder, CO","cumulative_24h":10.75,"window_count":3,"longest_single_window":4,"breached":1,"notifications_total":4,"notifications_sent":3},"windows":[{"id":1,"opened_at":"2026-08-23 06:00:00","closed_at":"2026-08-23 09:30:00","hours":3.5,"note":"Phase 1 — Level 2 heads","cumulative":3.5,"crosses":false},{"id":2,"opened_at":"2026-08-23 11:00:00","closed_at":"2026-08-23 15:00:00","hours":4,"note":"Phase 2 — Level 3 heads","cumulative":7.5,"crosses":false},{"id":3,"opened_at":"2026-08-23 18:45:00","closed_at":"2026-08-23 22:00:00","hours":3.25,"note":"Phase 3 — Level 4 heads. CUMULATIVE 10.75 h — threshold breached at 21:45.","cumulative":10.75,"crosses":true}],"notifications":[{"id":3,"party":"insurance_carrier","requirement":"Notify the carrier of a known impairment","basis":"ISO CP 04 11 ¶A.3/¶B — the duty attaches on KNOWLEDGE; only a 48-hour restoration safe harbour","due_rule":"on_knowledge","due_by":null,"sent_at":null,"channel":null,"note":"UNSENT. This is the notification that voids coverage when missed — Garvin Street (2026) and Frankenmuth (2023) both hold that no prejudice and no causal nexus is required for denial."},{"id":1,"party":"fire_department","requirement":"Notify the fire department immediately that a required system is out of service","basis":"IFC §901.7","due_rule":"immediately","due_by":"2026-08-23 06:15:00","sent_at":"2026-08-23 06:11:00","channel":"phone","note":null},{"id":2,"party":"fire_code_official","requirement":"Notify the fire code official immediately","basis":"IFC §901.7","due_rule":"immediately","due_by":"2026-08-23 06:15:00","sent_at":"2026-08-23 06:14:00","channel":"email","note":null},{"id":4,"party":"alarm_company","requirement":"Notify the monitoring company of the impairment","basis":"NFPA 25 §15.5(5)-(7)","due_rule":"immediately","due_by":"2026-08-23 06:15:00","sent_at":"2026-08-23 06:12:00","channel":"phone","note":null}]},"/api/impairments/2":{"impairment":{"id":2,"property_id":2,"system":"fire_alarm","kind":"preplanned","started_at":"2026-08-24 22:00:00","ended_at":"2026-08-25 01:30:00","cause":"FACU firmware update — planned, coordinated with monitoring station","coordinator_name":"Dana Whitfield","tag_posted":1,"compensating_measure":"fire_watch","threshold_hours":4,"threshold_citation":"NFPA 101 §9.6.1.8 — notify the AHJ and evacuate or provide an approved fire watch past 4 hours in 24","check_instance_id":null,"created_at":"2026-08-25 05:03:55","property_name":"Riverfront Inn — Denver","property_address":"455 S Platte River Dr, Denver, CO","cumulative_24h":3.5,"window_count":1,"longest_single_window":3.5,"breached":0,"notifications_total":3,"notifications_sent":2},"windows":[{"id":4,"opened_at":"2026-08-24 22:00:00","closed_at":"2026-08-25 01:30:00","hours":3.5,"note":"Single window, below the 4 h fire-alarm threshold","cumulative":3.5,"crosses":false}],"notifications":[{"id":7,"party":"ahj","requirement":"Fire alarm out of service beyond the threshold — notify the AHJ","basis":"NFPA 101 §9.6.1.8; NFPA 72 §10.21.4 (report at 8 h out of service)","due_rule":"+8h","due_by":"2026-08-25 06:00:00","sent_at":null,"channel":null,"note":"Not required — restored at 01:30, inside the window."},{"id":6,"party":"insurance_carrier","requirement":"Preplanned impairment — advance notice","basis":"FM DS 10-7 — permit request at least 24 h in advance for any impairment beyond one 8-hour shift","due_rule":"before_work","due_by":"2026-08-23 22:00:00","sent_at":"2026-08-23 15:00:00","channel":"portal","note":null},{"id":5,"party":"fire_department","requirement":"Preplanned impairment — notify before work starts","basis":"NFPA 25 §15.5(5)-(7); IFC §901.7.4","due_rule":"before_work","due_by":"2026-08-24 22:00:00","sent_at":"2026-08-24 16:30:00","channel":"email","note":null}]},"/api/impairments/3":{"impairment":{"id":3,"property_id":3,"system":"water_based","kind":"hidden","started_at":"2026-08-20 00:00:00","ended_at":"2026-08-24 11:15:00","cause":"Floor control valve found 60% closed during routine inspection — closure date unknown","coordinator_name":"Dana Whitfield","tag_posted":0,"compensating_measure":null,"threshold_hours":10,"threshold_citation":"NFPA 25 §15.5.2(4). Zurich classifies this as a HIDDEN impairment — an outage existing without the knowledge of those responsible. Continuous valve-position monitoring collapses this category to zero.","check_instance_id":null,"created_at":"2026-08-25 05:03:55","property_name":"Foothills Suites — Golden","property_address":"890 Table Mesa Dr, Golden, CO","cumulative_24h":107.25,"window_count":1,"longest_single_window":107.25,"breached":1,"notifications_total":2,"notifications_sent":2},"windows":[{"id":5,"opened_at":"2026-08-20 00:00:00","closed_at":"2026-08-24 11:15:00","hours":107.25,"note":"Duration is a lower bound — actual closure date unknown","cumulative":107.25,"crosses":true}],"notifications":[{"id":8,"party":"insurance_carrier","requirement":"Hidden impairment discovered at inspection — notify on discovery","basis":"ISO CP 04 11; FM DS 2-81 §2.3.5 treats degraded performance discovered through ITM as out of service","due_rule":"on_knowledge","due_by":"2026-08-24 11:15:00","sent_at":"2026-08-24 11:40:00","channel":"email","note":null},{"id":9,"party":"fire_department","requirement":"System discovered out of service — notify immediately","basis":"IFC §901.7","due_rule":"immediately","due_by":"2026-08-24 11:30:00","sent_at":"2026-08-24 11:22:00","channel":"phone","note":null}]}};
+(function(){
+  var real = window.fetch ? window.fetch.bind(window) : null;
+  window.fetch = function(url, opts){
+    var path = String(url).replace(/^https?:\/\/[^/]+/, '').split('?')[0];
+    if (Object.prototype.hasOwnProperty.call(window.__ITM_DATA__, path)) {
+      return Promise.resolve({ ok:true, status:200,
+        json: function(){ return Promise.resolve(window.__ITM_DATA__[path]); } });
+    }
+    if (opts && opts.method && opts.method.toUpperCase() !== 'GET') {
+      /* Writes are disabled in the static build — say so rather than failing silently. */
+      console.info('[static build] write ignored:', path);
+      return Promise.resolve({ ok:true, status:200, json:function(){ return Promise.resolve({ staticBuild:true }); } });
+    }
+    return real ? real(url, opts) : Promise.reject(new Error('offline'));
+  };
+})();
+</script>
+</head>
+<body>
+<div class="rs-shell">
+
+  <div class="rs-topbar">
+    <div class="rs-brand">
+      <a href="./index.html">Ridgeline <span style="color:var(--gold-600)">OpenBIM</span></a>
+      <small>Research — the inspection, taken apart ·
+        <a href="./index.html" style="color:var(--n-500)">investor site</a> ·
+        <a href="./index.html" style="color:var(--n-500)">compliance OS</a></small>
+    </div>
+    <div class="rs-tabs">
+      <button class="rs-tab active" data-tab="rules">Rule library</button>
+      <button class="rs-tab" data-tab="clock">Impairment clock</button>
+      <button class="rs-tab" data-tab="feasibility">Feasibility</button>
+      <button class="rs-tab" data-tab="method">Method</button>
+    </div>
+  </div>
+
+  <div class="rs-hero">
+    <div class="kicker">Hotel life-safety ITM · seven research lanes · US</div>
+    <h1>The code already permits far more automation than anyone has built.</h1>
+    <p>A 150-key hotel carries roughly <b style="color:#fff">1,600 code-inspectable items</b> producing
+       2,500–3,000 inspect-or-test actions a year across 4–6 trades. About
+       <b style="color:#fff">30% of those hours are deletable today</b> under provisions already in force.
+       Every rule below is stored in the same D1 database that runs the Compliance OS — the research
+       is the product's rule library, not a document about it.</p>
+    <div class="rs-kpis" id="hero-kpis"></div>
+  </div>
+
+  <!-- ═══════════ RULE LIBRARY ═══════════ -->
+  <div class="rs-view active" id="view-rules">
+    <h2 class="rs-sec-title">The permission map</h2>
+    <p class="rs-sec-sub">The codes do not ask whether a task was automated. They ask
+      <em>what kind of obligation you are substituting for</em>. A required physical action is
+      protected; a required observation is not. Click any rule to see its citation, the provision
+      that permits automation, and — critically — the residual human step that remains.</p>
+
+    <div class="rs-filters">
+      <button class="rs-chip active" data-f="all">All</button>
+      <button class="rs-chip" data-f="permitted_today">Permitted today</button>
+      <button class="rs-chip" data-f="gated_listing">Gated by listing</button>
+      <button class="rs-chip" data-f="no_relief">No frequency relief</button>
+      <button class="rs-chip" data-f="not_permitted">Not permitted</button>
+      <button class="rs-chip" data-f="signature">Needs a signature</button>
+      <button class="rs-chip" data-f="discount">Supervision discount</button>
+      <input class="rs-search" id="rule-search" type="search" placeholder="Filter by standard or text…" />
+    </div>
+
+    <div class="rs-scroll">
+      <table class="rs-table">
+        <thead><tr>
+          <th>Standard</th><th>Obligation</th><th>Frequency</th>
+          <th>Who</th><th>Automation</th><th>Cite</th>
+        </tr></thead>
+        <tbody id="rules-body"><tr><td colspan="6" class="rs-empty">Loading…</td></tr></tbody>
+      </table>
+    </div>
+
+    <h2 class="rs-sec-title">The supervision discount nobody sells</h2>
+    <p class="rs-sec-sub">NFPA 25 has for decades granted frequency relief wherever a condition is
+      electrically supervised <em>and reported to a constantly attended location</em> — no AHJ
+      approval, no listing, no performance-based programme. The hard condition is the constantly
+      attended location. <b>A hotel front desk is staffed 24/7, so it is satisfied for free.</b></p>
+    <div class="rs-scroll">
+      <table class="rs-table">
+        <thead><tr><th>Condition</th><th>Unsupervised</th><th>Supervised</th><th>Multiplier</th><th>Section</th></tr></thead>
+        <tbody id="discount-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ═══════════ IMPAIRMENT CLOCK ═══════════ -->
+  <div class="rs-view" id="view-clock">
+    <h2 class="rs-sec-title">The impairment clock</h2>
+    <p class="rs-sec-sub">Compensating measures trigger past <b>10 hours out of service in any 24</b>
+      for water-based systems (NFPA 25 §15.5.2(4)) and <b>4 hours</b> for fire alarm
+      (NFPA 101 §9.6.1.8). The window is <b>cumulative, not per-event</b> — three separate 4-hour
+      outages in one day cross the 10-hour line. This is computed live from the database below;
+      it is not tracked correctly by hand anywhere.</p>
+    <div id="clock-list"><div class="rs-empty">Loading…</div></div>
+
+    <div class="rs-note bad"><b>Why this is the wedge, and not auto-dispatch.</b>
+      3.29M US false alarms in 2024 against 1.39M fires. Chicago's ladder escalates to $1,000;
+      Las Vegas fines <em>the maintenance company</em>. NFPA 72 §26.6.3.8 caps initiation-to-recording
+      at 90 seconds through a UL 827-listed chain you cannot bypass. The clock carries
+      <b>zero false-alarm exposure</b> and addresses what actually voids coverage.</div>
+  </div>
+
+  <!-- ═══════════ FEASIBILITY ═══════════ -->
+  <div class="rs-view" id="view-feasibility">
+    <h2 class="rs-sec-title">What can and cannot be automated</h2>
+    <p class="rs-sec-sub">Ranked by (labour deleted × code path exists) ÷ (engineering + listing
+      difficulty). The hardest list is included in full because the research is only credible if it
+      names what it cannot do — and why. Note the distinction that runs through it:
+      <b>blocked by physics</b> versus <b>blocked by law</b>.</p>
+    <div class="rs-filters">
+      <button class="rs-chip active" data-b="easiest">15 easiest</button>
+      <button class="rs-chip" data-b="hardest">10 hardest</button>
+    </div>
+    <div id="cand-list"></div>
+
+    <h2 class="rs-sec-title">The signature boundary</h2>
+    <p class="rs-sec-sub">Every certification block is a first-person attestation bound to a named
+      individual and a licence number. The machine produces the evidence and pre-fills the form; a
+      licensed human signs. Modelled as its own object so the boundary lives in the data, not in
+      the copy.</p>
+    <div id="attest-box"></div>
+  </div>
+
+  <!-- ═══════════ METHOD ═══════════ -->
+  <div class="rs-view" id="view-method">
+    <h2 class="rs-sec-title">Method, and what was thrown away</h2>
+    <p class="rs-sec-sub">Seven parallel research lanes, ~450 sourced URLs, ~653KB of dossiers.
+      Precision on section numbers was prioritised over breadth.</p>
+
+    <div class="rs-note good"><b>The paywall unlock.</b> NFPA standards are paywalled and block
+      automated retrieval — but NFPA publishes its committee First and Second Draft reports free and
+      un-gated at <code>docinfofiles.nfpa.org</code>, and those reports reproduce the
+      <em>published prior edition verbatim</em> as the baseline for proposed changes. That yielded
+      primary text for the 2022 and 2025 editions of NFPA 72. Public.Resource.Org hosts full text of
+      standards incorporated by reference into law.</div>
+
+    <h3 class="rs-sec-title" style="font-size:var(--fs-16)">Claims withdrawn as unsourced</h3>
+    <div class="rs-scroll">
+      <table class="rs-table">
+        <thead><tr><th>Withdrawn claim</th><th>Why</th></tr></thead>
+        <tbody>
+          <tr><td>"$130K average hotel water incident"</td><td>Traces only to AI-generated SEO pages</td></tr>
+          <tr><td>"15–25% insurance discount for monitoring"</td><td>Same. The defensible figure is Phyn partners at <em>up to</em> 15%</td></tr>
+          <tr><td>Any "$X billion by 2032 connected fire-safety" TAM</td><td>Every instance traced to a market-research content mill</td></tr>
+          <tr><td>"NFPA 72 has a self-testing clause"</td><td><b>Zero hits</b> across the 2022/2025/2028 committee corpus — vendors are describing UL 268 listings</td></tr>
+          <tr><td>"The AHJ may not require physical ITM under NFPA 25 §4.6"</td><td>Overstates it. §4.6.6.12 holds frequencies regardless of automation</td></tr>
+          <tr><td>"NICET Level II is required by NFPA 72"</td><td>The word NICET does not appear in NFPA 72 mandatory text. Licensing comes from state law</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="rs-note warn"><b>Counter-evidence, kept deliberately.</b> Eight years of Otis ONE and
+      KONE 24/7 have not eliminated a single ASME A17.1 required inspection. Connected monitoring has
+      not historically deleted mandated inspections. Any plan assuming it will should say why this
+      case differs.</div>
+
+    <div class="rs-note"><b>Known limits of this dataset.</b> Rules marked <span class="tag U">U</span>
+      carry section numbers that could not be verified against primary text — they are leads, not
+      citations. Every permission is <em>edition-dependent</em>, so the addressable market is
+      literally a code-adoption map. And four of the fifteen easiest automations sit on existing
+      patents; freedom-to-operate review is a prerequisite, not a later step.</div>
+  </div>
+
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var RULES=[], CANDS=[], IMPS=[];
+  var ruleFilter='all', ruleQuery='', candBucket='easiest';
+
+  // NB: must use <template>, not a <div>. Setting innerHTML on a div makes the
+  // HTML parser discard <tr>/<td> nodes that have no table ancestor, so every
+  // table row would come back null. <template> content is parsed in a context
+  // that preserves them.
+  function el(h){ var t=document.createElement('template'); t.innerHTML=h.trim(); return t.content.firstElementChild; }
+  function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+
+  var AUTO = {
+    permitted_today:{c:'today', t:'Permitted today'},
+    gated_listing:  {c:'gated', t:'Gated — listing'},
+    permitted_w_ahj:{c:'ahj',   t:'With AHJ approval'},
+    no_relief:      {c:'norel', t:'No frequency relief'},
+    not_permitted:  {c:'never', t:'Not permitted'}
+  };
+  var WHO = { O:'Owner / staff', Q:'Qualified person', C:'Licensed contractor', E:'Specialty licensed' };
+
+  // ── tabs ──
+  document.querySelectorAll('.rs-tab').forEach(function(b){
+    b.addEventListener('click', function(){
+      document.querySelectorAll('.rs-tab').forEach(function(x){ x.classList.remove('active'); });
+      b.classList.add('active');
+      document.querySelectorAll('.rs-view').forEach(function(v){ v.classList.remove('active'); });
+      document.getElementById('view-'+b.dataset.tab).classList.add('active');
+      window.scrollTo({top:0,behavior:'smooth'});
+    });
+  });
+
+  // ── hero ──
+  fetch('/api/itm-summary').then(function(r){return r.json();}).then(function(d){
+    var k=document.getElementById('hero-kpis');
+    var inv=d.inventory||{};
+    [[inv.itemsPerHotel?inv.itemsPerHotel.toLocaleString():'—','Inspectable items · 150-key'],
+     [inv.actionsPerYear||'—','Inspect-or-test actions / yr'],
+     [(d.rules&&d.rules.permitted_today)+' of '+(d.rules&&d.rules.total),'Rules automatable today'],
+     [(d.discounts&&d.discounts.best?d.discounts.best+'×':'—'),'Best supervision discount'],
+     [(d.notifications&&d.notifications.outstanding)||0,'Statutory notices outstanding']
+    ].forEach(function(p){
+      k.appendChild(el('<div class="rs-kpi"><div class="n">'+esc(p[0])+'</div><div class="l">'+esc(p[1])+'</div></div>'));
+    });
+  });
+
+  // ── rule library ──
+  function renderRules(){
+    var b=document.getElementById('rules-body'); b.innerHTML='';
+    var rows=RULES.filter(function(r){
+      if(ruleFilter==='signature') { if(!r.requires_licensed_signature) return false; }
+      else if(ruleFilter==='discount'){ if(!r.supervision_multiplier) return false; }
+      else if(ruleFilter!=='all'){ if(r.automation_status!==ruleFilter) return false; }
+      if(ruleQuery){
+        var hay=(r.standard+' '+r.description+' '+(r.automation_note||'')+' '+(r.citation||'')).toLowerCase();
+        if(hay.indexOf(ruleQuery)===-1) return false;
+      }
+      return true;
+    });
+    if(!rows.length){ b.innerHTML='<tr><td colspan="6" class="rs-empty">No rules match that filter.</td></tr>'; return; }
+    rows.forEach(function(r){
+      var a=AUTO[r.automation_status]||{c:'never',t:r.automation_status};
+      var tr=el('<tr class="rule-row">'
+        +'<td><b>'+esc(r.standard)+'</b>'+(r.requires_licensed_signature?' <span class="tag sig">SIG</span>':'')+'</td>'
+        +'<td>'+esc(r.description)+'</td>'
+        +'<td><span class="tag who">'+esc(r.frequency)+'</span></td>'
+        +'<td><span class="tag who" title="'+esc(WHO[r.who_may_perform]||'')+'">'+esc(r.who_may_perform)+'</span></td>'
+        +'<td><span class="tag '+a.c+'">'+esc(a.t)+'</span></td>'
+        +'<td><span class="tag '+esc(r.citation_status)+'">'+esc(r.citation_status)+'</span></td>'
+        +'</tr>');
+      var det=el('<tr class="detail" style="display:none"><td colspan="6">'
+        +'<div style="display:grid;gap:10px;max-width:90ch">'
+        +'<div><b>Citation</b> — <code>'+esc(r.citation||r.standard)+'</code>'
+          +(r.citation_status==='U'?' <span class="tag U">UNVERIFIED — a lead, not a citation</span>':'')+'</div>'
+        +(r.automation_citation?'<div><b>Automation permitted by</b> — <code>'+esc(r.automation_citation)+'</code></div>':'')
+        +(r.automation_note?'<div><b>What that actually buys</b><br>'+esc(r.automation_note)+'</div>':'')
+        +(r.residual_human_step?'<div><b>Residual human step</b><br>'+esc(r.residual_human_step)+'</div>':'')
+        +(r.record_retention?'<div><b>Record</b> — '+esc(r.record_retention)+'</div>':'')
+        +'<div><b>Who may perform</b> — '+esc(WHO[r.who_may_perform]||r.who_may_perform)
+          +(r.who_may_perform==='C'?' <em>(state law, not the standard — NFPA 25 §4.1.1.3.1 never requires a licensed contractor)</em>':'')+'</div>'
+        +'</div></td></tr>');
+      tr.addEventListener('click', function(){
+        det.style.display = det.style.display==='none' ? 'table-row' : 'none';
+      });
+      b.appendChild(tr); b.appendChild(det);
+    });
+  }
+
+  function renderDiscounts(){
+    var b=document.getElementById('discount-body'); b.innerHTML='';
+    var rows=RULES.filter(function(r){ return r.supervision_multiplier; })
+                  .sort(function(x,y){ return y.supervision_multiplier-x.supervision_multiplier; });
+    rows.forEach(function(r){
+      b.appendChild(el('<tr><td><b>'+esc(r.description.split('—')[0])+'</b></td>'
+        +'<td>'+esc(r.unsupervised_frequency)+'</td>'
+        +'<td><b>'+esc(r.supervised_frequency)+'</b></td>'
+        +'<td><span class="tag today">'+esc(r.supervision_multiplier)+'×</span></td>'
+        +'<td><code>'+esc(r.standard)+'</code></td></tr>'));
+    });
+  }
+
+  document.querySelectorAll('#view-rules .rs-chip').forEach(function(c){
+    c.addEventListener('click', function(){
+      document.querySelectorAll('#view-rules .rs-chip').forEach(function(x){x.classList.remove('active');});
+      c.classList.add('active'); ruleFilter=c.dataset.f; renderRules();
+    });
+  });
+  document.getElementById('rule-search').addEventListener('input', function(e){
+    ruleQuery=e.target.value.toLowerCase().trim(); renderRules();
+  });
+
+  fetch('/api/rules').then(function(r){return r.json();}).then(function(d){
+    RULES=d.rules||[]; renderRules(); renderDiscounts();
+  });
+
+  // ── impairment clock ──
+  function clockCard(i){
+    var pct = Math.min(100, (i.cumulative_24h / i.threshold_hours) * 100);
+    var card = el('<div class="rs-card '+(i.breached?'breach':'')+'">'
+      +'<div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px">'
+      +'<div><h4>'+esc(i.property_name)+'</h4><div class="addr">'+esc(i.cause||'')+'</div></div>'
+      +'<div style="text-align:right">'
+        +'<span class="tag '+(i.breached?'never':'today')+'">'+(i.breached?'THRESHOLD BREACHED':'within limits')+'</span>'
+        +'<div class="addr" style="margin-top:4px">'+esc(i.system.replace("_"," "))+' · '+esc(i.kind)+(i.ended_at?'':' · OPEN')+'</div>'
+      +'</div></div>'
+      +'<div class="clock" id="clock-'+i.id+'"></div>'
+      +'<div class="clock-legend">'
+        +'<span>Cumulative in worst rolling 24 h: <b style="color:'+(i.breached?'#a3352a':'var(--n-700)')+'">'+i.cumulative_24h+' h</b></span>'
+        +'<span>Threshold: <b>'+i.threshold_hours+' h</b></span>'
+        +'<span>Longest single window: <b>'+(i.longest_single_window||0)+' h</b></span>'
+        +'<span>Windows: <b>'+i.window_count+'</b></span>'
+        +'<span>Notices sent: <b>'+i.notifications_sent+' / '+i.notifications_total+'</b></span>'
+      +'</div>'
+      +'<div style="margin-top:10px"><button class="rs-btn ghost" data-imp="'+i.id+'">Show windows &amp; statutory notices</button></div>'
+      +'<div class="imp-detail" id="imp-detail-'+i.id+'" style="display:none;margin-top:var(--s-4)"></div>'
+      +'</div>');
+    return card;
+  }
+
+  function drawClock(i, windows){
+    var host=document.getElementById('clock-'+i.id); if(!host) return;
+    // scale: threshold occupies 70% of the track so a breach is visibly past the line
+    var scaleMax = Math.max(i.threshold_hours/0.7, i.cumulative_24h*1.08);
+    var track=el('<div class="clock-track"></div>');
+    var run=0;
+    windows.forEach(function(w,idx){
+      var over = run >= i.threshold_hours;
+      run += w.hours;
+      var pct=(w.hours/scaleMax)*100;
+      var seg=el('<div class="clock-seg '+(over?'over':('s'+((idx%3)+1)))+'" style="width:'+pct+'%">'
+        +(pct>7? w.hours+'h' : '')+'</div>');
+      seg.title = (w.note||'') + ' — ' + w.hours + ' h';
+      track.appendChild(seg);
+    });
+    var line=el('<div class="clock-line" style="left:'+((i.threshold_hours/scaleMax)*100)+'%"><span>'
+      +i.threshold_hours+' h threshold</span></div>');
+    track.appendChild(line);
+    host.innerHTML=''; host.appendChild(track);
+  }
+
+  function renderImpairments(){
+    var host=document.getElementById('clock-list'); host.innerHTML='';
+    if(!IMPS.length){ host.innerHTML='<div class="rs-empty">No impairments recorded.</div>'; return; }
+    IMPS.forEach(function(i){
+      var card=clockCard(i); host.appendChild(card);
+      fetch('/api/impairments/'+i.id).then(function(r){return r.json();}).then(function(d){
+        drawClock(i, d.windows||[]);
+        var det=document.getElementById('imp-detail-'+i.id);
+        var html='<div class="grid2">';
+        html+='<div><b style="font-size:var(--fs-13)">Out-of-service windows</b>'
+             +'<table class="rs-table" style="margin-top:8px"><thead><tr><th>Opened</th><th>Hours</th><th>Cumulative</th></tr></thead><tbody>';
+        (d.windows||[]).forEach(function(w){
+          html+='<tr><td>'+esc(w.opened_at)+(w.note?'<br><span class="addr">'+esc(w.note)+'</span>':'')+'</td>'
+               +'<td>'+w.hours+'</td><td'+(w.crosses?' style="color:#a3352a;font-weight:700"':'')+'>'+w.cumulative+'</td></tr>';
+        });
+        html+='</tbody></table></div>';
+        html+='<div><b style="font-size:var(--fs-13)">Statutory notifications</b><div style="margin-top:8px">';
+        (d.notifications||[]).forEach(function(n){
+          html+='<div class="notif-row">'
+            +'<div class="notif-dot '+(n.sent_at?'sent':'unsent')+'"></div>'
+            +'<div style="flex:1"><div class="notif-party">'+esc(n.party.replace(/_/g," "))+'</div>'
+            +'<div>'+esc(n.requirement)+'</div>'
+            +'<div class="notif-basis">'+esc(n.basis)+'</div>'
+            +(n.note?'<div class="notif-basis" style="color:#a3352a">'+esc(n.note)+'</div>':'')
+            +'</div>'
+            +'<div style="text-align:right;white-space:nowrap">'
+            +(n.sent_at?'<span class="tag today">sent</span>'
+                      :'<button class="rs-btn" data-notif="'+n.id+'">Mark sent</button>')
+            +'<div class="notif-basis" style="margin-top:4px">'+esc(n.due_rule)+'</div></div>'
+            +'</div>';
+        });
+        html+='</div></div></div>';
+        det.innerHTML=html;
+        det.querySelectorAll('[data-notif]').forEach(function(btn){
+          btn.addEventListener('click', function(){
+            fetch('/api/notifications/'+btn.dataset.notif+'/send',{method:'POST',
+              headers:{'Content-Type':'application/json'}, body:JSON.stringify({channel:'email'})})
+              .then(function(){ loadImpairments(); });
+          });
+        });
+      });
+      card.querySelector('[data-imp]').addEventListener('click', function(){
+        var d=document.getElementById('imp-detail-'+i.id);
+        d.style.display = d.style.display==='none' ? 'block' : 'none';
+      });
+    });
+  }
+
+  function loadImpairments(){
+    fetch('/api/impairments').then(function(r){return r.json();}).then(function(d){
+      IMPS=d.impairments||[]; renderImpairments();
+    });
+  }
+  loadImpairments();
+
+  // ── feasibility ──
+  function renderCands(){
+    var host=document.getElementById('cand-list'); host.innerHTML='';
+    CANDS.filter(function(c){ return c.bucket===candBucket; })
+      .sort(function(a,b){ return a.rank-b.rank; })
+      .forEach(function(c){
+        var blocker = c.blocker
+          ? '<span class="tag '+(c.blocker==='physics'?'never':(c.blocker==='licensing'?'norel':'gated'))+'">'
+            +esc(c.blocker)+'</span>' : '';
+        host.appendChild(el('<div class="rs-card">'
+          +'<div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap">'
+          +'<h4>'+c.rank+'. '+esc(c.item)+'</h4>'
+          +'<div>'+blocker+(c.confidence?' <span class="tag who">'+esc(c.confidence)+' confidence</span>':'')+'</div></div>'
+          +(c.mechanism?'<div style="font-size:var(--fs-13);margin-top:4px">'+esc(c.mechanism)+'</div>':'')
+          +(c.code_path?'<div class="addr" style="margin-top:4px">Code path: <code>'+esc(c.code_path)+'</code></div>':'')
+          +(c.labour_note?'<div class="addr" style="margin-top:2px">'+esc(c.labour_note)+'</div>':'')
+          +(c.verdict?'<div class="rs-note" style="margin:10px 0 0">'+esc(c.verdict)+'</div>':'')
+          +'</div>'));
+      });
+  }
+  document.querySelectorAll('#view-feasibility .rs-chip').forEach(function(c){
+    c.addEventListener('click', function(){
+      document.querySelectorAll('#view-feasibility .rs-chip').forEach(function(x){x.classList.remove('active');});
+      c.classList.add('active'); candBucket=c.dataset.b; renderCands();
+    });
+  });
+  fetch('/api/automation-candidates').then(function(r){return r.json();}).then(function(d){
+    CANDS=d.candidates||[]; renderCands();
+  });
+
+  fetch('/api/attestations').then(function(r){return r.json();}).then(function(d){
+    var host=document.getElementById('attest-box');
+    var pct=d.machinePrefilledPct;
+    var html='<div class="rs-card"><div style="display:flex;gap:var(--s-5);flex-wrap:wrap;align-items:baseline">'
+      +'<div><div class="n" style="font-family:var(--mono,monospace);font-size:var(--fs-28);font-weight:700">'
+      +(pct==null?'—':pct+'%')+'</div><div class="addr">of record fields machine-produced</div></div>'
+      +'<div style="flex:1;min-width:280px" class="rs-note good">The machine produces the evidence and '
+      +'pre-fills the form. The first-person, licence-numbered attestation is the regulated artifact — '
+      +'and it stays human. That is not a compromise; it is what the regulation specifies.</div></div>';
+    (d.attestations||[]).forEach(function(a){
+      html+='<div class="rs-card"><h4>'+esc(a.asset_label||'')+' <span class="addr">— '+esc(a.property_name||'')+'</span></h4>'
+        +'<div style="font-size:var(--fs-13);margin-top:6px">'+esc(a.attestation_text)+'</div>'
+        +'<div class="addr" style="margin-top:6px">Signed by <b>'+esc(a.signer_name)+'</b>'
+        +(a.licence_number?' · licence '+esc(a.licence_number):'')
+        +' · '+a.machine_prefilled_fields+' of '+a.total_fields+' fields machine-produced</div></div>';
+    });
+    host.innerHTML=html;
+  });
+})();
+</script>
+</body>
+</html>

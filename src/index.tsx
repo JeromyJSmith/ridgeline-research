@@ -2,6 +2,8 @@ import { Hono } from 'hono'
 import { serveStatic } from 'hono/cloudflare-workers'
 import { INVESTOR_PAGE_HTML } from './investor-page'
 import { PLATFORM_PAGE_HTML } from './platform-page'
+import { RESEARCH_PAGE_HTML } from './research-page'
+import { itmApi } from './itm-api'
 
 type Bindings = {
   DB: D1Database
@@ -10,6 +12,9 @@ type Bindings = {
 const app = new Hono<{ Bindings: Bindings }>()
 
 app.use('/static/*', serveStatic({ root: './public' }))
+
+// Phase 2 — hotel life-safety ITM research surface (see ../HANDOFF.md §4.1)
+app.route('/', itmApi)
 
 // ══════════════════════════════════════════════════════════════
 // Investor site (unchanged — static, no DB)
@@ -20,6 +25,12 @@ app.get('/', (c) => c.html(INVESTOR_PAGE_HTML))
 // Compliance OS — Phase 1 (docs/MASTER-ARCHITECTURE.md §5 + §5b)
 // ══════════════════════════════════════════════════════════════
 app.get('/platform', (c) => c.html(PLATFORM_PAGE_HTML))
+
+// ══════════════════════════════════════════════════════════════
+// Research — what an inspection actually is, and what the code
+// already permits a machine to do. Backed by D1, not prose.
+// ══════════════════════════════════════════════════════════════
+app.get('/research', (c) => c.html(RESEARCH_PAGE_HTML))
 
 // ---- Portfolio summary: stage ⑦ roll-up ----
 app.get('/api/portfolio-summary', async (c) => {

@@ -1,0 +1,1644 @@
+<!doctype html>
+<html lang="en" prefix="og: https://ogp.me/ns#">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>Ridgeline — Hotel Life-Safety ITM Research</title>
+<meta name="description" content="What a hotel life-safety inspection actually entails, and exactly how much of it US codes already permit a machine to perform. 1,600 inspectable items, 2,500-3,000 annual actions, and the five provisions that authorize automation today.">
+<meta name="author" content="DoubleAught(00)">
+<meta name="theme-color" content="#EDEFF1" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0E1216" media="(prefers-color-scheme: dark)">
+<meta property="og:title" content="Ridgeline — Hotel Life-Safety ITM Research">
+<meta property="og:description" content="What a hotel inspection actually is - and exactly how much of it a machine is allowed to do.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230E1216'/%3E%3Cpath d='M4 22 L12 10 L18 18 L22 13 L28 22' fill='none' stroke='%23C8352B' stroke-width='2.4' stroke-linejoin='round' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@400;600;700&family=IBM+Plex+Serif:ital,wght@0,400;0,600;1,400&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@400;600;700&family=IBM+Plex+Serif:ital,wght@0,400;0,600;1,400&display=swap"></noscript>
+<style>
+/* ══════════════════════════════════════════════════════════════
+   RIDGELINE — HOTEL LIFE-SAFETY ITM RESEARCH · REV A
+   Single-file. Zero required dependencies. Fonts progressively
+   enhance; every fallback is a system face that ships on the
+   target OS, so the sheet holds its proportions offline.
+   ══════════════════════════════════════════════════════════════ */
+
+:root{
+  --paper:#EDEFF1; --sheet:#FFFFFF; --sunk:#F6F8F9;
+  --ink:#0E1216; --ink-2:#3D4752; --ink-3:#6B7681; --ink-4:#98A2AB;
+  --rule:#CDD4DA; --rule-2:#E2E7EB;
+  --red:#C8352B; --steel:#3E6E8E; --green:#4F7A4A; --amber:#9A6B18; --violet:#6A579C;
+  --tint-red:rgba(200,53,43,.07); --tint-steel:rgba(62,110,142,.08);
+  --tint-green:rgba(79,122,74,.09); --tint-amber:rgba(154,107,24,.09);
+  --tint-violet:rgba(106,87,156,.09);
+  --shadow:0 1px 2px rgba(14,18,22,.05), 0 12px 32px -18px rgba(14,18,22,.22);
+
+  --d:'IBM Plex Sans Condensed','Avenir Next Condensed','Roboto Condensed','Arial Narrow',
+      -apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+  --b:'IBM Plex Serif',ui-serif,Georgia,Cambria,'Times New Roman',serif;
+  --m:'IBM Plex Mono',ui-monospace,'SF Mono',SFMono-Regular,Menlo,Consolas,monospace;
+
+  --sheet-pad:46px 52px 30px;
+  --gap:22px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#0E1216; --sheet:#151A20; --sunk:#11161B;
+  --ink:#E8ECEF; --ink-2:#AAB4BE; --ink-3:#7A858F; --ink-4:#5C666F;
+  --rule:#2A323A; --rule-2:#1E252C;
+  --red:#E2695E; --steel:#7EA9C6; --green:#8AB284; --amber:#D0A44E; --violet:#A092CE;
+  --tint-red:rgba(226,105,94,.11); --tint-steel:rgba(126,169,198,.11);
+  --tint-green:rgba(138,178,132,.12); --tint-amber:rgba(208,164,78,.12);
+  --tint-violet:rgba(160,146,206,.12);
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 12px 32px -18px rgba(0,0,0,.7);
+}}
+:root[data-theme="dark"]{
+  --paper:#0E1216; --sheet:#151A20; --sunk:#11161B;
+  --ink:#E8ECEF; --ink-2:#AAB4BE; --ink-3:#7A858F; --ink-4:#5C666F;
+  --rule:#2A323A; --rule-2:#1E252C;
+  --red:#E2695E; --steel:#7EA9C6; --green:#8AB284; --amber:#D0A44E; --violet:#A092CE;
+  --tint-red:rgba(226,105,94,.11); --tint-steel:rgba(126,169,198,.11);
+  --tint-green:rgba(138,178,132,.12); --tint-amber:rgba(208,164,78,.12);
+  --tint-violet:rgba(160,146,206,.12);
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 12px 32px -18px rgba(0,0,0,.7);
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%;scroll-behavior:smooth;
+  scroll-padding-top:60px;overflow-x:hidden}
+body{background:var(--paper);color:var(--ink);font-family:var(--b);
+  font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;font-synthesis-weight:none;
+  padding:0 0 72px;overflow-x:hidden;
+  padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right)}
+
+.skip{position:absolute;left:-9999px;top:0;z-index:200;background:var(--sheet);
+  color:var(--ink);padding:10px 16px;border:1px solid var(--rule);font-family:var(--m);font-size:12px}
+.skip:focus{left:8px;top:8px}
+
+/* ─────────── toolbar ─────────── */
+.bar{position:sticky;top:0;z-index:60;display:flex;align-items:center;gap:12px;
+  flex-wrap:wrap;row-gap:8px;
+  padding:8px 16px;padding-top:calc(8px + env(safe-area-inset-top));
+  background:color-mix(in srgb,var(--paper) 88%,transparent);
+  -webkit-backdrop-filter:saturate(180%) blur(12px);backdrop-filter:saturate(180%) blur(12px);
+  border-bottom:1px solid var(--rule);
+  font-family:var(--m);font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3)}
+@supports not (backdrop-filter:blur(1px)){.bar{background:var(--paper)}}
+.bar .id{color:var(--ink);font-weight:600;letter-spacing:.14em;white-space:nowrap}
+.bar .rev{color:var(--red);white-space:nowrap}
+@media(max-width:430px){
+  .bar{gap:8px;padding-inline:12px}
+  .bar .rev{font-size:10px;letter-spacing:.05em}
+  .bar select{max-width:none;flex:1 1 auto}
+}
+.bar .sp{margin-left:auto;display:flex;gap:6px;align-items:center;min-width:0;flex-shrink:1}
+.bar button,.bar select{font:inherit;font-family:var(--m);font-size:11px;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--ink-2);background:var(--sheet);
+  border:1px solid var(--rule);border-radius:2px;padding:0 9px;height:32px;
+  cursor:pointer;-webkit-appearance:none;appearance:none;line-height:1}
+.bar select{max-width:min(240px,42vw);min-width:0;text-overflow:ellipsis;padding-right:24px;
+  background-image:linear-gradient(45deg,transparent 50%,var(--ink-3) 50%),
+    linear-gradient(135deg,var(--ink-3) 50%,transparent 50%);
+  background-position:calc(100% - 13px) 14px,calc(100% - 8px) 14px;
+  background-size:5px 5px,5px 5px;background-repeat:no-repeat}
+.bar button:hover,.bar select:hover{border-color:var(--ink-3);color:var(--ink)}
+.bar button:focus-visible,.bar select:focus-visible{outline:2px solid var(--steel);outline-offset:2px}
+.bar .hide-s{display:none}
+@media(min-width:900px){.bar .hide-s{display:inline-flex}}
+
+/* ─────────── sheets ─────────── */
+.deck{max-width:1120px;margin:0 auto;padding:24px 16px 0;
+  display:flex;flex-direction:column;gap:24px}
+.sheet{background:var(--sheet);border:1px solid var(--rule);position:relative;
+  display:flex;flex-direction:column;scroll-margin-top:56px;box-shadow:var(--shadow)}
+.sheet .body{padding:var(--sheet-pad);flex:1;display:flex;flex-direction:column;gap:var(--gap);
+  min-width:0}
+
+.eyebrow{font-family:var(--m);font-size:11px;letter-spacing:.17em;text-transform:uppercase;
+  color:var(--red);font-weight:500}
+h2{font-family:var(--d);font-weight:700;font-size:clamp(25px,4.2vw,40px);line-height:1.08;
+  letter-spacing:-.014em;text-wrap:balance;color:var(--ink);max-width:22ch}
+h3{font-family:var(--d);font-weight:600;font-size:17px;letter-spacing:.005em;color:var(--ink)}
+h4{font-family:var(--m);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink-3);font-weight:500}
+.sub{font-size:clamp(15.5px,2.4vw,16.5px);color:var(--ink-2);max-width:66ch;text-wrap:pretty}
+.sub em{font-style:italic;color:var(--ink)}
+p{font-size:15px;color:var(--ink-2);max-width:70ch;text-wrap:pretty}
+strong{color:var(--ink);font-weight:600}
+a{color:var(--steel);text-underline-offset:2px;text-decoration-thickness:1px}
+a:hover{color:var(--ink)}
+sup a{font-family:var(--m);font-size:9.5px;text-decoration:none;letter-spacing:.04em;
+  padding:0 1px;color:var(--ink-3)}
+sup a:hover{color:var(--red)}
+a.ref{font-family:var(--m);font-size:.92em;font-weight:600;text-decoration:none;
+  color:var(--steel);letter-spacing:.02em}
+a.ref::before{content:"\2009"}
+a.ref:hover{color:var(--red);text-decoration:underline}
+a.ref:empty::after{content:"\2014"}
+
+/* title block */
+.tb{display:grid;grid-template-columns:60px 1fr auto auto;border-top:1px solid var(--rule);
+  font-family:var(--m);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink-3);margin-top:auto}
+.tb>div{padding:8px 12px;border-right:1px solid var(--rule-2);white-space:nowrap;
+  overflow:hidden;text-overflow:ellipsis}
+.tb>div:last-child{border-right:0}
+.tb .no{color:var(--ink);font-weight:600;letter-spacing:.14em}
+
+/* ─────────── figure grids ─────────── */
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(210px,100%),1fr));
+  gap:1px;background:var(--rule-2);border:1px solid var(--rule-2)}
+.cols>div{background:var(--sheet);padding:18px 20px;display:flex;flex-direction:column;gap:7px;
+  min-width:0}
+.cols.k2{grid-template-columns:repeat(auto-fit,minmax(min(150px,100%),1fr))}
+.lbl{font-family:var(--m);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink-3);font-weight:500}
+.fig{font-family:var(--d);font-weight:700;font-size:clamp(26px,4.4vw,38px);line-height:1;
+  letter-spacing:-.02em;font-variant-numeric:tabular-nums;color:var(--ink);word-break:break-word}
+.fig.r{color:var(--red)} .fig.s{color:var(--steel)} .fig.g{color:var(--green)}
+.fig.a{color:var(--amber)} .fig.v{color:var(--violet)}
+.fig small{font-size:.45em;font-weight:600;letter-spacing:.02em;color:var(--ink-3);
+  margin-left:5px}
+.cap{font-size:13.5px;color:var(--ink-3);line-height:1.45;text-wrap:pretty}
+
+/* ─────────── tables ─────────── */
+.scroll{overflow-x:auto;border:1px solid var(--rule-2);
+  -webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;position:relative}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:min(560px,100%)}
+th{font-family:var(--m);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--ink-3);text-align:left;font-weight:500;padding:10px 13px;
+  border-bottom:1px solid var(--rule);white-space:nowrap;background:var(--sheet);
+  position:sticky;top:0;z-index:2}
+td{padding:10px 13px;border-bottom:1px solid var(--rule-2);color:var(--ink-2);
+  vertical-align:top;text-wrap:pretty}
+tr:last-child td{border-bottom:0}
+td.n,th.n{font-family:var(--m);font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+td.n{color:var(--ink)}
+td.c,th.c{text-align:center}
+tr.tot td{border-top:1px solid var(--rule);font-weight:600;color:var(--ink);background:var(--sunk)}
+tr.self td{background:var(--tint-red)}
+tr.self td:first-child{box-shadow:inset 3px 0 0 var(--red)}
+td b,td strong{color:var(--ink);font-weight:600}
+td small{display:block;color:var(--ink-4);font-size:12px;margin-top:2px;line-height:1.4}
+.sticky-1 td:first-child,.sticky-1 th:first-child{position:sticky;left:0;z-index:1;
+  background:var(--sheet);border-right:1px solid var(--rule-2)}
+.sticky-1 th:first-child{z-index:3}
+.sticky-1 tr.tot td:first-child,.sticky-1 tr.self td:first-child{
+  background:var(--sunk)}
+.sticky-1 tr.self td:first-child{background:var(--sheet)}
+.hint{font-family:var(--m);font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink-4);margin-top:-14px}
+@media(min-width:760px){.hint{display:none}}
+
+/* ─────────── components ─────────── */
+.chip{display:inline-flex;align-items:center;gap:6px;font-family:var(--m);font-size:10.5px;
+  letter-spacing:.11em;text-transform:uppercase;padding:3px 8px;border-radius:2px;
+  white-space:nowrap;font-weight:500}
+.chip.built{background:var(--tint-green);color:var(--green)}
+.chip.wip{background:var(--tint-steel);color:var(--steel)}
+.chip.next{background:var(--tint-red);color:var(--red)}
+.chip.new{background:var(--tint-amber);color:var(--amber)}
+
+.note{border-left:2px solid var(--steel);padding:3px 0 3px 14px;font-size:13.5px;
+  color:var(--ink-3);max-width:76ch;text-wrap:pretty}
+.note.warn{border-left-color:var(--amber)}
+.note.ok{border-left-color:var(--green)}
+.flag{background:var(--tint-red);border-left:2px solid var(--red);padding:14px 18px;
+  font-size:14.5px;color:var(--ink-2);text-wrap:pretty}
+.flag strong{color:var(--ink)}
+
+.lanes{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(184px,100%),1fr));
+  gap:1px;background:var(--rule-2);border:1px solid var(--rule-2)}
+.lanes>div{background:var(--sheet);padding:16px 18px;display:flex;flex-direction:column;
+  gap:6px;border-top:2px solid var(--steel);min-width:0}
+.lanes>div:nth-child(2){border-top-color:var(--green)}
+.lanes>div:nth-child(3){border-top-color:var(--amber)}
+.lanes>div:nth-child(4){border-top-color:var(--red)}
+.lanes>div:nth-child(5){border-top-color:var(--ink-3)}
+.lanes>div:nth-child(6){border-top-color:var(--violet)}
+.lanes>div:nth-child(7){border-top-color:var(--steel)}
+.lane-no{font-family:var(--m);font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink-4)}
+
+.loop{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-family:var(--m);
+  font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-2)}
+.loop span{border:1px solid var(--rule);padding:7px 10px;background:var(--paper)}
+.loop i{color:var(--red);font-style:normal}
+
+.surf{display:grid;grid-template-columns:1fr;border:1px solid var(--rule)}
+.surf>div{padding:20px 22px;display:flex;flex-direction:column;gap:9px;min-width:0}
+.surf .mid{background:var(--paper);border-block:1px solid var(--rule);
+  font-family:var(--m);font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--steel);padding:11px 22px;text-align:center;line-height:1.7}
+.surf ul{margin:0;padding-left:17px;display:flex;flex-direction:column;gap:5px}
+.surf li{font-size:14px;color:var(--ink-2);text-wrap:pretty}
+.ck{color:var(--green);font-family:var(--m)} .xx{color:var(--ink-4);font-family:var(--m)}
+.pt{color:var(--amber);font-family:var(--m)}
+
+/* CSS bar charts — scale perfectly at any width, no viewBox math */
+.bars{display:flex;flex-direction:column;gap:12px}
+.brow{display:grid;grid-template-columns:minmax(84px,20%) 1fr minmax(64px,auto);
+  gap:12px;align-items:center}
+.brow .bl{font-family:var(--m);font-size:11px;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--ink-3);line-height:1.3}
+.track{display:block;background:var(--sunk);border:1px solid var(--rule-2);height:30px;
+  position:relative;overflow:hidden;min-width:0}
+/* .fill is a <span>: it must be blockified or width/height are ignored */
+.fill{display:block;height:100%;min-width:3px;background:var(--steel);position:relative}
+.fill.r{background:var(--red)} .fill.g{background:var(--green)}
+.fill.a{background:var(--amber)} .fill.v{background:var(--violet)}
+.fill.hatch{background-image:repeating-linear-gradient(45deg,
+  rgba(255,255,255,.22) 0 4px,transparent 4px 9px)}
+.brow .bv{font-family:var(--m);font-size:13px;font-weight:600;
+  font-variant-numeric:tabular-nums;color:var(--ink);text-align:right;white-space:nowrap}
+
+.stackbar{display:flex;height:34px;border:1px solid var(--rule-2);overflow:hidden}
+.stackbar>div{display:flex;align-items:center;justify-content:center;font-family:var(--m);
+  font-size:10px;letter-spacing:.06em;color:#fff;min-width:0;overflow:hidden;white-space:nowrap}
+.legend{display:flex;flex-wrap:wrap;gap:6px 18px;font-family:var(--m);font-size:10.5px;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.sw{width:10px;height:10px;flex-shrink:0;border-radius:1px}
+
+.ask{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(148px,100%),1fr));
+  gap:1px;background:var(--rule);border:1px solid var(--rule)}
+.ask>div{background:var(--sheet);padding:20px;display:flex;flex-direction:column;gap:6px}
+
+/* ─────────── cover ─────────── */
+.cover .body{padding-block:clamp(38px,7vw,64px) 34px;gap:0;justify-content:center;
+  position:relative;z-index:1;min-height:min(66vh,560px)}
+.topo{position:absolute;inset:0;width:100%;height:100%;opacity:.55;pointer-events:none;
+  z-index:0;color:var(--rule)}
+.mark{display:flex;align-items:center;gap:10px;margin-bottom:26px}
+.mark svg{width:30px;height:30px;flex-shrink:0;color:var(--red)}
+.mark span{font-family:var(--m);font-size:11px;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--ink-3)}
+.wordmark{font-family:var(--d);font-weight:700;font-size:clamp(46px,11vw,92px);line-height:.94;
+  letter-spacing:-.03em;color:var(--ink)}
+.wordmark i{font-style:normal;color:var(--red)}
+.tag{font-family:var(--b);font-style:italic;font-size:clamp(17px,3.4vw,24px);color:var(--ink-2);
+  margin-top:16px;max-width:24ch;line-height:1.35}
+.meta{margin-top:clamp(28px,5vw,40px);display:flex;flex-wrap:wrap;gap:18px 26px;
+  font-family:var(--m);font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--ink-3)}
+.meta b{display:block;color:var(--ink);font-weight:600;margin-top:4px;font-size:13.5px;
+  letter-spacing:.03em;text-transform:none;font-family:var(--d)}
+
+/* ─────────── index ─────────── */
+.idx{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(232px,100%),1fr));gap:1px;
+  background:var(--rule-2);border:1px solid var(--rule-2)}
+.idx a{background:var(--sheet);padding:13px 16px;display:flex;gap:12px;align-items:baseline;
+  text-decoration:none;color:var(--ink-2);font-size:14px;transition:background .12s}
+.idx a:hover,.idx a:focus-visible{background:var(--sunk);color:var(--ink)}
+.idx a em{font-family:var(--m);font-style:normal;font-size:11px;letter-spacing:.1em;
+  color:var(--ink-4);flex-shrink:0}
+.idx a.hi{color:var(--ink);font-weight:600}
+.idx a.hi em{color:var(--red)}
+
+/* ─────────── responsive ─────────── */
+@media(max-width:860px){
+  :root{--sheet-pad:32px 26px 24px;--gap:20px}
+  .tb{grid-template-columns:50px 1fr auto}
+  .tb>div:nth-child(4){display:none}
+}
+@media(max-width:560px){
+  :root{--sheet-pad:26px 18px 20px;--gap:18px}
+  .deck{padding:16px 10px 0;gap:16px}
+  body{font-size:15.5px}
+  .tb{grid-template-columns:44px 1fr;font-size:9.5px}
+  .tb>div:nth-child(3){display:none}
+  .cols>div{padding:15px 16px}
+  .brow{grid-template-columns:1fr auto;gap:6px 10px}
+  .brow .track{grid-column:1/-1;height:26px}
+  .brow .bv{text-align:right}
+  .meta{gap:14px 22px}
+  .surf>div{padding:16px 18px}
+  th,td{padding:9px 11px}
+}
+@media(hover:none){
+  .idx a{padding:15px 16px}
+}
+
+/* ─────────── print ─────────── */
+@media print{
+  :root{--paper:#fff;--sheet:#fff;--sunk:#fafafa;--ink:#000;--ink-2:#222;--ink-3:#555;
+    --ink-4:#777;--rule:#999;--rule-2:#ccc;--shadow:none;--sheet-pad:22px 26px 14px}
+  body{background:#fff;padding:0;font-size:10.5pt}
+  .bar,.hint,.skip{display:none!important}
+  .deck{max-width:none;padding:0;gap:0}
+  .sheet{border:none;border-bottom:1px solid #999;break-inside:avoid;page-break-inside:avoid;
+    break-after:page;page-break-after:always;box-shadow:none}
+  .sheet:last-child{break-after:auto;page-break-after:auto}
+  .cover .body{min-height:auto}
+  .scroll{overflow:visible;border:1px solid #ccc}
+  table{min-width:0;font-size:9pt}
+  th{position:static}
+  .sticky-1 td:first-child,.sticky-1 th:first-child{position:static}
+  h2{font-size:19pt}
+  a{color:#000;text-decoration:none}
+  .topo{opacity:.22}
+}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *{animation:none!important;transition:none!important}
+}
+@media(prefers-contrast:more){
+  :root{--ink-3:#4A545E;--rule:#8C959D;--rule-2:#B4BCC3}
+}
+
+/* ══════════════════════════════════════════════════════════════
+   CHART LAYER
+   Categorical hues validated with the six checks in BOTH themes
+   (lightness band · chroma floor · CVD separation · normal-vision
+   floor · contrast). Fixed order c1→c4, never cycled. Status green
+   is reserved for state and is never a series.
+   ══════════════════════════════════════════════════════════════ */
+:root{
+  --c1:#C8352B;  /* value destroyed · risk · Ridgeline  */
+  --c2:#2A6FA0;  /* addressable spend · plan            */
+  --c3:#9A6B18;  /* attributable · capacity             */
+  --c4:#6A579C;  /* fourth series                       */
+  --c-grid:#E2E7EB;
+  --c-axis:#8A939B;
+  --c-track:#F1F4F6;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --c1:#DE6155; --c2:#3F93C8; --c3:#B08326; --c4:#8770C9;
+  --c-grid:#252D35; --c-axis:#6B757E; --c-track:#1A2127;
+}}
+:root[data-theme="dark"]{
+  --c1:#DE6155; --c2:#3F93C8; --c3:#B08326; --c4:#8770C9;
+  --c-grid:#252D35; --c-axis:#6B757E; --c-track:#1A2127;
+}
+
+figure.fig-c{margin:0;display:flex;flex-direction:column;gap:10px;min-width:0}
+figure.fig-c svg{display:block;width:100%;height:auto;overflow:visible}
+.fig-cap{font-family:var(--m);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--ink-3);font-weight:500}
+.fig-note{font-size:12.5px;color:var(--ink-4);line-height:1.45;max-width:76ch;text-wrap:pretty}
+
+/* svg text always wears ink tokens, never a series colour */
+.c-lbl{font-family:var(--m);font-size:10.5px;letter-spacing:.06em;fill:var(--ink-3)}
+.c-val{font-family:var(--m);font-size:12px;font-weight:600;fill:var(--ink);
+  font-variant-numeric:tabular-nums}
+.c-val-sm{font-family:var(--m);font-size:10.5px;fill:var(--ink-2);font-variant-numeric:tabular-nums}
+.c-name{font-family:var(--d);font-size:13px;font-weight:600;fill:var(--ink)}
+.c-grid{stroke:var(--c-grid);stroke-width:1}
+.c-axis{stroke:var(--c-axis);stroke-width:1}
+.c-track{fill:var(--c-track)}
+.c-mark{transition:opacity var(--t-fast)}
+figure.fig-c:hover .c-mark{opacity:.55}
+figure.fig-c .c-mark:hover,figure.fig-c .c-mark.on{opacity:1}
+.c-ref{stroke:var(--ink-3);stroke-width:1.5;stroke-dasharray:5 4}
+.c-ring-off{fill:none;stroke:var(--c-grid);stroke-width:9}
+.c-ring-on{fill:none;stroke:var(--c2);stroke-width:9;stroke-linecap:butt}
+.c-ring-self{stroke:var(--c1)}
+
+.c-legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-family:var(--m);font-size:10.5px;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+.c-legend span{display:inline-flex;align-items:center;gap:6px}
+.c-legend i{width:10px;height:10px;border-radius:1px;flex-shrink:0;display:block}
+
+/* small-multiple ring grid */
+.rings{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(122px,45%),1fr));
+  gap:14px 10px}
+.ring-cell{display:flex;flex-direction:column;align-items:center;gap:7px;text-align:center;min-width:0}
+.ring-cell .rc-name{font-family:var(--d);font-size:12.5px;font-weight:600;color:var(--ink);
+  line-height:1.25}
+.ring-cell .rc-sub{font-family:var(--m);font-size:10px;letter-spacing:.08em;color:var(--ink-4)}
+.ring-cell.self .rc-sub{color:var(--c1)}
+.ring-cell svg{width:100%;max-width:104px;height:auto}
+
+/* shared tooltip */
+#c-tip{position:fixed;z-index:120;pointer-events:none;opacity:0;transition:opacity .1s;
+  background:var(--sheet);border:1px solid var(--rule);box-shadow:var(--sh-3);
+  padding:8px 11px;max-width:250px;font-family:var(--b);font-size:12.5px;color:var(--ink-2);
+  line-height:1.4}
+#c-tip.on{opacity:1}
+#c-tip b{display:block;font-family:var(--d);font-size:13px;color:var(--ink);margin-bottom:2px}
+#c-tip .tv{font-family:var(--m);font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums}
+
+@media(max-width:560px){
+  .rings{grid-template-columns:repeat(auto-fit,minmax(min(104px,46%),1fr))}
+  .c-lbl{font-size:9.5px}
+}
+@media print{
+  figure.fig-c{break-inside:avoid;page-break-inside:avoid}
+  figure.fig-c:hover .c-mark{opacity:1}
+  #c-tip{display:none}
+}
+@media(forced-colors:active){
+  .c-mark{forced-color-adjust:none}
+}
+
+
+/* ── live IFC viewer ── */
+.ifc-wrap{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(230px,1fr);
+  gap:1px;background:var(--rule-2);border:1px solid var(--rule-2)}
+.ifc-stage{background:var(--sunk);min-width:0;position:relative;min-height:300px}
+.ifc-side{background:var(--sheet);padding:16px 18px;display:flex;flex-direction:column;
+  gap:12px;min-width:0}
+.ifc-bar{display:flex;flex-wrap:wrap;gap:6px}
+.ifc-bar button{font-family:var(--m);font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--ink-2);background:var(--sheet);border:1px solid var(--rule);border-radius:2px;
+  padding:0 10px;height:30px;cursor:pointer;line-height:1}
+.ifc-bar button:hover{border-color:var(--ink-3);color:var(--ink)}
+.ifc-bar button[aria-pressed="true"]{border-color:var(--c2);color:var(--c2)}
+.ifc-bar button:focus-visible{outline:2px solid var(--c2);outline-offset:2px}
+.ifc-hint{font-size:13px;color:var(--ink-4);line-height:1.45;text-wrap:pretty}
+.ifc-fallback{padding:26px 20px;font-size:13.5px;color:var(--ink-3);line-height:1.5}
+.ifc-fallback b{display:block;color:var(--ink);font-family:var(--d);font-size:15px;margin-bottom:4px}
+.irt{font-family:var(--d);font-size:15px;font-weight:700;color:var(--ink);line-height:1.2;
+  padding-bottom:8px;border-bottom:1px solid var(--rule-2);word-break:break-word}
+.ir{display:grid;grid-template-columns:88px 1fr;gap:8px;padding:5px 0;
+  border-bottom:1px solid var(--rule-2);align-items:baseline}
+.irk{font-family:var(--m);font-size:10px;letter-spacing:.11em;text-transform:uppercase;color:var(--ink-4)}
+.irv{font-size:13px;color:var(--ink);word-break:break-word}
+.irv.mono{font-family:var(--m);font-size:11.5px;letter-spacing:.01em}
+.irnote{font-size:12.5px;color:var(--ink-3);line-height:1.45;padding-top:9px;text-wrap:pretty}
+.ifc-key{display:flex;flex-wrap:wrap;gap:5px 14px;font-family:var(--m);font-size:10px;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+.ifc-key span{display:inline-flex;align-items:center;gap:5px}
+.ifc-key i{width:9px;height:9px;border-radius:50%;display:block;flex-shrink:0}
+.ifc-meta{font-family:var(--m);font-size:10px;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--ink-4)}
+@media(max-width:780px){
+  .ifc-wrap{grid-template-columns:1fr}
+  .ifc-stage{min-height:260px}
+}
+@media print{
+  .ifc-wrap{grid-template-columns:1fr}
+  .ifc-bar{display:none}
+}
+
+
+/* full competitor matrix */
+.matrix table{font-size:12.5px;min-width:1180px}
+.matrix th{font-size:9.5px;letter-spacing:.06em;vertical-align:bottom;padding:8px 7px;line-height:1.25}
+.matrix td{padding:8px 7px}
+.matrix td.c{text-align:center;font-family:var(--m);font-size:13px}
+.matrix th.c{text-align:center}
+.matrix .ck{color:var(--pos)} .matrix .xx{color:var(--ink-4)}
+.matrix .pt{color:var(--amber)} .matrix .sf{color:var(--ink-2)} .matrix .vc{color:var(--c2)}
+details.drill{border:1px solid var(--rule-2);background:var(--sheet)}
+details.drill>summary{cursor:pointer;list-style:none;padding:12px 16px;font-family:var(--m);
+  font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);
+  display:flex;align-items:center;gap:9px}
+details.drill>summary::-webkit-details-marker{display:none}
+details.drill>summary::before{content:"\25B8";color:var(--c1);transition:transform var(--t-fast);
+  display:inline-block}
+details.drill[open]>summary::before{transform:rotate(90deg)}
+details.drill>summary:hover{color:var(--ink);background:var(--sunk)}
+details.drill>summary:focus-visible{outline:2px solid var(--c2);outline-offset:-2px}
+details.drill>*:not(summary){margin:0 16px 16px}
+
+
+/* ── live scenario model ── */
+.model{display:grid;grid-template-columns:minmax(0,1fr) minmax(250px,340px);gap:1px;
+  background:var(--rule-2);border:1px solid var(--rule-2)}
+.model-in,.model-out{background:var(--sheet);padding:18px 20px;display:flex;flex-direction:column;
+  gap:16px;min-width:0}
+.model-out{background:var(--sunk)}
+.mrow{display:flex;flex-direction:column;gap:7px;min-width:0}
+.mlab{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.mlab span{font-family:var(--m);font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--ink-3)}
+.mlab b{font-family:var(--m);font-size:14px;font-weight:600;color:var(--ink);
+  font-variant-numeric:tabular-nums}
+.model input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:22px;
+  background:transparent;cursor:pointer;margin:0;display:block}
+.model input[type=range]::-webkit-slider-runnable-track{height:4px;background:var(--c-track);
+  border:1px solid var(--rule-2);border-radius:2px}
+.model input[type=range]::-moz-range-track{height:4px;background:var(--c-track);
+  border:1px solid var(--rule-2);border-radius:2px}
+.model input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;
+  width:16px;height:16px;margin-top:-7px;border-radius:50%;background:var(--c1);
+  border:2px solid var(--sheet);box-shadow:0 0 0 1px var(--c1)}
+.model input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;
+  background:var(--c1);border:2px solid var(--sheet);box-shadow:0 0 0 1px var(--c1)}
+.model input[type=range]:focus-visible{outline:2px solid var(--c2);outline-offset:3px}
+.mhint{font-family:var(--m);font-size:9.5px;letter-spacing:.08em;color:var(--ink-4);
+  display:flex;justify-content:space-between}
+.mpre{display:flex;flex-wrap:wrap;gap:5px}
+.mpre button{font-family:var(--m);font-size:10px;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--ink-2);background:var(--sheet);border:1px solid var(--rule);border-radius:2px;
+  padding:0 9px;height:27px;cursor:pointer;line-height:1}
+.mpre button:hover{border-color:var(--ink-3);color:var(--ink)}
+.mpre button.on{border-color:var(--c1);color:var(--c1)}
+.mpre button:focus-visible{outline:2px solid var(--c2);outline-offset:2px}
+.mbig{display:flex;flex-direction:column;gap:3px}
+.mbig .mk{font-family:var(--m);font-size:10px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--ink-4)}
+.mbig .mv{font-family:var(--d);font-weight:700;font-size:clamp(26px,4vw,36px);line-height:1;
+  letter-spacing:-.02em;color:var(--ink);font-variant-numeric:tabular-nums}
+.mbig .mv.r{color:var(--c1)}
+.mbig .ms{font-size:12.5px;color:var(--ink-3);line-height:1.4}
+.mbar{height:6px;background:var(--c-track);border:1px solid var(--rule-2);overflow:hidden}
+.mbar i{display:block;height:100%;background:var(--c1)}
+@media(max-width:760px){.model{grid-template-columns:1fr}}
+@media print{.model{grid-template-columns:1fr}.mpre{display:none}}
+
+</style>
+<style>
+/* ── report-specific additions, same token system ── */
+.rep .sheet{scroll-margin-top:56px}
+.pill{display:inline-block;font-family:var(--m);font-size:10px;letter-spacing:.1em;
+  text-transform:uppercase;padding:2px 6px;border-radius:2px;font-weight:500;white-space:nowrap}
+.pill.y{background:var(--tint-green);color:var(--green)}
+.pill.n{background:var(--tint-red);color:var(--red)}
+.pill.m{background:var(--tint-amber);color:var(--amber)}
+.pill.u{background:var(--tint-steel);color:var(--steel)}
+.pill.p{background:var(--tint-violet);color:var(--violet)}
+.src{font-family:var(--m);font-size:11px;color:var(--ink-4);letter-spacing:.02em;
+  word-break:break-word}
+.q{border-left:2px solid var(--rule);padding:4px 0 4px 16px;font-family:var(--b);
+  font-style:italic;color:var(--ink-2);font-size:14.5px;max-width:74ch}
+.step{display:flex;flex-wrap:wrap;align-items:stretch;gap:0;border:1px solid var(--rule-2);
+  font-family:var(--m);font-size:10.5px;letter-spacing:.07em;text-transform:uppercase}
+.step>span{padding:10px 12px;border-right:1px solid var(--rule-2);color:var(--ink-2);
+  background:var(--sheet);flex:1 1 auto;min-width:96px;text-align:center}
+.step>span:last-child{border-right:0}
+.step>span b{display:block;color:var(--ink);font-family:var(--d);font-size:12.5px;
+  letter-spacing:.01em;text-transform:none;margin-top:3px}
+.step>span.hot{background:var(--tint-red)}
+.step>span.hot b{color:var(--red)}
+</style>
+
+</head>
+<body>
+
+<a class="skip" href="#sES">Skip to content</a>
+
+<div class="bar">
+  <span class="id">Ridgeline</span>
+  <span class="rev">Hotel ITM Research · Rev A · 2026-08-24</span>
+  <span class="sp">
+    <label for="jump" class="skip">Jump to sheet</label>
+    <select id="jump" title="Jump to sheet"></select>
+    <button type="button" id="theme" title="Toggle light / dark" aria-label="Toggle light or dark theme">Theme</button>
+    <button type="button" id="print" class="hide-s" title="Print or save as PDF">Print</button>
+  </span>
+</div>
+
+<main class="deck rep" id="deck">
+
+<!-- ══════════ COVER ══════════ -->
+<section class="sheet cover" id="s01" data-title="Cover">
+  <svg class="topo" aria-hidden="true" preserveAspectRatio="none" viewBox="0 0 1120 620">
+    <defs>
+      <pattern id="grid" width="28" height="28" patternUnits="userSpaceOnUse">
+        <path d="M28 0 L0 0 0 28" fill="none" stroke="currentColor" stroke-width=".5" opacity=".38"/>
+      </pattern>
+    </defs>
+    <rect width="1120" height="620" fill="url(#grid)"/>
+    <g fill="none" stroke="currentColor" stroke-width="1.1" opacity=".85">
+      <path d="M-40 470 C 150 430, 250 496, 400 452 S 660 356, 810 396 S 1010 452, 1170 404"/>
+      <path d="M-40 424 C 160 380, 262 452, 408 404 S 664 302, 812 344 S 1012 404, 1170 352"/>
+      <path d="M-40 378 C 172 328, 276 408, 418 356 S 668 248, 814 292 S 1014 356, 1170 300"/>
+      <path d="M-40 332 C 186 274, 292 364, 430 308 S 672 192, 818 240 S 1018 308, 1170 248"/>
+      <path d="M-40 286 C 200 220, 308 320, 442 260 S 676 136, 822 188 S 1022 260, 1170 196"/>
+      <path d="M-40 240 C 214 166, 324 276, 454 212 S 680 80, 826 136 S 1026 212, 1170 144"/>
+    </g>
+  </svg>
+  <div class="body">
+    <div class="mark">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M2 25 L11 9 L18 19 L23 12.5 L30 25" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/></svg>
+      <span>DoubleAught(00)</span>
+    </div>
+    <h1 class="wordmark">Ridge<i>line</i></h1>
+    <p class="tag">What a hotel inspection actually is — and exactly how much of it a machine is allowed to do.</p>
+    <div class="meta">
+      <span>Document<b>Hotel Life-Safety ITM &amp; Automation Research</b></span>
+      <span>Revision<b>Rev A · 2026-08-24</b></span>
+      <span>Method<b>7 parallel research lanes</b></span>
+      <span>Scope<b>United States</b></span>
+    </div>
+    <div class="cols" style="margin-top:clamp(26px,4.5vw,36px);border-color:var(--rule);
+      background:var(--rule);box-shadow:none">
+      <div style="gap:5px">
+        <span class="lbl">Inspectable items · 150-key hotel</span>
+        <span class="fig" style="font-size:clamp(24px,3.6vw,34px)">≈1,600</span>
+        <span class="cap">Producing 2,500–3,000 inspect-or-test actions per year</span>
+      </div>
+      <div style="gap:5px">
+        <span class="lbl">Of annual inspection hours</span>
+        <span class="fig g" style="font-size:clamp(24px,3.6vw,34px)">~30%</span>
+        <span class="cap">Genuinely deletable by automation the code already permits</span>
+      </div>
+      <div style="gap:5px">
+        <span class="lbl">Products serving the hotel owner</span>
+        <span class="fig r" style="font-size:clamp(24px,3.6vw,34px)">Zero</span>
+        <span class="cap">Every vendor sells to the contractor, the OEM, or the AHJ</span>
+      </div>
+    </div>
+  </div>
+  <div class="tb"></div>
+</section>
+
+<!-- ══════════ EXECUTIVE SUMMARY ══════════ -->
+<section class="sheet" id="sES" data-title="Executive Summary">
+  <div class="body">
+    <span class="eyebrow">Executive summary</span>
+    <h2>The code already permits far more automation than anyone has built.</h2>
+    <p class="sub">A 150-key hotel carries <strong>≈1,600 code-inspectable items</strong> generating
+      <strong>2,500–3,000 inspect-or-test actions a year</strong> across 4–6 trades. About
+      <strong>30% of those hours are deletable today</strong> under provisions already in force — and
+      no product on the market serves the hotel owner who pays for them.</p>
+
+    <div class="cols">
+      <div><span class="lbl">Finding 01 · The permission exists</span><span class="cap">Five provisions in adopted US codes already authorise replacing a manual recurring task with an automated one. Two of them delete <em>both</em> the periodic and the annual obligation: <b>IFC §906.2 Exc. 2</b> (extinguishers — kills the monthly and stretches maintenance to 3-yearly) and <b>NFPA 101 §7.9.3.1.3</b> (emergency lighting — automates the 30-second monthly <em>and</em> the 90-minute annual with no residual human look). NFPA 72 has permitted automated testing since <b>2010</b>; NFPA 25 since <b>2017</b>. The gap is not legal permission — nobody built the product.</span></div>
+      <div><span class="lbl">Finding 02 · Supervision beats automation</span><span class="cap">The surprise. NFPA 25 has for decades granted <b>3× to 7× frequency discounts</b> wherever a condition is electrically supervised <em>and reported to a constantly attended location</em> — no AHJ approval, no listing, no performance-based program. The second condition is the hard one, and <b>a hotel satisfies it for free: the front desk is staffed 24/7</b>. Nobody is selling this.</span></div>
+      <div><span class="lbl">Finding 03 · The signature is the wall</span><span class="cap">Every certification block on every form is a first-person attestation tied to a named individual and, on AHJ forms, to a licence number. <b>80–90% of form fields are machine-producible; the signature is not.</b> The realistic product reduces the licensed visit to verification-plus-signature. That is not a compromise — it is what the regulation actually specifies.</span></div>
+    </div>
+
+    <div class="cols">
+      <div><span class="lbl">Finding 04 · Do not auto-dispatch</span><span class="cap">3.29M US false alarms in 2024 against 1.39M fires, rising yearly. Chicago fines escalate to <b>$1,000</b>; Las Vegas fines <em>the maintenance company</em>, not the hotel. NFPA 72 caps initiation-to-recording at <b>90 seconds</b>, and the chain must run through a UL 827-listed station. At 3am the night auditor is often the only employee and cannot leave the desk. <b>Auto-notify everyone the code requires; leave 911 to the listed chain.</b></span></div>
+      <div><span class="lbl">Finding 05 · The clock is the wedge</span><span class="cap">Water-based systems trigger compensating measures past <b>10 hours out of service in 24</b>; fire alarm at <b>4 hours</b> — and <b>the window is cumulative</b>, so three 4-hour outages cross the line. Nobody tracks that by hand. Missing the carrier notification is what voids coverage (<em>Garvin Street</em> 2026, <em>Frankenmuth</em> 2023 — no prejudice or causal nexus required). A timer, a fan-out and an evidence package carry <b>zero false-alarm exposure</b>.</span></div>
+      <div><span class="lbl">Finding 06 · The white space is the owner</span><span class="cap">Across 31 obligations and 7 vendor categories, two rows are empty in every column: <b>cross-trade property-level status for the GM</b>, and <b>portfolio roll-up across trades, AHJs and codes</b>. Every incumbent sells to the contractor, the panel OEM or the AHJ. Self-testing is a standoff, not convergence — Honeywell owns detectors on one panel family, Simplex owns appliances on another, and pull stations belong to nobody.</span></div>
+    </div>
+
+    <p class="note ok"><strong>The one-line thesis.</strong> The codes do not ask whether a task was
+      automated — they ask <em>what kind of obligation you are substituting for</em>. A required
+      physical action is protected; a required <em>observation</em> is not, and continuous supervision
+      already earns relief against it. <strong>Build the witness, own the clock, pre-fill the form,
+      and leave the signature and the 911 call exactly where the law put them.</strong></p>
+
+    <p class="note warn"><strong>What would make this wrong.</strong> Every permission cited is
+      edition-dependent, so the addressable market is literally a code-adoption map. Four of the
+      fifteen easiest automations sit on existing patents. NFPA 72's credit is gated to the panel
+      manufacturer. And eight years of connected elevator monitoring has not removed a single required
+      ASME inspection — connected monitoring has not historically deleted mandated inspections.
+      Sheet <a class="ref" href="#s19"></a>.</p>
+  </div>
+  <div class="tb"></div>
+</section>
+
+<!-- ══════════ CONTENTS ══════════ -->
+<section class="sheet" id="s02" data-title="Contents">
+  <div class="body">
+    <span class="eyebrow">Contents</span>
+    <h2>Twenty-one sheets. Every claim carries its code section.</h2>
+    <nav class="idx" id="idx" aria-label="Sheet index"></nav>
+    <p class="note ok"><strong>The finding that governs everything else.</strong> The codes do not
+      ask "was this automated?" They ask <em>what kind of obligation are you substituting for.</em>
+      A <strong>required physical action</strong> (test this device, examine this extinguisher, run
+      this pump) is protected — automation may perform it, but rarely on a reduced schedule. A
+      <strong>required observation</strong> (look at this gauge, confirm this valve is open) is not
+      protected — and wherever the code can be satisfied by continuous supervision instead, it
+      already grants frequency relief, in some cases <strong>7×</strong>. Sheet <a class="ref" href="#s12"></a>.</p>
+    <p class="note warn"><strong>Verification policy.</strong> NFPA standards are paywalled. Where a
+      section number was read verbatim from primary text it is marked <span class="pill y">P</span>;
+      from a secondary source <span class="pill m">S</span>; unconfirmed
+      <span class="pill n">U</span>. Unverified numbers are leads, not citations, and are labelled as
+      such throughout rather than quietly rounded up into confidence.</p>
+    <p class="note"><strong>Companion document.</strong> This report is the evidence base under the
+      Ridgeline seed deck's Lane 01. The deck carries the argument; this carries the sourcing.
+      Full per-lane dossiers (≈650KB) are in
+      <span class="src">research/hotel-inspection-automation/</span>.</p>
+  </div>
+  <div class="tb"></div>
+</section>
+
+<!-- ══════════ METHOD ══════════ -->
+<section class="sheet" id="s03" data-title="Question &amp; Method">
+  <div class="body">
+    <span class="eyebrow">Method</span>
+    <h2>Seven lanes, run in parallel, each required to cite or admit it could not.</h2>
+    <p class="sub">The question: <em>what is physically and legally entailed in inspecting a hotel's
+      life-safety systems, and which parts of it can a machine lawfully perform?</em> Seven research
+      agents worked independent lanes against primary code text, real jurisdictional forms, and
+      vendor documentation.</p>
+
+    <div class="lanes">
+      <div><span class="lane-no">Lane A</span><h3>Code baseline</h3>
+        <span class="cap">What is legally required, how often, under which section. NFPA 10 / 25 / 72 / 80 / 96 / 101 / 110, IFC Ch. 9.</span></div>
+      <div><span class="lane-no">Lane B</span><h3>Paperwork</h3>
+        <span class="cap">The forms, tags and records an inspection emits — field by field. The automation spec.</span></div>
+      <div><span class="lane-no">Lane C</span><h3>Permission pathway</h3>
+        <span class="cap">Where the code already authorises an automated or remote method. 36-row permission map.</span></div>
+      <div><span class="lane-no">Lane D</span><h3>Physical components</h3>
+        <span class="cap">Device inventory for a 150-key property and the physical act of each test.</span></div>
+      <div><span class="lane-no">Lane E</span><h3>Deficiency &amp; dispatch</h3>
+        <span class="cap">What happens when something fails: impairment clocks, notification duties, fire watch.</span></div>
+      <div><span class="lane-no">Lane F</span><h3>Vendor landscape</h3>
+        <span class="cap">Who automates ITM today, and the capability matrix that exposes the white space.</span></div>
+      <div><span class="lane-no">Lane G</span><h3>Non-fire calendar</h3>
+        <span class="cap">Legionella, backflow, elevators, boilers, pool, ADA, panic buttons — and guest-room devices.</span></div>
+    </div>
+
+    <div class="cols k2">
+      <div><span class="lbl">Dossier output</span><span class="fig s">653<small>KB</small></span>
+        <span class="cap">Seven lane reports, ~4,000 lines</span></div>
+      <div><span class="lbl">Sourced URLs</span><span class="fig s">~450</span>
+        <span class="cap">Primary code text, AHJ forms, carrier data sheets</span></div>
+      <div><span class="lbl">Real AHJ forms retrieved</span><span class="fig s">20+</span>
+        <span class="cap">Field lists extracted verbatim</span></div>
+      <div><span class="lbl">Claims withdrawn as unsourced</span><span class="fig r">6</span>
+        <span class="cap">Traced only to AI-generated SEO pages</span></div>
+    </div>
+
+    <p class="note warn"><strong>What was deliberately excluded.</strong> No "$X billion by 2032
+      connected fire-safety TAM" appears anywhere in this report. Every instance encountered traced
+      to a market-research content mill. The widely-quoted "$130K average hotel water incident" and
+      "15–25% insurance discount" figures are likewise withdrawn — they appear only on generated
+      pages. Sheet <a class="ref" href="#s20"></a> lists every withdrawal.</p>
+  </div>
+  <div class="tb"></div>
+</section>
+
+<!-- ══════════ THE SURFACE ══════════ -->
+<section class="sheet" id="s04" data-title="The Inspection Surface">
+  <div class="body">
+    <span class="eyebrow">The surface</span>
+    <h2>A 150-key hotel carries about 1,600 code-inspectable items.</h2>
+    <p class="sub">Spread across weekly, monthly, quarterly, semiannual, annual, 3-year and 5-year
+      cycles, that produces <strong>2,500–3,000 individual inspect-or-test actions a year</strong>,
+      executed by <em>4–6 separate trades</em> plus in-house engineering plus the fire marshal's own
+      annual occupancy inspection. Nobody holds the whole picture.</p>
+
+    <div class="scroll">
+      <table class="sticky-1">
+        <thead><tr><th>Category</th><th class="n">Count</th><th>What drives the number</th></tr></thead>
+        <tbody>
+          <tr class="self"><td><b>Sprinkler heads</b></td><td class="n">≈800</td><td>Half the building. Range 700–1,000. Inspected <em>by eye, from the floor</em> — the central hard problem</td></tr>
+          <tr><td>Rated door assemblies</td><td class="n">≈220</td><td>150 guest corridor + ~45 connecting leaves + stair + back-of-house</td></tr>
+          <tr><td>Guest-room smoke alarms</td><td class="n">≈155</td><td>Required in every guest room / sleeping area — NFPA 101 §28.3.4.5 / §29.3.4.5</td></tr>
+          <tr><td>System smoke / heat / duct detectors</td><td class="n">≈140</td><td>Corridors, BOH, elevator lobbies, air handlers</td></tr>
+          <tr><td>Notification appliances</td><td class="n">≈55</td><td>Includes ~12 guest rooms with visual appliances per ADA Table 224.4</td></tr>
+          <tr><td>Emergency lighting units</td><td class="n">≈50</td><td>Battery units on egress paths</td></tr>
+          <tr><td>Exit signs</td><td class="n">≈45</td><td>Illuminated at all times — IFC §1013.3</td></tr>
+          <tr><td>Fire / smoke dampers</td><td class="n">≈40–80</td><td>Sensing is solved; <em>access</em> is not</td></tr>
+          <tr><td>Valves (control, floor control, drain, test, hose)</td><td class="n">≈40</td><td>A closed one is the deadliest failure in the building</td></tr>
+          <tr><td>Portable extinguishers</td><td class="n">≈30</td><td>The oldest and least-contested automation win</td></tr>
+          <tr><td>Flow / tamper / pressure switches</td><td class="n">≈20</td><td>Already wired to the panel</td></tr>
+          <tr><td>Pull stations</td><td class="n">≈15</td><td>No self-test product exists from any vendor</td></tr>
+          <tr><td>Gauges</td><td class="n">≈15</td><td>Photographed by hand, quarterly</td></tr>
+          <tr><td>Major assemblies</td><td class="n">≈10</td><td>FACP, fire pump, generator, backflow, kitchen, elevators, FDC</td></tr>
+          <tr class="tot"><td><b>Total discrete inspectable items</b></td><td class="n">≈1,600</td><td>→ 2,500–3,000 actions/yr</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="note warn"><strong>The uncomfortable fact the thesis has to survive.</strong> The single
+      most numerous item — the sprinkler head — is inspected purely by eye, from floor level, for
+      conditions that are <em>visual, not electrical</em>: paint, corrosion, loading, obstruction.
+      Any credible program either solves that with vision or concedes it and goes after the ~35% of
+      the workload that is electrical, pneumatic, hydraulic or positional. Sheet <a class="ref" href="#s13"></a>.</p>
+    <p class="src">Lane D · zone-by-zone inventory, 150-key limited/full-service property.</p>
+  </div>
+  <div class="tb"></div>
+</section>
+
+<!-- ══════════ FIRE CALENDAR ══════════ -->
+<section class="sheet" id="s05" data-title="The Fire Calendar">
+  <div class="body">
+    <span class="eyebrow">Obligation · fire &amp; life safety</span>
+    <h2>The recurring calendar, with the section that compels each line.</h2>
+    <p class="sub">Abridged from the full master frequency table. <strong>Who</strong>:
+      <b>O</b> owner/staff, no licence · <b>Q</b> qualified person, trained not necessarily licensed ·
+      <b>C</b> licensed contractor (state-dependent) · <b>E</b> specialty licensed.</p>
+
+    <div class="scroll">
+      <table class="sticky-1">
+        <thead><tr><th>Item</th><th>Task</th><th>Frequency</th><th>Section</th><th class="c">Who</th></tr></thead>
+        <tbody>
+          <tr><td>Gauges, wet-pipe</td><td>Inspect</td><td>Monthly</td><td>NFPA 25 §5.2.4.1</td><td class="c">O</td></tr>
+          <tr><td>Gauges, dry / preaction</td><td>Inspect</td><td>Weekly <small>monthly if air supervised</small></td><td>NFPA 25 §5.2.4.2–.4.4</td><td class="c">O</td></tr>
+          <tr><td>Gauges (all)</td><td>Replace or calibrate <small>fail &gt;3% full scale</small></td><td>5 years</td><td>NFPA 25 §13.2.4.2 <small>2023 · was §13.2.7</small></td><td class="c">Q</td></tr>
+          <tr><td>Sprinkler heads</td><td>Inspect from floor level</td><td>Annually</td><td>NFPA 25 §5.2.1</td><td class="c">Q</td></tr>
+          <tr class="self"><td><b>Waterflow alarm — vane &amp; pressure switch</b></td><td>Test <small>must signal ≤90 sec</small></td><td><b>Semiannually</b></td><td>NFPA 25 §13.2.3.2.2 <small>2023 · was §13.2.6.2</small></td><td class="c">Q</td></tr>
+          <tr><td>Waterflow alarm — mechanical gong</td><td>Test <small>≤5 min</small></td><td>Quarterly</td><td>NFPA 25 §13.2.3.1.2</td><td class="c">Q</td></tr>
+          <tr><td>Control valves — sealed</td><td>Inspect</td><td>Weekly</td><td>NFPA 25 §13.3.2.1</td><td class="c">O</td></tr>
+          <tr><td>Control valves — locked <em>or supervised</em></td><td>Inspect</td><td>Monthly</td><td>NFPA 25 §13.3.2.1.1</td><td class="c">O</td></tr>
+          <tr><td>Control valves — electrically supervised</td><td>Inspect</td><td>Quarterly</td><td>NFPA 25 §13.3.2.1.2</td><td class="c">O</td></tr>
+          <tr><td>Control valves</td><td>Operate full open/close</td><td>Annually</td><td>NFPA 25 §13.3.3.1</td><td class="c">Q</td></tr>
+          <tr><td>Main drain test</td><td>Test</td><td>Annually <small>quarterly if sole supply is via backflow/PRV</small></td><td>NFPA 25 §13.2.2 <small>2023 · was §13.2.5</small></td><td class="c">Q</td></tr>
+          <tr><td>Backflow preventer</td><td>Forward flow test at system demand</td><td>Annually</td><td>NFPA 25 §13.7.2.1 <small>2023 · was §13.6.2.1</small></td><td class="c">E</td></tr>
+          <tr><td>Fire pump — pump house</td><td>Inspect</td><td>Weekly</td><td>NFPA 25 §8.2.2</td><td class="c">O</td></tr>
+          <tr><td>Fire pump — no-flow (churn)</td><td>Test</td><td>Weekly diesel · Monthly electric</td><td>NFPA 25 Table 8.1.1.2 → §8.3.1</td><td class="c">O/Q</td></tr>
+          <tr><td>Fire pump — annual flow test</td><td>Test at churn / 100% / 150%</td><td>Annually</td><td>NFPA 25 §8.3.3</td><td class="c">C</td></tr>
+          <tr><td>Internal pipe condition assessment</td><td>Inspect</td><td>5 years</td><td>NFPA 25 §14.2.1.1</td><td class="c">C</td></tr>
+          <tr><td>FACU control equipment — monitored</td><td>Inspect / Test</td><td>Annual / Annual</td><td>NFPA 72 T14.3.1 Item 2(1)</td><td class="c">Q</td></tr>
+          <tr><td>FACU control equipment — <em>not</em> monitored</td><td>Inspect</td><td><b>Weekly</b> <small>a 52× penalty for not monitoring</small></td><td>NFPA 72 T14.3.1 Item 2(2)</td><td class="c">Q</td></tr>
+          <tr><td>Smoke detectors</td><td>Inspect / Test</td><td>Semiannual / Annual</td><td>NFPA 72 T14.3.1 17(9); T14.4.3.2 17(7)(a)</td><td class="c">Q</td></tr>
+          <tr><td>Smoke detector sensitivity</td><td>Calibration check</td><td>1 yr, then alternate years, extendable to 5</td><td>NFPA 72 §14.4.4.3.1–.3.3</td><td class="c">Q</td></tr>
+          <tr><td>Pull stations</td><td>Inspect / Test</td><td>Semiannual / Annual</td><td>NFPA 72 T14.3.1 17(5)</td><td class="c">Q</td></tr>
+          <tr><td>Notification appliances</td><td>Inspect / Test</td><td>Semiannual / Annual</td><td>NFPA 72 T14.3.1 22(1),(3)</td><td class="c">Q</td></tr>
+          <tr><td>Batteries — VRLA</td><td>Ohmic &amp; voltage / load test</td><td>Semiannual / <b>replace 3 yr</b></td><td>NFPA 72 T14.4.3.2 Item 9</td><td class="c">Q</td></tr>
+          <tr class="self"><td><b>Extinguishers</b></td><td>Inspection — manual <em>or electronic</em></td><td>30-day</td><td>NFPA 10 §7.2.1.2</td><td class="c">O</td></tr>
+          <tr><td>Extinguishers</td><td>Maintenance <small>full teardown</small></td><td>Annually</td><td>NFPA 10 §7.3.1.1.1</td><td class="c">C</td></tr>
+          <tr><td>Extinguishers</td><td>Internal exam / hydrostatic</td><td>6 yr / 5 or 12 yr</td><td>NFPA 10 §7.3.1.2.1; T8.3.1</td><td class="c">C</td></tr>
+          <tr class="self"><td><b>Emergency lighting</b></td><td>Functional test ≥30 sec</td><td>Monthly</td><td>NFPA 101 §7.9.3.1.1(1); IFC §1032.10.1</td><td class="c">O</td></tr>
+          <tr class="self"><td><b>Emergency lighting</b></td><td>Functional test ≥90 min</td><td>Annually</td><td>NFPA 101 §7.9.3.1.1(3); IFC §1032.10.2</td><td class="c">O</td></tr>
+          <tr><td>Generator (EPSS)</td><td>Inspect</td><td>Weekly</td><td>NFPA 110 §8.4.1</td><td class="c">O/Q</td></tr>
+          <tr><td>Generator</td><td>Operational test under load ≥30 min</td><td>Monthly</td><td>NFPA 110 §8.4.2</td><td class="c">Q</td></tr>
+          <tr><td>Automatic transfer switch</td><td>Operate normal→alternate→normal</td><td>Monthly</td><td>NFPA 110 §8.4.6; IFC §1203.5.2</td><td class="c">Q</td></tr>
+          <tr><td>Kitchen hood suppression</td><td>Inspect &amp; test</td><td>6 months <small>and after any activation</small></td><td>IFC §904.5.1, §904.13.5.2</td><td class="c">C</td></tr>
+          <tr><td>Hood &amp; duct cleaning</td><td>Clean</td><td>Monthly → annually by volume</td><td>NFPA 96 Table 11.4 <span class="pill m">S</span></td><td class="c">C</td></tr>
+          <tr><td>Fire door assemblies</td><td>Inspect per NFPA 80 <small>11 checkpoints</small></td><td>Annually</td><td>IFC §705.2 → NFPA 80 §5.2.1</td><td class="c">Q</td></tr>
+          <tr><td>Fire / smoke dampers</td><td>Operational test</td><td>1 yr after install, then 4 years</td><td>NFPA 80 §19.4; NFPA 105 §6.5.2</td><td class="c">C</td></tr>
+          <tr class="self"><td><b>Rated construction — owner inventory</b></td><td>Owner visually inspects</td><td>Annually</td><td><b>IFC §701.6</b> <small>underrated; most hotels do not do it</small></td><td class="c">O</td></tr>
+          <tr><td>Elevator Phase I / II recall</td><td>Test</td><td>Monthly <span class="pill n">U</span></td><td>ASME A17.1 §8.6.11.1 <small>section unverified</small></td><td class="c">E</td></tr>
+          <tr class="self"><td><b>Emergency organisation drills</b></td><td>Staff drill — not a device test</td><td><b>Quarterly</b></td><td>NFPA 101 §29.7.1.2</td><td class="c">O</td></tr>
+          <tr><td>Floor diagram at every guest room door</td><td>Maintain</td><td>Continuous</td><td>NFPA 101 §29.7.4.1</td><td class="c">O</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="note"><strong>Two corrections to widely-repeated folklore.</strong> (a) "Waterflow alarms
+      are tested quarterly" is true only of <em>mechanical water-motor gongs</em>; vane and
+      pressure-switch devices — essentially every device in a modern hotel — are
+      <strong>semiannual</strong>. (b) "Standpipes get a 5-year hydrostatic" is over-broad: §6.3.2.1
+      applies to <em>manual and semi-automatic dry</em> standpipes, and §6.3.2.1.1 exempts manual wet
+      standpipes in a combined system. Most hotel standpipes are automatic wet and are never
+      hydrostatically retested.</p>
+    <p class="note warn"><strong>Edition drift is a product requirement, not a footnote.</strong>
+      NFPA 25 Chapter 13 was renumbered wholesale in 2023 — main drain §13.2.5→<b>13.2.2</b>,
+      waterflow §13.2.6→<b>13.2.3</b>, gauges §13.2.7→<b>13.2.4</b>, backflow §13.6.2→<b>13.7.2</b>
+      (§13.6 is now Hose Valves). IFC moved standby power §604→<b>§1203</b> in 2021. Most checklists
+      in circulation cite dead numbers. The adopted edition varies by state and by city.</p>
+  </div>
+  <div class="tb"></div>
+</section>
+
+<!-- ══════════ NON-FIRE CALENDAR ══════════ -->
+<section class="sheet" id="s06" data-title="The Non-Fire Calendar">
+  <div class="body">
+    <span class="eyebrow">Obligation · everything else</span>
+    <h2>Fire is one lane of a hotel's compliance calendar. It is not the busiest.</h2>
+    <p class="sub">The obligations below have different masters — the water utility, the health
+      department, the state elevator inspector, the carrier, the brand — and no shared record.
+      Several are <em>tightening right now</em>.</p>
+
+    <div class="scroll">
+      <table class="sticky-1">
+        <thead><tr><th>Obligation</th><th>Frequency</th><th>Authority</th><th>Record produced</th></tr></thead>
+        <tbody>
+          <tr class="self"><td><b>Legionella — cooling towers, NYC</b></td><td>90-day inspection · <b>quarterly → monthly culture from 2026-05-07</b></td><td>NYC Local Law 77; <b>Local Law 159 of 2025</b></td><td>Registration, weekly logs, annual certification due 31 May, 3-yr retention</td></tr>
+          <tr class="self"><td><b>Legionella — NJ hotels 25+ rooms</b></td><td>Plan by <b>2026-09-12</b>, implemented <b>2026-12-12</b></td><td>NJ S2188 <span class="pill n">U</span> <small>hotel trigger needs statutory confirmation</small></td><td>Written water management plan</td></tr>
+          <tr><td>Water management plan</td><td>Continuous, annual review</td><td>ASHRAE 188-2021; ASHRAE 514-2023</td><td>Plan, logs, validation sampling</td></tr>
+          <tr><td>Backflow preventer</td><td>Annual</td><td>Water purveyor, not the fire AHJ</td><td>Certified tester's report filed with the utility — <b>non-filing can terminate water service</b></td></tr>
+          <tr><td>Pool / spa chemistry</td><td>≥2×/day, some jurisdictions 2-hourly</td><td>Local health dept; Model Aquatic Health Code</td><td>Deck-side log: tester name + corrective action</td></tr>
+          <tr><td>Pool / spa inspection</td><td>1–4 unannounced per year</td><td>Health department</td><td>Inspection report; closure authority</td></tr>
+          <tr><td>Elevators</td><td>Category 1 annual · Category 5 every 5 years</td><td>ASME A17.1, witnessed by a QEI</td><td>Certificate posted in car, renewed annually</td></tr>
+          <tr><td>Boilers — low-pressure heating</td><td>Every 2 years, internal at 4</td><td>State inspector <em>or</em> the insurer's National Board commissioned inspector</td><td>Certificate</td></tr>
+          <tr class="self"><td><b>Electrical IR thermography</b></td><td><b>Every 12 months</b>, 6 months at Condition 3</td><td><b>NFPA 70B-2023 — converted from recommended practice to standard</b></td><td>Thermographic survey report</td></tr>
+          <tr><td>Food service</td><td>≥1 per 6 months; 1–4 unannounced by risk</td><td>FDA Food Code as adopted</td><td>Inspection report; TCS temp logs every 2–4 hrs per §3-501.16</td></tr>
+          <tr><td>ADA — communication features</td><td>Design obligation, continuous</td><td>2010 Standards <b>Table 224.4</b></td><td><b>~8–9% of rooms</b> (12 of 150) — more than mobility rooms, each with a visual alarm appliance, dispersed per §224.5</td></tr>
+          <tr><td>Brand life-safety audit</td><td>Annual, announced <em>and</em> unannounced</td><td>Franchise agreement (Marriott BSA)</td><td>Graded safety records, maintenance logs, training docs</td></tr>
+          <tr class="self"><td><b>Employee safety devices (panic buttons)</b></td><td><b>No testing frequency specified anywhere</b></td><td>15 jurisdictions: Chicago 2018 → NYC Safe Hotels Act 2024-11-04; Marriott brand-mandated</td><td><b>None required.</b> Statutes mandate provision and funding only</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="note ok"><strong>The panic-button gap is the cleanest unserved obligation found.</strong>
+      Fifteen jurisdictions mandate the device. <em>None</em> specifies a testing frequency, a battery
+      protocol, or a compliance record. A hotel can be fully compliant on paper with a floor of dead
+      devices — and the legal hook to fix that is already enacted.</p>
+    <p class="note warn"><strong>Regulatory momentum is live, not historical.</strong> NYC Local Law 159
+      followed the 2025 Central Harlem outbreak — <strong>114 cases, 7 deaths</strong> — repeating the
+      2015 South Bronx → LL77 pattern. Penalties are hard numbers: NYC <b>$10K per violation per
+      tower</b>; NJ Legionella $2K/$5K/$10K; NJ panic button $5K–$10K.</p>
+    <p class="src">Lane G · full calendar with citations in G-nonfire-compliance-calendar.md §1.</p>
+  </div>
+  <div class="tb"></div>
+</section>
+
+<!-- ══════════ THE PHYSICAL ACT ══════════ -->
+<section class="sheet" id="s07" data-title="The Physical Act">
+  <div class="body">
+    <span class="eyebrow">What the human actually does</span>
+    <h2>An inspection is a person, a tool, and a judgement — in that order.</h2>
+    <p class="sub">To replace an inspector you must first know what they physically do. This is the
+      procedure of record, not a summary of it — because the gap between "we monitored it" and "we
+      performed the test the standard describes" is where the product either works or does not.</p>
+
+    <div class="scroll">
+      <table class="sticky-1">
+        <thead><tr><th>Test</th><th>What the human physically does</th><th>Pass criterion</th><th>Failure it catches</th></tr></thead>
+        <tbody>
+          <tr><td><b>Smoke detector</b></td><td>Canned aerosol into the sensing chamber, or a magnet on the test point; second person confirms at the panel</td><td>Alarm at panel, correct address</td><td>Dead device, wrong address, blocked vents</td></tr>
+          <tr><td><b>Waterflow switch</b></td><td>Open the inspector's test connection; stopwatch from flow to signal</td><td><b>Signal within 90 seconds</b></td><td>Stuck vane, dead switch, wrong retard setting</td></tr>
+          <tr><td><b>Tamper switch</b></td><td>Turn the valve two turns from full open</td><td>Supervisory signal before the 5th turn</td><td>Switch out of adjustment — the valve can be closed silently</td></tr>
+          <tr><td><b>Main drain</b></td><td>Record static pressure, open the 2" drain full, record residual, close, confirm return to static</td><td>Residual within 10% of baseline</td><td><b>A closed or obstructed supply valve upstream</b></td></tr>
+          <tr><td><b>Fire pump churn</b></td><td>Drop pressure to start; run 10 min; record suction/discharge, RPM, volts, amps; count packing-gland drips</td><td>Starts, runs, holds pressure, drips within range</td><td>Failed controller, air lock, seized packing</td></tr>
+          <tr><td><b>Emergency lighting</b></td><td>Press the test button 30 sec monthly; pull the breaker for 90 min annually and walk the egress path</td><td>Illumination maintained the full duration</td><td><b>Dead battery — the #1 failure mode</b></td></tr>
+          <tr><td><b>Notification appliances</b></td><td>Walk the building with a sound meter while a second person operates the panel</td><td>dBA above ambient <em>at the pillow, door closed</em>; 520 Hz low-frequency in sleeping rooms</td><td>Inaudible alarm in an occupied guest room</td></tr>
+          <tr><td><b>Fire door</b></td><td>Eleven NFPA 80 checkpoints: label legibility, no field modifications (run a <em>hand</em> over the leaf), clearance ≤1/8", closer, latch, coordinator, glazing, gasketing, hardware</td><td>All eleven pass</td><td>Filled-and-sanded hole a camera reads as paint</td></tr>
+          <tr><td><b>Extinguisher monthly</b></td><td>Seven-item check per §7.2.2: in place, visible, accessible, gauge in range, full by heft, hose/nozzle, tamper seal</td><td>All seven</td><td>Missing, discharged, blocked unit</td></tr>
+          <tr><td><b>Kitchen suppression</b></td><td>Cable tension through pulley elbows, nozzle aim, blow-off caps, cartridge weight, detection-line integrity, fusible links</td><td>Mechanical chain intact</td><td><b>Tension lever left UP after service</b></td></tr>
+          <tr><td><b>Elevator Phase II</b></td><td>Inside the car: constant-pressure door close, release at halfway to force reversal, constant-pressure open, CALL CANCEL</td><td>Car obeys a firefighter's continuously-pressed thumb</td><td>Any deviation from firefighter control</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="note"><strong>Read the Phase II row carefully — it is the clearest example of an
+      irreducible test.</strong> The entire procedure is <em>"does the car obey a continuously-pressed
+      thumb."</em> There is no way to test constant-pressure behaviour without a constant pressure. A
+      relay that simulates the button proves the relay works, not the safety. Phase I recall
+      automates; Phase II does not. That distinction — <em>blocked by physics</em> versus
+      <em>blocked by law</em> — is the axis the whole automation analysis turns on.</p>
+    <p class="src">Lane D §2 · procedures cross-checked against Houston FD Hotel/Motel Inspection Guide,
+      Ansul R-102 §8, Minnesota DOH guidance, SFFD AB 3.08.</p>
+  </div>
+  <div class="tb"></div>
+</section>
+
+<!-- ══════════ PAPERWORK ══════════ -->
+<section class="sheet" id="s08" data-title="The Paperwork">
+  <div class="body">
+    <span class="eyebrow">The deliverable</span>
+    <h2>The inspection is not the product. The record is.</h2>
+    <p class="sub">If a machine replaces the inspector, it must still emit the inspector's document —
+      the same fields, the same retention, the same distribution. <strong>The field list is the
+      automation spec.</strong></p>
+
+    <div class="scroll">
+      <table class="sticky-1">
+        <thead><tr><th>Artifact</th><th>Governing</th><th>Retention</th><th>Who signs</th></tr></thead>
+        <tbody>
+          <tr><td><b>NFPA 72 Record of Completion</b> <small>Fig. 10.18.2.1.1 · 12 pp</small></td><td>NFPA 72 Ch. 7/10</td><td>Life of system, revised on every modification</td><td><b>5 blocks:</b> install contractor, service contractor, supervising station, owner, <b>AHJ</b></td></tr>
+          <tr><td><b>NFPA 72 Inspection &amp; Testing Form</b> <small>Fig. 14.6.2.4 · 11 pp</small></td><td>NFPA 72 Ch. 14</td><td>3 yrs on premises (IFC §901.6.2)</td><td>2 blocks: inspector certification, owner acceptance. <em>No AHJ signature</em></td></tr>
+          <tr><td>Annual NFPA 25 sprinkler ITM report <small>Portland 300.24S</small></td><td>NFPA 25</td><td><b>6 years</b> on premises — exceeds IFC</td><td>Inspector; Certificate of Fitness holder ≥1× per 5 yrs</td></tr>
+          <tr><td>Contractor's Material &amp; Test Certificate <small>300.24C</small></td><td>NFPA 13</td><td>Life of system</td><td>3 signatures incl. "tests witnessed by"</td></tr>
+          <tr><td>Fire alarm testing report <small>Portland 300.91F</small></td><td>NFPA 72</td><td>3 years on site</td><td>Inspector + firm <b>Endorsement Number</b></td></tr>
+          <tr><td>Type I hood suppression report <small>Portland 300.81HR</small></td><td>NFPA 17A / 96, UL 300</td><td>Submitted to AHJ; submission date is a field</td><td>Technician + <b>Certificate of Fitness No.</b></td></tr>
+          <tr><td>California ITM set <small>AES 1 / 2.1 / 9 / 10</small></td><td>CCR Title 19 §901–906</td><td>Per T19; copy distribution tracked <em>as a dated field</em></td><td>Print name + signature per quarter; <b>SFM and CSLB licence #</b></td></tr>
+          <tr><td>Extinguisher tag, 6-yr label, verification collar, hydro label</td><td>NFPA 10 §7.2.4, §7.3.3, §8.7.2</td><td>Tag stays on the unit</td><td>Name/initials + company, <b>physically punched into metal</b></td></tr>
+          <tr><td>Fire door assembly record <small>per opening</small></td><td>NFPA 80 §5.2.2</td><td>≥3 years; acceptance for life of assembly</td><td>§5.2.2.4(6): <b>signature of inspector of record</b></td></tr>
+          <tr><td>Kansas OSFM companion forms <small>813 lights · 817 doors · 818 drills · 820 fire watch</small></td><td>IFC + adopted NFPA</td><td>3 years on premises</td><td>Facility staff or licensed contractor</td></tr>
+          <tr class="self"><td><b>Portal submission</b> <small>TCE / BuildingReports / LivSafe</small></td><td>IFC §901.6.3 as locally adopted</td><td>Portal retains indefinitely</td><td>Submitted under a <b>registered inspector ID with licence number and expiry on file</b></td></tr>
+          <tr><td>Brand life-safety record <small>Hilton §1503.04 / §904.00</small></td><td>Franchise agreement</td><td>Fire drills: current year + previous 6</td><td><b>Contractor representative AND General Manager</b></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="note"><strong>What an NFPA 25 record must contain — §4.3.2, five fields:</strong> the
+      procedure performed, the organisation performing it, the required frequency, the results
+      including date, and the <em>name and contact information of the qualified person</em>. Records
+      are the <strong>owner's property</strong>, not the contractor's, and must be on the premises for
+      the AHJ on request. Retention: one year past the next occurrence of that ITM type — for a
+      5-year item, roughly ten years of records.</p>
+    <p class="note warn"><strong>A custom form is acceptable only if it carries every field of
+      Fig. 14.6.2.4</strong> — including marking non-applicable portions "N/A" in some fashion.
+      Omission is itself a citable deficiency at survey. That is a hard schema constraint on any
+      auto-generated document.</p>
+  </div>
+  <div class="tb"></div>
+</section>
+
+<!-- ══════════ SIGNATURE ══════════ -->
+<section class="sheet" id="s09" data-title="The Signature Constraint">
+  <div class="body">
+    <span class="eyebrow">Where automation stops</span>
+    <h2>The signature is the regulated artifact. The data underneath it is not.</h2>
+    <p class="sub">Every certification block on every form is a <em>personal attestation in the first
+      person</em>, tied to a named individual and, on AHJ forms, to that individual's licence number.
+      This is the single hardest constraint in the research — and it defines the product shape.</p>
+
+    <p class="q">"I ______ certify that <b>I</b> inspected and tested the sprinkler system at the
+      address identified in this report, documented the conditions found during the inspection and
+      have listed all deficiencies that were either corrected prior to leaving or require additional
+      follow up."<br><span class="src">— Portland Fire &amp; Rescue 300.24S, verbatim</span></p>
+
+    <div class="cols">
+      <div>
+        <span class="lbl" style="color:var(--green)">Machine can produce</span>
+        <span class="cap">The entire <b>Device Test Results</b> table — an addressable panel already holds it.<br>
+        Fire pump weekly line items and the full annual flow-test curve (gpm, net pressure, RPM, volts, amps at churn/100%/150%) — pure telemetry.<br>
+        Gauge readings, main drain static/residual/return, waterflow time-to-alarm (<b>the 90-second field</b>), valve position, low-air and low-temp alarms.<br>
+        Supervising-station signal round-trips with timestamps.<br>
+        NFPA 10 monthly inspection, already permitted by electronic method with an event log.<br>
+        Every notification field — who was told, at what time.<br>
+        Retention, distribution, and next-due arithmetic.</span>
+      </div>
+      <div>
+        <span class="lbl" style="color:var(--red)">Requires a licensed human</span>
+        <span class="cap">Every certification block — first-person, named, licence-numbered.<br>
+        <b>Physical-artifact acts</b>: installing a verification collar that cannot be removed without pulling the valve; hand-punching a metal tag; hydrostatic testing; internal valve inspection; 5-year internal pipe inspection; replacing fusible links.<br>
+        Judgement about the <em>built environment</em> rather than the system: clearance below heads, storage against pipe, appliances under the hood, corrosion.<br>
+        <b>AHJ witness signature</b> on the acceptance-test Record of Completion §16.5.</span>
+      </div>
+    </div>
+
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Form</th><th>Licence field required</th></tr></thead>
+        <tbody>
+          <tr><td>NFPA 72 Record of Completion §2</td><td>Licence or certification number — <b>twice</b> (installing and servicing organisation)</td></tr>
+          <tr><td>NFPA 72 Inspection &amp; Testing Form §2</td><td>Licence or certification number — same two</td></tr>
+          <tr><td>Portland 300.91F</td><td>Oregon fire alarm contractor <b>Endorsement Number</b></td></tr>
+          <tr><td>Portland 300.81HR</td><td>City of Portland <b>Certificate of Fitness No.</b> — per technician, not per firm</td></tr>
+          <tr><td>California AES 1 / 2.1</td><td><b>CA Licence #</b> — separately SFM and CSLB</td></tr>
+          <tr><td>NFPA 10 tags and collars</td><td>Name of the <em>person</em> + name of the company, punched into the tag</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="note ok"><strong>The realistic product shape falls straight out of this.</strong> The
+      system continuously produces the evidence, pre-fills <strong>80–90% of the form fields</strong>,
+      flags deficiencies with their code reference, and reduces the licensed technician's visit to
+      <em>verification plus signature</em>. That shrinks the labour without touching the signature —
+      which is exactly the "automated, with human validation" architecture, arrived at from the
+      regulation rather than from preference.</p>
+    <p class="note warn"><strong>The carriers are a looser master than the brands.</strong> FM Global,
+      AXA XL, Travelers and Zurich all specify <em>who may perform</em> ITM — none requires a
+      signature on the record. <strong>Hilton is the only source in the research requiring a
+      countersignature</strong> (contractor representative <em>and</em> the General Manager), and IHG
+      the only one requiring a certifier who may be barred from having designed the system. If
+      defensible custody of ITM records is the differentiator, the brand standard is the stricter
+      master.</p>
+  </div>
+  <div class="tb"></div>
+</section>
+
+<!-- ══════════ THREE DOORS ══════════ -->
+<section class="sheet" id="s10" data-title="Three Doors Out">
+  <div class="body">
+    <span class="eyebrow">The permission structure</span>
+    <h2>Three legally distinct doors out of manual inspection — routinely conflated by vendors.</h2>
+
+    <div class="scroll">
+      <table class="sticky-1">
+        <thead><tr><th>Door</th><th>What it is</th><th>Who must bless it</th><th>Cuts frequency?</th></tr></thead>
+        <tbody>
+          <tr><td><b>A · Automated inspection &amp; testing</b></td><td>A machine performs the inspection or test in place of a person, on the same schedule</td><td>Mostly <b>nobody</b> — written into NFPA 10, 25, 72, 101 and the IFC as a permitted <em>method</em></td><td><b>Usually no.</b> The standout exception is IFC §906.2 Exc. 2</td></tr>
+          <tr class="self"><td><b>B · Distance monitoring</b></td><td>Sensors continuously report condition to a constantly attended location</td><td>Nobody, for signals already required under NFPA 72 Ch. 10/26</td><td><b>Yes — and this is the surprise.</b> 3× to 7× discounts, standing in the text for decades</td></tr>
+          <tr><td><b>C · Remote inspection</b></td><td>A human inspector — often the AHJ — witnesses via audio/video from elsewhere</td><td><b>The AHJ, explicitly, every time</b> (NFPA 915 §1.3.1, §4.3.2.3, §4.4.1)</td><td>No. It relocates the inspector, not the schedule</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="note"><strong>The commercially interesting doors are A and B, because they need the least
+      permission.</strong> The politically interesting door is C — it is the one everybody writes press
+      releases about, and the one that is in practice <em>not</em> being extended to commercial
+      fire/life-safety work.</p>
+
+    <h3 style="margin-top:6px">Where the code already says yes — verbatim</h3>
+    <div class="scroll">
+      <table class="sticky-1">
+        <thead><tr><th>Task</th><th>Automated substitute</th><th>Section</th><th class="c">Status</th><th>Residual human step</th></tr></thead>
+        <tbody>
+          <tr class="self"><td><b>Extinguisher 30-day inspection</b></td><td>Electronic monitoring device/system</td><td>NFPA 10 <b>§7.2.1.2</b></td><td class="c"><span class="pill y">Today</span></td><td>None for the inspection itself</td></tr>
+          <tr class="self"><td><b>Extinguisher monthly <em>and</em> annual maintenance</b></td><td>Listed &amp; approved monitoring, dry-chem/halogenated, indoors</td><td>IFC <b>§906.2 Exc. 2</b></td><td class="c"><span class="pill y">Today</span></td><td>5 conditions — see below. <b>Maintenance stretches to 3-yearly</b></td></tr>
+          <tr><td>Extinguisher — <em>location-only</em> monitoring</td><td>A removal switch on the bracket</td><td>NFPA 10 <b>§7.2.1.4</b></td><td class="c"><span class="pill n">Never</span></td><td><b>Buys nothing.</b> Must sense pressure, presence <em>and</em> obstruction. This clause invalidates much of what is sold as "extinguisher monitoring"</td></tr>
+          <tr class="self"><td><b>Emergency lighting — monthly 30-sec AND annual 90-min</b></td><td>Computer-based self-testing</td><td>NFPA 101 <b>§7.9.3.1.3</b></td><td class="c"><span class="pill y">Today</span></td><td><b>None.</b> No residual manual visual — unlike §7.9.3.1.2, which still demands a 30-day human look</td></tr>
+          <tr><td>Any NFPA 25 visual inspection</td><td>Automated inspection equipment</td><td>NFPA 25 §4.6.6.2</td><td class="c"><span class="pill y">Today</span></td><td>§4.6.6.14: results analysed by qualified personnel</td></tr>
+          <tr><td>Any NFPA 25 test</td><td>Automated testing equipment producing <em>the same action</em></td><td>NFPA 25 §4.6.6.3</td><td class="c"><span class="pill y">Today</span></td><td><b>Observed at least once every 3 years</b> (§4.6.1.1)</td></tr>
+          <tr><td>Fire pump churn test attendance</td><td>Automated inspection and testing</td><td>NFPA 25 <b>§8.3.2.7 → §8.3.2.10</b></td><td class="c"><span class="pill y">Today</span></td><td>Checklist observations still recorded; packing gland adjustment by qualified personnel; diesel auto-shutdown required</td></tr>
+          <tr><td>Manual fire alarm test frequency</td><td>Automatic weekly testing by a remotely monitored FACU</td><td>NFPA 72 <b>§14.4.4.2</b></td><td class="c"><span class="pill m">Gated</span></td><td>FACU must be <em>"specifically listed for the application"</em> — the credit accrues to the panel maker</td></tr>
+          <tr><td>Reducing NFPA 25 frequency because you automated</td><td>—</td><td>NFPA 25 <b>§4.6.6.12</b></td><td class="c"><span class="pill n">No</span></td><td>"Frequencies shall be maintained <em>regardless of the functionality of the automated testing equipment</em>"</td></tr>
+          <tr><td>Reducing NFPA 25 frequency lawfully</td><td>Approved performance-based program</td><td>NFPA 25 <b>§4.7</b></td><td class="c"><span class="pill p">With AHJ</span></td><td>Goals reviewed ≥ every 3 years; historical record available to the AHJ. <b>The only lawful route to genuine frequency reduction</b></td></tr>
+          <tr><td>Weekly generator inspection</td><td>Telemetry</td><td>NFPA 110 §8.4.1</td><td class="c"><span class="pill n">Refused</span></td><td><b>Relief was asked for and denied in writing</b> — Public Inputs 18/21 (2022 cycle); FR-15 granted it only to Level 2</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="note ok"><strong>IFC §906.2 Exception 2, read as a product spec.</strong> It names the
+      exact three states the sensor must detect — <em>properly positioned, properly charged,
+      unobstructed</em>; mandates supervision of the supervision (loss of power or circuit continuity
+      must initiate a <b>trouble signal</b>); constrains the environment to indoors, non-corrosive;
+      preserves a human 3-year touch; and requires an owner-kept hydrostatic log. Limitation:
+      dry-chemical or halogenated agents only.</p>
+    <p class="note warn"><strong>Automation creates new human work.</strong> NFPA 10 §7.6.1.2 requires
+      <b>100% of monitoring units verified annually</b> (tightened from a 20%/year rotation), and
+      §7.6.2 adds a semiannual NFPA 72 visual inspection of the monitoring devices themselves. Under
+      NFPA 10 alone you delete ~12 walks a year and add back an annual 100% communication
+      verification. The provision that actually pays is the IFC exception.</p>
+  </div>
+  <div class="tb"></div>
+</section>
+
+<!-- ══════════ PRICING ══════════ -->
+<section class="sheet" id="s11" data-title="What Automation Buys">
+  <div class="body">
+    <span class="eyebrow">The central strategic fact</span>
+    <h2>The four standards price automation completely differently.</h2>
+    <p class="sub">This is the finding that should drive sequencing. Two of these lanes pay in
+      <em>deleted labour</em>. One pays only in <em>evidence</em>. One pays the panel manufacturer
+      rather than you.</p>
+
+    <div class="scroll">
+      <table class="sticky-1">
+        <thead><tr><th>Standard</th><th>What automation buys</th><th>Implication</th></tr></thead>
+        <tbody>
+          <tr class="self"><td><b>NFPA 10</b> <small>extinguishers</small></td><td><b>Frequency relief on both inspection and maintenance</b> — 30-day inspection eliminated, annual maintenance stretched to 3-yearly under IFC §906.2 Exc. 2</td><td><b>The richest credit in the code. Start here.</b></td></tr>
+          <tr class="self"><td><b>NFPA 101</b> <small>emergency lighting</small></td><td><b>Full automation of both the monthly and the annual test</b>, no residual manual inspection (§7.9.3.1.3)</td><td>Cleanest technical win; low-cost hardware; UL 924 self-test ships today</td></tr>
+          <tr><td><b>NFPA 72</b> <small>fire alarm</small></td><td>Frequency relief on <em>manual testing only</em> (§14.4.4.2), gated behind "specifically listed for the application"</td><td>Credit accrues to the <b>panel manufacturer</b>. Hard for an aftermarket vendor to capture</td></tr>
+          <tr><td><b>NFPA 25</b> <small>water-based</small></td><td><b>No frequency relief at all</b> (§4.6.6.12). Labour substitution and better evidence only</td><td>Sell as a <b>witness</b>, not a schedule-reducer</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="note ok"><strong>§4.6.6.7 is the commercially decisive carve-out.</strong> Automated test
+      devices must be <em>listed</em> for the test (§4.6.6.6) — a real barrier to entry. But devices
+      <strong>not subjected to system pressure and not integral to fire-event operation need not be
+      listed</strong>. Pure sensing-and-logging hardware escapes the listing burden entirely.
+      <em>The product that wins here is a witness, not an actuator.</em></p>
+
+    <p class="note warn"><strong>Negative finding, and it matters: NFPA 72 contains no self-testing
+      clause.</strong> A search of the complete free NFPA committee corpus for the 2022, 2025 and 2028
+      revision cycles returns <b>zero hits</b> for <span class="src">self-test</span>,
+      <span class="src">automatic self</span> and <span class="src">self-diagnostic</span>. Vendor
+      material claiming otherwise is describing UL 268 device listings or marketing language, not code
+      text. NFPA 72 has five scattered device credits — not a framework.</p>
+
+    <p class="note"><strong>The pattern across all of them:</strong> the code trades manual frequency
+      for <em>continuous supervision plus fail-safe trouble reporting</em>. A sensor that can go
+      silently dead earns nothing. A sensor whose failure is itself annunciated earns relief. Any
+      design that cannot raise a trouble signal on its own loss of power or continuity qualifies under
+      none of these provisions.</p>
+  </div>
+  <div class="tb"></div>
+</section>
+
+<!-- ══════════ SUPERVISION DISCOUNTS ══════════ -->
+<section class="sheet" id="s12" data-title="The Supervision Discounts">
+  <div class="body">
+    <span class="eyebrow">The under-exploited provision</span>
+    <h2>NFPA 25 has quietly discounted supervised conditions for decades. Nobody is selling it.</h2>
+    <p class="sub">No AHJ approval. No performance-based program. No "automated ITM equipment"
+      listing. Just <em>supervision plus a monitored receiving point</em> — and the required
+      inspection frequency drops by 3× to 7×.</p>
+
+    <div class="scroll">
+      <table class="sticky-1">
+        <thead><tr><th>Condition observed</th><th>Unsupervised</th><th>Supervised</th><th class="c">Multiplier</th><th>Section</th></tr></thead>
+        <tbody>
+          <tr class="self"><td><b>Tank heating system</b></td><td>Daily during heating season</td><td><b>Weekly</b></td><td class="c"><b>≈7×</b></td><td>NFPA 25 §9.2.3.1 / §9.2.3.2</td></tr>
+          <tr><td>Control valves (all system valves)</td><td>Weekly</td><td>Monthly</td><td class="c">4×</td><td>§13.3.2.1 / §13.3.2.1.1</td></tr>
+          <tr><td>Gauges — dry, preaction, deluge</td><td>Weekly</td><td>Monthly</td><td class="c">4×</td><td>§5.2.4.2 / §5.2.4.3</td></tr>
+          <tr><td>Tank water temperature alarms</td><td>Weekly</td><td>Monthly</td><td class="c">4×</td><td>§9.2.4.2 / §9.2.4.3</td></tr>
+          <tr><td>Water level in storage tanks</td><td>Monthly</td><td>Quarterly</td><td class="c">3×</td><td>§9.2.1.1 / §9.2.1.2</td></tr>
+          <tr><td>Air pressure in pressure tanks</td><td>Monthly</td><td>Quarterly</td><td class="c">3×</td><td>§9.2.2.1 / §9.2.2.2</td></tr>
+          <tr class="tot"><td colspan="5">Plus the structural credit already in NFPA 72: a <b>monitored</b> system inspects control equipment <b>annually</b>; an unmonitored one inspects the same items <b>weekly</b> — a <b>52× credit</b> built into Table 14.3.1</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="note ok"><strong>Two gating conditions define the product — and a hotel satisfies the
+      harder one for free.</strong> (1) <em>"Supervised in accordance with applicable NFPA
+      standards"</em> means NFPA 72-grade supervision: integrity-supervised circuit, supervisory
+      signal, trouble on fault — not a generic IoT sensor. (2) <em>"Connected to a constantly attended
+      location."</em> A cloud dashboard nobody staffs does not qualify. A 24/7 supervising station
+      does — <strong>and so does a genuinely 24/7-staffed hotel front desk with a monitored
+      annunciator.</strong> Every hotel already has one.</p>
+
+    <p class="note warn"><strong>Reconciliation note.</strong> Two research lanes disagreed on NFPA 25
+      §4.6. The settled reading, from primary text: §4.6.6.2/.3 <em>do</em> permit automated equipment
+      to perform inspections and tests, but §4.6.6.12 holds the frequencies regardless, and
+      §4.6.1.1/§4.6.6.4.2 impose a mandatory 3-year human observation. <strong>You can automate a
+      look; you cannot automate away a test.</strong> Claims that "the AHJ may not require physical
+      ITM" overstate the provision and are not carried forward in this report.</p>
+  </div>
+  <div class="tb"></div>
+</section>
+
+<!-- ══════════ EASIEST / HARDEST ══════════ -->
+<section class="sheet" id="s13" data-title="Easiest &amp; Hardest">
+  <div class="body">
+    <span class="eyebrow">Feasibility, ranked honestly</span>
+    <h2>The easy ones are where the sensor already lives inside the device.</h2>
+    <p class="sub">Ranked by <em>(labour deleted) × (code path exists) ÷ (engineering + listing
+      difficulty)</em> — not by technical elegance.</p>
+
+    <div class="scroll">
+      <table class="sticky-1">
+        <thead><tr><th class="n">#</th><th>Easiest to automate</th><th>Why</th></tr></thead>
+        <tbody>
+          <tr class="self"><td class="n">1</td><td><b>Valve stem position encoder</b></td><td>The switch is already there and already wired. Swapping a binary tamper switch for an <em>absolute stem-position encoder</em> upgrades "someone turned it" to "it is 78% open and has been since March." <b>The highest-consequence failure in the building becomes continuously visible.</b> A safety argument, not a labour argument</td></tr>
+          <tr><td class="n">2</td><td>Emergency lighting monthly + annual 90-min</td><td>UL 924 hardware ships today; NFPA 101 §7.9.3.1.3 eliminates <em>both</em> manual tests. Batteries are the #1 failure and a runtime self-test catches them precisely</td></tr>
+          <tr><td class="n">3</td><td>Exit sign battery test</td><td>Identical hardware, identical code path — rides in on the same network</td></tr>
+          <tr><td class="n">4</td><td>FACP standby battery capacity</td><td>Voltage-only checks produce false passes; shunt + internal-resistance trending converts a coin-flip into a measurement</td></tr>
+          <tr><td class="n">5</td><td>Smoke detector sensitivity drift</td><td><b>The addressable panel already computes this value.</b> Nothing to invent — read it nightly and trend it</td></tr>
+          <tr><td class="n">6</td><td>Guest-room leak &amp; abnormal flow</td><td>Commodity sensing. <b>Not a code item at all</b> — no AHJ, no listing, no standard. The shortest path from sensor to dollars</td></tr>
+          <tr><td class="n">7</td><td>Waterflow switch 90-second test</td><td>Motorised test-and-drain plus a transducer produces <em>better</em> evidence than a tech with a stopwatch and a radio</td></tr>
+          <tr><td class="n">8</td><td>Main drain test</td><td>Two transducers and a motorised valve. The test is literally "record two numbers and compare to baseline"</td></tr>
+          <tr><td class="n">9</td><td>Gauge readings</td><td>Kills the "gauge stuck at zero for three years" failure</td></tr>
+          <tr><td class="n">10</td><td>Extinguisher monthly</td><td>The code did the hard part. Optical gauge read, weighted hook, tamper, obstruction</td></tr>
+          <tr><td class="n">11</td><td>Generator weekly + monthly run data</td><td>A modern controller already senses nearly every weekly checklist item. ~20–25 hr/yr</td></tr>
+          <tr><td class="n">12</td><td>Fire pump churn — electrical/hydraulic half</td><td>Every number the tech writes on the clipboard is instrumentable. ~20–35 hr/yr</td></tr>
+          <tr><td class="n">13</td><td>Fire door close + latch</td><td>Two of NFPA 80's eleven checkpoints — but the two that fail constantly and the two that actually stop smoke</td></tr>
+          <tr><td class="n">14</td><td>Door propped / held open</td><td>Solved and commodity in access control — just never applied to <em>rated</em> doors in hotels</td></tr>
+          <tr><td class="n">15</td><td>Off-premises signal verification</td><td>Reconciling panel log against central-station log. Today it is a phone call and a hope</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="scroll">
+      <table class="sticky-1">
+        <thead><tr><th class="n">#</th><th>Hardest to automate</th><th>Honest verdict</th></tr></thead>
+        <tbody>
+          <tr class="self"><td class="n">1</td><td><b>Sprinkler head condition</b> <small>≈800 units</small></td><td>A visual classification problem at 800 instances, with subtle categories: factory white vs. a fresh coat of the same white; corrosion on the concealed side of a cover plate; "loading detrimental to performance" is a judgement, not a threshold. <b>Best play: imaging sweep with change detection against the last sweep, escalating only diffs.</b> That deletes the <em>sweep</em>, not the <em>judgement</em>. Anyone claiming full automation here is selling something</td></tr>
+          <tr><td class="n">2</td><td>The other nine NFPA 80 door checkpoints</td><td>A tech runs a <em>hand</em> over the leaf and finds the filled-and-sanded hole a camera reads as paint. Clearance measurement is a genuine unbuilt sensor opportunity; the rest is irreducibly tactile at 220 leaves</td></tr>
+          <tr><td class="n">3</td><td>Elevator Phase II</td><td>No way to test constant-pressure behaviour without a constant pressure. Phase I recall automates. <b>Accept it</b></td></tr>
+          <tr><td class="n">4</td><td>Egress path illumination</td><td>A fixture aimed at a wall passes its own 90-minute self-test perfectly. This is a photometric survey of a <em>space</em>. Commission once, then monitor for regression</td></tr>
+          <tr><td class="n">5</td><td>Fire / smoke dampers</td><td>Sensing is solved by actuators with position feedback. The blocker is <b>physical access</b> — many are drywalled or painted shut. Capture at renovation, one floor at a time</td></tr>
+          <tr><td class="n">6</td><td>Kitchen hood mechanical readiness</td><td>Instrument the outcome states and accept a two-hour hands-on semiannual. <b>The $3 tension-lever switch catching "left it UP" is worth more than the rest combined</b></td></tr>
+          <tr><td class="n">7</td><td>dBA at the pillow, door closed</td><td>Hotel ambient moves with the PTAC, the ice machine, the cart, the guest's TV. And the walkthrough is where techs find water-stained tiles — you delete the measurement, not the inspection</td></tr>
+          <tr><td class="n">8</td><td>Backflow annual</td><td>The physics is easy; <b>the licensing regime is the obstacle</b>, and the water purveyor owns the requirement, not the fire AHJ. Deploy relief-port discharge detection anyway</td></tr>
+          <tr><td class="n">9</td><td>Standpipe hydrostatic, PRV full-flow</td><td>You cannot prove a hose valve opens under fire conditions without opening it. Irreducible</td></tr>
+          <tr><td class="n">10</td><td>Firestopping and "has a human broken something" judgements</td><td>The state space of ways to break a building is unbounded. Cameras plus change detection catch path obstruction well — concealed firestopping is a person with a flashlight above a ceiling tile, forever</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="cols k2">
+      <div><span class="lbl">Fully automatable</span><span class="fig g">~20%<small>actions</small></span><span class="cap">~30% of hours — sensor produces the required evidence outright</span></div>
+      <div><span class="lbl">Assisted</span><span class="fig s">~45%<small>actions</small></span><span class="cap">~40% of hours — sensor triages, human confirms exceptions</span></div>
+      <div><span class="lbl">Irreducibly human</span><span class="fig r">~35%<small>actions</small></span><span class="cap">~30% of hours — hands, eyes, judgement, or a licensing regime</span></div>
+      <div><span class="lbl">Where the money is</span><span class="fig">3<small>places</small></span><span class="cap">Never failing an inspection · the deletable 30% of hours · non-code water loss</span></div>
+    </div>
+
+    <p class="note"><strong>The action count is dominated by sprinkler heads and rated doors</strong>,
+      which is why "fully automatable" looks small by action. The hours share is more favourable
+      because the automatable items — fire pump, generator, emergency lighting, waterflow,
+      extinguishers — are labour-dense per unit.</p>
+  </div>
+  <div class="tb"></div>
+</section>
+
+<!-- ══════════ STATE MACHINE ══════════ -->
+<section class="sheet" id="s14" data-title="Deficiency → Dispatch">
+  <div class="body">
+    <span class="eyebrow">When something is found wrong</span>
+    <h2>Detected, classified, notified, mitigated, verified, recorded, closed.</h2>
+    <p class="sub">Every transition below carries a legal clock or a named accountable party. The
+      failure edges are where the liability lives.</p>
+
+    <div class="step">
+      <span>S0<b>In service</b></span>
+      <span>S1<b>Classified</b></span>
+      <span class="hot">S2<b>Impairment declared</b></span>
+      <span class="hot">S3<b>Notification fan-out</b></span>
+      <span>S4<b>Mitigated</b></span>
+      <span>S5<b>Repaired</b></span>
+      <span>S6<b>Verified by retest</b></span>
+      <span>S7<b>Restore-notified · tag removed</b></span>
+      <span>S8<b>Recorded</b></span>
+      <span>S9<b>Closed</b></span>
+    </div>
+
+    <div class="scroll">
+      <table class="sticky-1">
+        <thead><tr><th>Tier</th><th>Definition</th><th>Required response</th><th>Who must be told</th></tr></thead>
+        <tbody>
+          <tr><td><b>Noncritical deficiency</b></td><td>No material effect on the system's ability to function. Missing signage, insufficient spare sprinklers, missing escutcheon</td><td>"Within a reasonable time." <b>No code-set clock</b> — set in practice by the AHJ's notice or the filing tier (14–30 days)</td><td>Owner; AHJ portal where mandated</td></tr>
+          <tr><td><b>Critical deficiency</b></td><td>Will have a material effect — the system may operate, <em>but not as intended</em>. Corroded valve, non-functional flow switch, painted sprinkler, obstructed FDC</td><td>"As soon as possible." Some filing jurisdictions attach a clock: notify FD immediately, upload within 24 hours</td><td>Owner; AHJ; <b>insurer</b> where the carrier treats degraded performance as an impairment — <b>FM DS 2-81 §2.3.5 does</b></td></tr>
+          <tr class="self"><td><b>Impairment</b></td><td>System or portion is <b>out of order</b> — will not function in a fire event</td><td><b>Immediate action</b> — correct now or invoke NFPA 25 Ch. 15. Full notification fan-out, tag, and past the duration threshold, compensating measures</td><td>Everyone in the matrix on sheet <a class="ref" href="#s15"></a></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="note warn"><strong>A "hidden impairment" is the category an IoT valve sensor collapses to
+      zero.</strong> Zurich's term, not NFPA's: <em>"a fire system outage that exists without the
+      knowledge of those responsible… often discovered through periodic inspection"</em> — e.g. a
+      closed valve in a sprinkler riser. That is precisely the failure continuous stem-position
+      monitoring eliminates.</p>
+
+    <p class="note"><strong>A trap for the data model.</strong> Missed 3-year or 5-year tests,
+      un-replaced recalled sprinklers, and general failure to complete ITM are <em>owner compliance
+      issues, not deficiencies</em> — only the AHJ enforces them, and the fire protection industry
+      deliberately keeps the categories separate. A product that files "deficiency" records for
+      overdue ITM will collide with contractor reporting norms. <strong>Model overdue-ITM as its own
+      state.</strong></p>
+  </div>
+  <div class="tb"></div>
+</section>
+
+<!-- ══════════ CLOCKS ══════════ -->
+<section class="sheet" id="s15" data-title="The Clocks">
+  <div class="body">
+    <span class="eyebrow">The impairment clock</span>
+    <h2>The 24-hour window is cumulative. Nobody tracks that by hand.</h2>
+    <p class="sub">This is the clean product wedge: a timer, a notification fan-out, and an evidence
+      package — with <em>zero false-alarm exposure</em>.</p>
+
+    <div class="scroll">
+      <table class="sticky-1">
+        <thead><tr><th>System</th><th>Threshold</th><th>Consequence</th><th>Citation</th></tr></thead>
+        <tbody>
+          <tr class="self"><td><b>Water-based</b></td><td>Out of service <b>&gt;10 hours in 24</b></td><td>Coordinator must arrange one of: evacuation · approved fire watch · temporary water supply · approved ignition-control program</td><td>NFPA 25 §15.5.2(4); NFPA 101 §9.7.6</td></tr>
+          <tr class="self"><td><b>Fire alarm</b></td><td>Out of service <b>&gt;4 hours in 24</b></td><td>Notify the AHJ, and evacuate or provide an approved fire watch for all unprotected parties</td><td>NFPA 101 §9.6.1.8</td></tr>
+          <tr><td>Fire alarm — reporting</td><td>Out of service &gt;8 hours</td><td>Service provider shall report to the AHJ</td><td>NFPA 72 §10.21.4</td></tr>
+          <tr><td>Fire alarm — owner notice</td><td>Any impairment</td><td>Owner notified within <b>8 hours</b>; deficiencies in writing within <b>24 hours</b></td><td>NFPA 72 §10.21</td></tr>
+          <tr><td>Any required system</td><td>Out of service at all</td><td><b>Fire department and fire code official notified immediately</b>; evacuate or fire watch. <em>Exception:</em> facilities with an approved impairment management program</td><td>IFC §901.7</td></tr>
+          <tr><td>NYC</td><td>Staff may hold fire watch only the <b>first 4 hours</b>, areas ≤50,000 sq ft</td><td>Notification mandatory for any standpipe outage, or sprinkler/alarm outage across floors or &gt;8 hrs; occupants told if a planned outage exceeds <b>30 minutes</b></td><td>NYC FC 901.7.2/.3/.5</td></tr>
+          <tr><td>FM Global</td><td>&gt;24 hours</td><td>Permit required for any impairment beyond one 8-hour shift, requested <b>≥24 hours in advance</b></td><td>FM DS 10-7 / Red Tag</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Notification matrix</h3>
+    <div class="scroll">
+      <table class="sticky-1">
+        <thead><tr><th>Event</th><th>Who must be told</th><th>When</th><th>Basis</th></tr></thead>
+        <tbody>
+          <tr><td>System out of service</td><td>FD <b>and</b> fire code official</td><td>Immediately</td><td>IFC §901.7</td></tr>
+          <tr><td>Preplanned impairment</td><td>FD, insurer, alarm company, owner, other AHJs, area supervisors</td><td><b>Before work starts</b></td><td>NFPA 25 §15.5(5)–(7); IFC §901.7.4</td></tr>
+          <tr><td>Alarm impaired</td><td>Owner</td><td>8 hours</td><td>NFPA 72 §10.21</td></tr>
+          <tr><td>Alarm deficiency</td><td>Owner, <b>in writing</b></td><td>24 hours</td><td>NFPA 72 §10.21</td></tr>
+          <tr class="self"><td><b>Any known impairment</b></td><td><b>The carrier</b></td><td><b>No deadline — the duty attaches on <em>knowledge</em></b>; only a 48-hour restoration safe harbour</td><td>ISO CP 04 11 ¶A.3/¶B</td></tr>
+          <tr><td>ITM report filed</td><td>AHJ portal, <em>by the contractor</em></td><td>24 hrs – 30 days, severity-tiered</td><td>Local ordinance</td></tr>
+          <tr><td>Restored</td><td>Same list, then <b>remove the tag</b></td><td>After verification test</td><td>IFC §901.7.6</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="note warn"><strong>The rolling-window trap.</strong> The 24-hour window is
+      <em>cumulative</em>, not per-event. Three separate 4-hour sprinkler outages in one day cross the
+      10-hour line. Any automated impairment tracker must <strong>accumulate</strong>, not merely
+      measure single events. This is a genuine differentiator — it is not tracked correctly by hand
+      anywhere.</p>
+    <p class="note ok"><strong>Why this is the wedge.</strong> Failure to notify the carrier is what
+      voids coverage — <em>Garvin Street</em> (2026) and <em>Frankenmuth</em> (2023) both hold that no
+      prejudice and no causal nexus is required for denial. The same artifact also avoids Marriott's
+      <b>$280–$700</b> re-inspection fee, which triggers on failure to self-report resolution. The
+      clock costs nothing to run and protects the two things an owner cannot afford to lose.</p>
+  </div>
+  <div class="tb"></div>
+</section>
+
+<!-- ══════════ FALSE DISPATCH ══════════ -->
+<section class="sheet" id="s16" data-title="Do Not Auto-Dispatch">
+  <div class="body">
+    <span class="eyebrow">The constraint that shapes the product</span>
+    <h2>Build the notification. Do not build the 911 dispatch.</h2>
+    <p class="sub">This is the strongest negative finding in the research, and it should be treated as
+      a design boundary rather than a risk to be managed.</p>
+
+    <div class="cols k2">
+      <div><span class="lbl">US false alarms · 2024</span><span class="fig r">3.29M</span><span class="cap">Against 1.39M actual fires — <b>2.4:1</b>, rising every year since 2017</span></div>
+      <div><span class="lbl">Chicago escalating fine</span><span class="fig r">$1,000</span><span class="cap">§15-16-1500 ladder: $500 / $667 / $833 / $1,000</span></div>
+      <div><span class="lbl">Houston per response</span><span class="fig r">$360</span><span class="cap">§11-19, past allowance; $300 if unpermitted</span></div>
+      <div><span class="lbl">Signal budget</span><span class="fig">90<small>sec</small></span><span class="cap">NFPA 72 §26.6.3.8 — initiation to recording at the supervising station</span></div>
+    </div>
+
+    <div class="scroll">
+      <table class="sticky-1">
+        <thead><tr><th class="n">#</th><th>Risk</th><th>Why it bites</th></tr></thead>
+        <tbody>
+          <tr class="self"><td class="n">1</td><td><b>The fine can land on the vendor</b></td><td>Las Vegas fines "the installer, <b>Maintenance Company</b> or occupant." Not the hotel — us</td></tr>
+          <tr><td class="n">2</td><td>Every false positive is billable and escalates</td><td>The ladder is designed to punish repeat sources. An automated source is a repeat source by construction</td></tr>
+          <tr><td class="n">3</td><td>The 90-second budget</td><td>Cloud round-trips and verification logic eat it. The only sanctioned delay is Positive Alarm Sequence — <b>15 s acknowledge / 180 s investigate</b>, AHJ approval required, hotels a named application</td></tr>
+          <tr><td class="n">4</td><td>You cannot bypass the FACP</td><td>The chain must run through a <b>UL 827-listed</b> station. A parallel IoT path is unlisted, unsupervised, and double-dispatches</td></tr>
+          <tr class="self"><td class="n">5</td><td><b>There is often nobody to dispatch to</b></td><td>At 3am in select-service, the night auditor is the only employee on property — and is instructed never to leave the desk</td></tr>
+          <tr><td class="n">6</td><td>Wrong responder class is its own violation</td><td>NFPA 72 requires factory-trained, organisationally-recognised personnel with proof to the AHJ. Routing sprinkler work to a hotel engineer is unlicensed work</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="note ok"><strong>The resulting posture: auto-dispatch to the hotel's own people,
+      auto-notify everyone the code requires, and leave 911 to the existing listed chain.</strong>
+      This is not a smaller product — it is the product that does not carry municipal fine exposure,
+      does not need a UL 827 listing, and does not have to win a 90-second race. The impairment clock
+      on sheet <a class="ref" href="#s15"></a> is the whole of it.</p>
+  </div>
+  <div class="tb"></div>
+</section>
+
+<!-- ══════════ WHITE SPACE ══════════ -->
+<section class="sheet" id="s17" data-title="The White Space">
+  <div class="body">
+    <span class="eyebrow">Landscape</span>
+    <h2>Every vendor sells to the contractor, the panel OEM, or the AHJ. Nobody sells to the hotel.</h2>
+    <p class="sub">Thirty-one recurring obligations against seven vendor categories.
+      <span class="pill y">●</span> covered · <span class="pill m">◐</span> partial ·
+      <span class="pill n">○</span> not covered. Abridged; the two rows that matter most are at the
+      bottom.</p>
+
+    <div class="scroll">
+      <table class="sticky-1">
+        <thead><tr><th>Obligation</th><th class="c">Panel cloud</th><th class="c">Self-test devices</th><th class="c">Contractor ITM sw</th><th class="c">AHJ portal</th><th class="c">Hotel IoT</th><th class="c">Hotel CMMS</th></tr></thead>
+        <tbody>
+          <tr><td>FACP functional test</td><td class="c">●</td><td class="c">○</td><td class="c">● record</td><td class="c">◐</td><td class="c">○</td><td class="c">○</td></tr>
+          <tr><td>Smoke detector functional</td><td class="c">◐</td><td class="c">● <small>Honeywell only, INSPIRE N16</small></td><td class="c">● record</td><td class="c">◐</td><td class="c">○</td><td class="c">○</td></tr>
+          <tr class="self"><td><b>Manual pull stations</b></td><td class="c">◐</td><td class="c"><b>○ nobody</b></td><td class="c">● record</td><td class="c">◐</td><td class="c">○</td><td class="c">○</td></tr>
+          <tr class="self"><td><b>Duct smoke detectors</b></td><td class="c">◐</td><td class="c"><b>○</b> <small>"planned"</small></td><td class="c">● record</td><td class="c">◐</td><td class="c">○</td><td class="c">○</td></tr>
+          <tr><td>Notification appliances</td><td class="c">○</td><td class="c">● <small>Simplex only, ES panels</small></td><td class="c">● record</td><td class="c">◐</td><td class="c">○</td><td class="c">○</td></tr>
+          <tr><td>Sleeping-room audibility / 520 Hz</td><td class="c">○</td><td class="c">○</td><td class="c">● record</td><td class="c">◐</td><td class="c">○</td><td class="c">○</td></tr>
+          <tr><td>Sprinkler control-valve position</td><td class="c">◐</td><td class="c">○</td><td class="c">● record</td><td class="c">◐</td><td class="c">○</td><td class="c">○</td></tr>
+          <tr><td>Waterflow alarm test</td><td class="c">◐</td><td class="c">● <small>newly permitted</small></td><td class="c">● record</td><td class="c">◐</td><td class="c">○</td><td class="c">○</td></tr>
+          <tr class="self"><td><b>Sprinkler head visual</b></td><td class="c">○</td><td class="c">○</td><td class="c">● record</td><td class="c">◐</td><td class="c">○</td><td class="c">○</td></tr>
+          <tr><td>Extinguisher monthly</td><td class="c">○</td><td class="c">● <small>Keltron, Hexmodal</small></td><td class="c">● record</td><td class="c">◐</td><td class="c">○</td><td class="c">◐</td></tr>
+          <tr><td>Emergency lighting monthly / annual</td><td class="c">○</td><td class="c">● <small>only with a reporting layer</small></td><td class="c">● record</td><td class="c">◐</td><td class="c">○</td><td class="c">◐</td></tr>
+          <tr class="self"><td><b>Fire door annual</b> <small>200+ assemblies</small></td><td class="c">○</td><td class="c"><b>○ nobody</b></td><td class="c">● record</td><td class="c">◐</td><td class="c">○</td><td class="c">◐</td></tr>
+          <tr class="self"><td><b>Kitchen hood semiannual</b></td><td class="c">○</td><td class="c"><b>○ zero answer</b> <small>remote ITM not permitted</small></td><td class="c">● record</td><td class="c">◐</td><td class="c">○</td><td class="c">○</td></tr>
+          <tr><td>Elevator Phase I/II recall</td><td class="c">○</td><td class="c">○</td><td class="c">◐</td><td class="c">●</td><td class="c">○</td><td class="c">◐</td></tr>
+          <tr><td>Legionella WMP logging</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">◐</td><td class="c">◐</td></tr>
+          <tr class="tot"><td><b>Cross-trade property-level status for the GM</b></td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td></tr>
+          <tr class="tot"><td><b>Portfolio roll-up · all trades, all AHJs, all codes</b></td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td><td class="c">○</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="note ok"><strong>The bottom two rows are empty in every column.</strong> There is no
+      product whose customer is the hotel owner and whose job is: <em>across every property and every
+      trade, what is due, what is overdue, what failed, and what is my exposure?</em></p>
+
+    <div class="cols k2">
+      <div><span class="lbl">Self-testing is a standoff, not convergence</span><span class="cap">Honeywell owns initiating devices (INSPIRE N16 only); Simplex owns notification appliances (ES panels only). Pull stations and duct detectors belong to nobody. <b>A hotel cannot buy both without two fire alarm systems.</b> This will not resolve on its own — and it is the argument for a vendor-neutral layer above it</span></div>
+      <div><span class="lbl">The per-room substrate exists and was paid for by ordinance</span><span class="cap">The 2018–2024 employee-safety-device mandate wave forced a BLE beacon/gateway grid at ~60 ft spacing into US hotels. React Mobile alone covers <b>110,000+ rooms</b> and already routes into Knowcross and Amadeus. Add Vingcard Visionline's Zigbee mesh and Enseo's powered per-room device. <b>Four funded, installed substrates — and no life-safety ITM product on any of them</b></span></div>
+      <div><span class="lbl">Code is years ahead of product</span><span class="cap">NFPA 72 permitted automated testing in <b>2010</b>. NFPA 25 in <b>2017</b>. NFPA 80/105 remote damper inspection via position switches since <b>2019</b>. The gap is not legal permission — it is that nobody built the product</span></div>
+      <div><span class="lbl">Water has an insurer pushing it; fire has nothing but code</span><span class="cap">HSB (Munich Re) added WINT to its leak-detection portfolio on 2024-06-24; Phyn partners offer up to 15% premium discounts. There is <b>no equivalent commercial forcing function on the ITM side</b> — the single biggest go-to-market question, and the clearest place to manufacture one</span></div>
+    </div>
+
+    <p class="note warn"><strong>Counter-evidence, kept deliberately.</strong> Eight years of Otis ONE
+      and KONE 24/7 have not eliminated a single ASME A17.1 required inspection. Connected monitoring
+      has not historically deleted mandated inspections. Any plan that assumes it will should say why
+      this case differs.</p>
+  </div>
+  <div class="tb"></div>
+</section>
+
+<!-- ══════════ PRODUCT SHAPE ══════════ -->
+<section class="sheet" id="s18" data-title="What This Implies">
+  <div class="body">
+    <span class="eyebrow">Implication for Ridgeline</span>
+    <h2>The research does not describe a monitoring company. It describes a record.</h2>
+    <p class="sub">Every path that pays runs through the same asset: a continuously maintained,
+      code-referenced, defensibly-custodied compliance record — the thing Lane 01 of the platform
+      already exists to hold.</p>
+
+    <div class="lanes">
+      <div><span class="lane-no">01</span><h3>Start where the code pays</h3>
+        <span class="cap">Extinguishers under IFC §906.2 Exc. 2 and emergency lighting under NFPA 101 §7.9.3.1.3 are the only two places automation deletes <em>both</em> the periodic and the annual obligation. Cheap hardware, written permission, no listing burden.</span></div>
+      <div><span class="lane-no">02</span><h3>Sell supervision, not sensors</h3>
+        <span class="cap">NFPA 25's 3×–7× discounts require NFPA 72-grade supervision reporting to a constantly attended location. The hotel front desk already is one. Nobody is selling this.</span></div>
+      <div><span class="lane-no">03</span><h3>Be the witness, not the actuator</h3>
+        <span class="cap">§4.6.6.7 exempts non-pressure sensing hardware from listing. Listing cost is the moat that keeps others out and the wall that keeps us out — stay on the exempt side of it.</span></div>
+      <div><span class="lane-no">04</span><h3>Own the clock</h3>
+        <span class="cap">Cumulative impairment tracking, the notification fan-out, and the evidence package. Zero false-alarm exposure; addresses what actually voids insurance.</span></div>
+      <div><span class="lane-no">05</span><h3>Pre-fill the form, not the signature</h3>
+        <span class="cap">80–90% of fields are machine-producible. The licensed visit becomes verification plus signature. The signature is the regulated artifact — design for it rather than around it.</span></div>
+      <div><span class="lane-no">06</span><h3>Fund it with water</h3>
+        <span class="cap">Guest-room leak detection has no AHJ, no listing, no standard, and an insurer already pushing it. It is the shortest path from sensor to dollars and it pays for the code lanes.</span></div>
+      <div><span class="lane-no">07</span><h3>Ride the installed substrate</h3>
+        <span class="cap">The panic-button mandate already put a BLE grid in these buildings — and imposed a device obligation with <em>no testing requirement</em>. Both facts are ours to use.</span></div>
+    </div>
+
+    <p class="note ok"><strong>This maps onto the architecture already specced</strong> — asset registry
+      → compliance rules → IoT event → BCF issue → work order → dispatch → evidence → close — with two
+      corrections the research forces: <strong>dispatch means the hotel's own people, not 911</strong>,
+      and <strong>close means a human signature, by law, not by preference.</strong></p>
+  </div>
+  <div class="tb"></div>
+</section>
+
+<!-- ══════════ RISKS ══════════ -->
+<section class="sheet" id="s19" data-title="Risks &amp; Unknowns">
+  <div class="body">
+    <span class="eyebrow">Stated plainly</span>
+    <h2>What could make this wrong.</h2>
+
+    <div class="scroll">
+      <table class="sticky-1">
+        <thead><tr><th>Risk</th><th>Why it is real</th><th>What would resolve it</th></tr></thead>
+        <tbody>
+          <tr class="self"><td><b>The addressable market is a code-adoption map</b></td><td>Every permission cited is <em>edition-dependent</em>. IFC §906.2 Exc. 2 only pays where the IFC is the adopted code and the adopted edition carries it. Adopted edition varies by state <em>and by city</em></td><td>Build the adoption map per target jurisdiction before pricing the lane. This is a product requirement, not a footnote</td></tr>
+          <tr class="self"><td><b>The IP landscape is already occupied</b></td><td>Networked door closers, strike-plate latch sensors, and automated sprinkler fluid-control assemblies are all patented — covering four of the easiest fifteen</td><td>Freedom-to-operate review is a prerequisite, not a later step</td></tr>
+          <tr><td>NFPA 72's credit belongs to the panel maker</td><td>§14.4.4.2 requires a FACU "specifically listed for the application." The provision has stood since ~2007 and nobody commoditised it, because an aftermarket vendor cannot capture it</td><td>Partner with a panel owner, or concede the alarm lane and win elsewhere</td></tr>
+          <tr><td>NFPA 915 authorises nothing on its own</td><td>§1.3.1 applies only "as approved by the AHJ"; §4.4.1 gives the AHJ eight controlling criteria. <b>No US jurisdiction has adopted it by reference</b></td><td>Treat it as an evidence wrapper, never as a permission</td></tr>
+          <tr><td>AHJ practice is asymmetric and mostly closed to fire</td><td>ICC's remote-inspection guidance is non-enforceable Resource A and its 15 examples contain <b>zero fire items</b>. Only Florida (permissive, 2025) and Louisiana squarely address it. CALBO opposes CA AB 1738 specifically over fire separations</td><td>Do not underwrite on remote-inspection acceptance arriving</td></tr>
+          <tr><td>Automation adds human work</td><td>NFPA 10 §7.6.1.2 — 100% of monitoring units verified annually; §7.6.2 adds semiannual NFPA 72 inspection of the monitors</td><td>Model net labour, not gross deleted labour, in every ROI claim</td></tr>
+          <tr><td>Connected monitoring has not historically deleted inspections</td><td>Eight years of Otis ONE / KONE 24/7 removed no ASME A17.1 requirement</td><td>Lead with never-fail-an-inspection and loss avoidance, not headcount reduction</td></tr>
+          <tr><td>No carrier affirms sensor-derived records</td><td>FM specifies record content and retention but not medium; AXA XL, Travelers, Zurich are silent. The honest position is <b>"not prohibited, not affirmed"</b></td><td>Do not read silence as endorsement in any investor or customer material</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="note warn"><strong>Unverified items carried forward as leads, not citations:</strong>
+      ASME A17.1 §8.6.11.1 (elevator monthly recall); NFPA 110 annual load bank (§8.4.2.4 vs §8.4.9
+      conflict); NFPA 96 section numbers; CA and FL amendments; the NJ S2188 hotel trigger. Each is
+      marked <span class="pill n">U</span> at point of use.</p>
+  </div>
+  <div class="tb"></div>
+</section>
+
+<!-- ══════════ SOURCES ══════════ -->
+<section class="sheet" id="s20" data-title="Sources &amp; Method">
+  <div class="body">
+    <span class="eyebrow">Sourcing</span>
+    <h2>How the paywall was solved, and what was thrown away.</h2>
+
+    <p class="note ok"><strong>The unlock.</strong> NFPA standards are paywalled and block automated
+      retrieval. But NFPA publishes its <strong>committee First and Second Draft reports free and
+      un-gated</strong> at <span class="src">docinfofiles.nfpa.org</span>, and those reports reproduce
+      the <em>published prior edition verbatim</em> as the baseline for proposed changes. That yields
+      primary text for the 2022 edition (baseline of the A2024 report) and the 2025 edition (baseline
+      of A2027). Public.Resource.Org additionally hosts full text of standards incorporated by
+      reference into law. Between them, most citations in this report are primary.</p>
+
+    <div class="scroll">
+      <table class="sticky-1">
+        <thead><tr><th>Standard</th><th>Free edition obtained</th><th>Current</th><th>Drift risk</th></tr></thead>
+        <tbody>
+          <tr><td>NFPA 101 Life Safety Code</td><td>2012 full text</td><td>2024</td><td>Low for Ch. 4/7/9 and Ch. 28/29 numbering</td></tr>
+          <tr><td>NFPA 25 Water-Based ITM</td><td>2011 full + <b>2023 Ch. 1–8 verbatim</b></td><td>2023 (2026 published)</td><td><b>Medium</b> — Ch. 13 renumbered in 2023</td></tr>
+          <tr><td>NFPA 72 Fire Alarm</td><td>2010 full + <b>2022 and 2025 tables verbatim</b> via committee reports</td><td>2025</td><td><b>Resolved</b></td></tr>
+          <tr><td>NFPA 10 Extinguishers</td><td>2010 + A2025 first draft</td><td>2022</td><td>Low — Ch. 7 structure stable</td></tr>
+          <tr><td>International Fire Code</td><td>2021 and 2024, free on UpCodes</td><td>2024</td><td>Low — read verbatim</td></tr>
+          <tr><td>ASME A17.1 elevators</td><td><b>None</b> — paywalled, absent from the corpus</td><td>—</td><td><b>Section numbers unverified</b></td></tr>
+          <tr><td>NFPA 96 kitchen</td><td><b>None</b></td><td>—</td><td><b>Section numbers secondary</b></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Claims withdrawn as unsourced</h3>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Withdrawn claim</th><th>Why</th></tr></thead>
+        <tbody>
+          <tr><td>"$130K average hotel water incident"</td><td>Traces only to AI-generated SEO pages</td></tr>
+          <tr><td>"15–25% insurance discount for monitoring"</td><td>Same. The defensible figure is Phyn partners at <em>up to</em> 15%</td></tr>
+          <tr><td>Any "$X billion by 2032 connected fire safety" TAM</td><td>Every instance traced to a market-research content mill</td></tr>
+          <tr><td>"NFPA 72 has a self-testing clause"</td><td><b>Zero hits</b> across the 2022/2025/2028 committee corpus. Vendors are describing UL 268 listings</td></tr>
+          <tr><td>"The AHJ may not require physical ITM under NFPA 25 §4.6"</td><td>Overstates the provision. §4.6.6.12 holds frequencies regardless</td></tr>
+          <tr><td>"NICET Level II is required by NFPA 72"</td><td>The word NICET does not appear in NFPA 72 mandatory text. Licensing comes from state law</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="note"><strong>Load-bearing market figures, each with its source and date.</strong>
+      US Fire Protection &amp; Security System Installation Contractors <b>$22.1B</b>, +2.7%, 2025,
+      IBISWorld — the closest credible envelope, though it blends install with service.
+      AHLA: <b>64,000+ properties · 5.7M guest rooms · 1.3B guest nights</b>, accessed 2026-08-24 —
+      note a competing AHLA-derived figure gives 54,200 properties / 5M rooms; <em>do not mix them</em>.
+      Water damage ≈<b>30% of property claims</b> (Insurance Information Institute); plumbing claim
+      payout <b>$11,098–$13,954</b>. Published ITM pricing is rare: roughly 30 of 40 vendors publish
+      nothing.</p>
+
+    <p class="note warn"><strong>Known gaps.</strong> Web-search budget was exhausted mid-research;
+      several CDC, EPA, CPSC, NYC and NJ .gov endpoints returned 403 to automated fetch and are cited
+      by URL for human verification. Verdantix and Memoori — the two credible analysts in this
+      category — were unreachable. Two URL changes stale any older vendor list:
+      <span class="src">en-gauge.com → Keltron</span> and
+      <span class="src">watersignal.com → Metron</span>.</p>
+
+    <p class="src">Full per-lane dossiers: research/hotel-inspection-automation/ — A-code-baseline.md ·
+      B-paperwork-and-forms.md · C-remote-automation-pathway.md · D-physical-components.md ·
+      E-deficiency-dispatch-lifecycle.md · F-vendor-landscape.md · G-nonfire-compliance-calendar.md</p>
+  </div>
+  <div class="tb"></div>
+</section>
+
+</main>
+
+<script>
+(function(){
+  "use strict";
+  var sheets = Array.prototype.slice.call(document.querySelectorAll('.sheet'));
+  var idx = document.getElementById('idx'), jump = document.getElementById('jump');
+  sheets.forEach(function(s,i){
+    var n = String(i+1).padStart(2,'0');
+    var t = s.getAttribute('data-title') || ('Sheet '+n);
+    var tb = s.querySelector('.tb');
+    if (tb) tb.innerHTML = '<div class="no">'+n+'</div><div>'+t+
+      '</div><div>Ridgeline</div><div>Rev A</div>';
+    Array.prototype.forEach.call(document.querySelectorAll('a.ref[href="#'+s.id+'"]'),
+      function(r){ r.textContent = n; });
+    if (idx){
+      var a = document.createElement('a');
+      a.href = '#'+s.id;
+      a.innerHTML = '<em>'+n+'</em><span>'+t+'</span>';
+      if (/Summary|Three Doors|Automation Buys|Supervision|White Space|Implies/.test(t)) a.className='hi';
+      idx.appendChild(a);
+    }
+    if (jump){
+      var o = document.createElement('option');
+      o.value = s.id; o.textContent = n+' · '+t.replace(/&amp;/g,'&');
+      jump.appendChild(o);
+    }
+  });
+  if (jump){
+    jump.addEventListener('change', function(){
+      var el = document.getElementById(jump.value);
+      if (el) el.scrollIntoView({block:'start'});
+    });
+    if ('IntersectionObserver' in window){
+      var io = new IntersectionObserver(function(es){
+        es.forEach(function(e){ if (e.isIntersecting) jump.value = e.target.id; });
+      }, {rootMargin:'-15% 0px -70% 0px', threshold:0});
+      sheets.forEach(function(s){ io.observe(s); });
+    }
+  }
+  var root = document.documentElement, KEY='ridgeline-theme';
+  try { var sv = localStorage.getItem(KEY);
+    if (sv==='light'||sv==='dark') root.setAttribute('data-theme',sv); } catch(e){}
+  var tbtn = document.getElementById('theme');
+  if (tbtn) tbtn.addEventListener('click', function(){
+    var cur = root.getAttribute('data-theme');
+    if (!cur) cur = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark':'light';
+    var nxt = cur==='dark' ? 'light':'dark';
+    root.setAttribute('data-theme', nxt);
+    try { localStorage.setItem(KEY, nxt); } catch(e){}
+  });
+  var pbtn = document.getElementById('print');
+  if (pbtn) pbtn.addEventListener('click', function(){ window.print(); });
+})();
+</script>
+
+</body>
+</html>
